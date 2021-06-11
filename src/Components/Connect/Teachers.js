@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TeacherConnectHeader from './TeacherConnectHeader';
+import TeacherConnectHeader from './Headers/TeacherConnectHeader';
 
 const Teachers =()=> {
    

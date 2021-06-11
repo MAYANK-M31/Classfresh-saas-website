@@ -5,3 +5,10 @@
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+.App-Main {
+  width: calc(100vw - 69px);
+  height: 100vh;
+  margin-left: 69px;
+  background-color: aqua;
+}

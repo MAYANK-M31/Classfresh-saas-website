@@ -13,17 +13,19 @@ import FeeCollection from "./Components/FeeCollection/FeeCollection";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App" >
+      <div className="App">
         <ScrollMemory />
         <SideBar />
-        <Route path="/" exact component={Dashboard} />
-        <Route path="/connect/students" component={Students} />
-        <Route path="/connect/teachers" component={Teachers} />
-        <Route path="/feecollection" component={FeeCollection} />
-        {/* <Route path="/chatbot" component={} /> */}
-        {/* <Route path="/forms" component={For} /> */}
-        <Route path="/people" component={People} />
-        <Route path="/settings" component={Setting} />
+        <div className="App-Main" >
+          <Route path="/" exact component={Dashboard} />
+          <Route path="/connect/students" component={Students} />
+          <Route path="/connect/teachers" component={Teachers} />
+          <Route path="/feecollection" component={FeeCollection} /> 
+          {/* <Route path="/chatbot" component={} /> */}
+          {/* <Route path="/forms" component={For} /> */}
+          <Route path="/people" component={People} />
+          <Route path="/settings" component={Setting} />
+        </div>
       </div>
     </BrowserRouter>
   );

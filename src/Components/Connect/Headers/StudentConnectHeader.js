@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../css/Common/Header.css";
+import "../../../css/Common/Header.css";
 
 const StudentConnectHeader = () => {
   return (
