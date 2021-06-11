@@ -1,10 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../../css/SideBar.css";
 
 const SideBar = () => {
   const [showConnect, setshowConnect] = useState(false);
+
   var x;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (
+      location.pathname === "/connect/students" ||
+      location.pathname === "/connect/teachers"
+    ) {
+      return setshowConnect(false);
+    }
+  }, [location]);
+
   return (
     <div className="SideBar">
       <div className="Box">
@@ -36,7 +49,14 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/">
-          <div className="Box-Inside" style={{ backgroundColor: "white" }}>
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor: location.pathname == "/" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/" ? "0px 0px 2px 2px #0475fc" : null,
+            }}
+          >
             <svg
               width="28"
               height="28"
@@ -47,7 +67,7 @@ const SideBar = () => {
               <g clip-path="url(#clip0)">
                 <path
                   d="M27.3 12.124C27.2992 12.1233 27.2985 12.1225 27.2979 12.1219L15.8761 0.700471C15.3892 0.21341 14.742 -0.0546875 14.0535 -0.0546875C13.365 -0.0546875 12.7177 0.21341 12.2306 0.700471L0.814789 12.1161C0.810943 12.1199 0.806884 12.124 0.803253 12.1278C-0.196505 13.1334 -0.194796 14.7648 0.808166 15.7678C1.26639 16.2262 1.87137 16.4915 2.51844 16.5195C2.54492 16.5221 2.57141 16.5233 2.59812 16.5233H3.05314V24.9286C3.05314 26.5921 4.40665 27.9454 6.07014 27.9454H10.5387C10.9918 27.9454 11.359 27.5779 11.359 27.1251V20.5352C11.359 19.7762 11.9766 19.1588 12.7356 19.1588H15.3713C16.1303 19.1588 16.7477 19.7762 16.7477 20.5352V27.1251C16.7477 27.5779 17.1149 27.9454 17.568 27.9454H22.0366C23.7003 27.9454 25.0536 26.5921 25.0536 24.9286V16.5233H25.4757C26.164 16.5233 26.8113 16.2553 27.2985 15.768C28.3026 14.7635 28.303 13.1291 27.3 12.124ZM26.1384 14.608C25.9613 14.7851 25.7258 14.8827 25.4757 14.8827H24.2333C23.7802 14.8827 23.4129 15.2499 23.4129 15.703V24.9286C23.4129 25.6874 22.7956 26.3047 22.0366 26.3047H18.3883V20.5352C18.3883 18.8717 17.035 17.5182 15.3713 17.5182H12.7356C11.0719 17.5182 9.7184 18.8717 9.7184 20.5352V26.3047H6.07014C5.31135 26.3047 4.69376 25.6874 4.69376 24.9286V15.703C4.69376 15.2499 4.32654 14.8827 3.87345 14.8827H2.65238C2.63956 14.8819 2.62696 14.8812 2.61393 14.881C2.36954 14.8767 2.14032 14.7798 1.96857 14.6078C1.60327 14.2425 1.60327 13.648 1.96857 13.2825C1.96878 13.2825 1.96878 13.2823 1.969 13.282L1.96964 13.2814L13.391 1.86045C13.5679 1.68335 13.8031 1.58594 14.0535 1.58594C14.3036 1.58594 14.5388 1.68335 14.7159 1.86045L26.1347 13.279C26.1364 13.2808 26.1384 13.2825 26.1401 13.2842C26.5034 13.6501 26.5028 14.2433 26.1384 14.608Z"
-                  fill="#0076FE"
+                  fill="#AECCE5"
                 />
               </g>
               <defs>
@@ -78,19 +98,19 @@ const SideBar = () => {
             }}
           >
             <h2>Connect</h2>
-            
-            <Link style={{textDecoration:"none"}} to="/connect/students">
-            <div className="dropdown-content">
-              <img src={require("../../Assets/Logos/blackboard.png")} />
-              <span>Students</span>
-            </div>
+
+            <Link style={{ textDecoration: "none" }} to="/connect/students">
+              <div className="dropdown-content">
+                <img src={require("../../Assets/Logos/blackboard.png")} />
+                <span>Students</span>
+              </div>
             </Link>
 
-            <Link style={{textDecoration:"none"}} to="/connect/teachers">
-            <div className="dropdown-content">
-              <img src={require("../../Assets/Logos/connect.png")} />
-              <span >Teachers</span>
-            </div>
+            <Link style={{ textDecoration: "none" }} to="/connect/teachers">
+              <div className="dropdown-content">
+                <img src={require("../../Assets/Logos/connect.png")} />
+                <span>Teachers</span>
+              </div>
             </Link>
           </div>
         )}
@@ -108,6 +128,20 @@ const SideBar = () => {
             }, 500);
           }}
           className="Box-Inside"
+          style={{
+            backgroundColor:
+              location.pathname == "/connect/students"
+                ? "#6e89da21"
+                : location.pathname == "/connect/teachers"
+                ? "#6e89da21"
+                : null,
+            boxShadow:
+              location.pathname == "/connect/students"
+                ? "0px 0px 2px 2px #0475fc"
+                : location.pathname == "/connect/teachers"
+                ? "0px 0px 2px 2px #0475fc"
+                : null,
+          }}
         >
           <svg
             width="28"
@@ -138,7 +172,17 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/feecollection">
-          <div className="Box-Inside">
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor:
+                location.pathname == "/feecollection" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/feecollection"
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
+            }}
+          >
             <svg
               width="28"
               height="28"
@@ -161,7 +205,17 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/people">
-          <div className="Box-Inside">
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor:
+                location.pathname == "/people" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/people"
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
+            }}
+          >
             <svg
               width="30"
               height="30"
@@ -189,7 +243,17 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/forms">
-          <div className="Box-Inside">
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor:
+                location.pathname == "/forms" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/forms"
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
+            }}
+          >
             <svg
               width="29"
               height="29"
@@ -232,7 +296,17 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/chatbot">
-          <div className="Box-Inside">
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor:
+                location.pathname == "/chatbot" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/chatbot"
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
+            }}
+          >
             <svg
               width="32"
               height="29"
@@ -271,7 +345,17 @@ const SideBar = () => {
 
       <div className="Box">
         <Link to="/settings">
-          <div className="Box-Inside">
+          <div
+            className="Box-Inside"
+            style={{
+              backgroundColor:
+                location.pathname == "/settings" ? "#6e89da21" : null,
+              boxShadow:
+                location.pathname == "/settings"
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
+            }}
+          >
             <svg
               width="28"
               height="28"

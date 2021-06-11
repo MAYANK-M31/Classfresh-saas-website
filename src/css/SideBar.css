@@ -1,12 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+
 .SideBar {
   width: 69px;
   height: 100vh;
-  background-color: #041c4f;
-  display: block;
+  background-color: #041C4F;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
-  left: 0;
+  border-style: solid;
+  border-width: 0px 0.5px 0px 0px;
+  border-right-color: #8c97ac83;
+  
+
 }
 
 .Box {
@@ -15,6 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* background-color: white; */
 }
 
 #LogoBox:hover {
