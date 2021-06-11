@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+.SideBar {
+  width: 69px;
+  height: 100vh;
+  background-color: #041c4f;
+  display: block;
+  position: fixed;
+  left: 0;
+}
+
+.Box {
+  width: 100%;
+  height: 69px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#LogoBox:hover {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #aecce533;
+}
+
+.Box-Inside {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.Box-Inside:hover {
+  width: 50px;
+  height: 50px;
+  background-color: #aecce533;
+
+  /* box-shadow: 0px 0px 2px 2px  #0475fc; */
+}
+
+.Box-Inside:active {
+  box-shadow: 0px 0px 2px 2px #0475fc;
+}
+
+.dropdown {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 2px 2px #0000001a;
+  animation-name: dropdown;
+  animation-duration: 0.1s;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropdown h2 {
+  font-size: 22px;
+  color: #506d85;
+  font-weight: bold;
+  margin-left: 0;
+  text-align: start;
+  font-family: "Poppins";
+  align-self: flex-start;
+  margin-left: 15px;
+}
+
+.dropdown-content {
+  border-radius: 11px;
+  width: 176px;
+  height: 55px;
+  /* background-color: #6e89da21; */
+  align-self: center;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-evenly; */
+  align-items: center;
+  padding-inline: 10px;
+}
+
+.dropdown-content:hover {
+ 
+  background-color: #6e89da21;
+ 
+}
+
+.dropdown-content span {
+  font-size: 18px;
+  color: #506d85;
+  font-weight: lighter;
+  text-align: center;
+  font-family: "Poppins";
+  align-self: center;
+  text-align: center;
+  justify-self: center;
+  margin-left: 10px;
+  
+}
+.item-icon {
+  width: 55px;
+  height: 55px;
+  background-color: #6e89da21;
+  border-radius: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes dropdown {
+  0% {
+    margin-top: 50px;
+    opacity: 0.5;
+  }
+  100% {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+/* .Box  :hover{
+    width: 100%;
+    height: 69px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+} */
