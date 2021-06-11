@@ -19,7 +19,7 @@ const SideBar = () => {
   }, [location]);
 
   return (
-    <div className="SideBar">
+    <nav className="SideBar">
       <div className="Box">
         <Link to="/">
           <div id="LogoBox" className="Box-Inside">
@@ -133,14 +133,14 @@ const SideBar = () => {
               location.pathname == "/connect/students"
                 ? "#6e89da21"
                 : location.pathname == "/connect/teachers"
-                ? "#6e89da21"
-                : null,
+                  ? "#6e89da21"
+                  : null,
             boxShadow:
               location.pathname == "/connect/students"
                 ? "0px 0px 2px 2px #0475fc"
                 : location.pathname == "/connect/teachers"
-                ? "0px 0px 2px 2px #0475fc"
-                : null,
+                  ? "0px 0px 2px 2px #0475fc"
+                  : null,
           }}
         >
           <svg
@@ -389,7 +389,7 @@ const SideBar = () => {
            
 
             </div> */}
-    </div>
+    </nav>
   );
 };
 

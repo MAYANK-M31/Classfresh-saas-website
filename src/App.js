@@ -13,7 +13,7 @@ import FeeCollection from "./Components/FeeCollection/FeeCollection";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="App" >
         <ScrollMemory />
         <SideBar />
         <Route path="/" exact component={Dashboard} />
