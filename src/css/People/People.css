@@ -1,0 +1,61 @@
+.Main-Div {
+  width: 100%;
+  height: 100vh;
+  background-color: #f2f3f5;
+  transition: all 5s linear;
+}
+
+.Inside-Div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-top: 69px;
+}
+
+.Left-Div {
+  width: 286px;
+  height: calc(100vh - 69px);
+  background-color: red;
+}
+
+.Middle-Div {
+    width: 100%;
+    height: calc(100vh - 69px);
+    background-color: yellow;
+}
+
+.UpperBar-Div {
+    width: 100%;
+    height: 69px;
+    display: flex;
+    flex-direction: row;
+    background-color: blueviolet;
+    /* margin-top: 500px; */
+}
+
+.Main-Inside-Div {
+    width: 100%;
+    height: calc(100vh - 69px - 69px);
+    display: flex;
+    flex-direction: row;
+    background-color: brown;
+}
+
+.Container-Div {
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    transition: all 5s linear;
+
+}
+
+.Right-Div {
+    resize: both;
+    resize: both;
+    overflow: auto;
+    border: 2px solid black;
+    width: 20%;
+    height: 100%;
+    background-color: yellow;
+}
