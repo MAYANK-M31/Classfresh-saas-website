@@ -1,0 +1,167 @@
+.Bar{
+    width: 100%;
+    height: 75px;
+    /* background-color: azure; */
+}
+
+.Bar-Inside{
+    width: 100%;
+    height: 75px;
+    /* background-color: azure; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Profile-View{
+    width: 20%;
+    height: 75px;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Profile{
+    width: 58px;
+    height: 58px;
+    background-color: darkorchid;
+    border-radius: 100px;
+}
+
+.InfoView{
+    width: 80%;
+    height: 100%;
+    /* background-color: green; */
+    overflow: hidden;
+}
+
+.ChatNameView{
+    width: 100%;
+    /* background-color: aqua; */
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.ChatNameViewInside{
+    width: 75% ;
+    height:100%;
+    /* background-color: white; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-top:40px;
+
+}
+
+.ChatNameViewInside p {
+    margin:0;
+    font-size: 19px;
+    text-align: left;
+    font-family: "Poppins";
+    font-weight: bold;
+    color: #506D85;
+    text-overflow: ellipsis;
+}
+
+.ChatNameDate{
+    width: 25% ;
+    height:100%;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 15px;
+    padding-top: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ChatNameDate p {
+    margin:0;
+    font-size: 12px;
+    text-align: left;
+    font-family: "Poppins";
+    font-weight: 100;
+    color: #506D85;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+}
+
+.ChatMessageView{
+    width: 100%;
+    /* background-color: brown; */
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.MessagePreview{
+    width: 88% ;
+    height:100%;
+    /* background-color: white; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.MessagePreview p{
+    margin:0;
+    font-size: 15px;
+    text-align: left;
+    font-family: sans-serif;
+    font-weight: 100;
+    color: #506D85;
+  
+}
+
+.MessageCount{
+    width: 12% ;
+    height:100%;
+    /* background-color: green; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 15px;
+padding-bottom: 14px;
+}
+
+
+.MessageBadge{
+    width: 20px;
+    height:20px;
+    background-color: #19CA82;
+    border-radius: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.MessageCount p{
+    margin:0;
+    font-size: 12px;
+    text-align: left;
+    font-family: sans-serif;
+    font-weight: 100;
+    color: white;
+    text-overflow: ellipsis;
+}
