@@ -16,46 +16,180 @@
 .Left-Div {
   width: 286px;
   height: calc(100vh - 69px);
-  background-color: red;
+  background-color: white;
 }
 
 .Middle-Div {
-    width: 100%;
-    height: calc(100vh - 69px);
-    background-color: yellow;
+  width: 100%;
+  height: calc(100vh - 69px);
+  background-color: white;
 }
 
 .UpperBar-Div {
-    width: 100%;
-    height: 69px;
-    display: flex;
-    flex-direction: row;
-    background-color: blueviolet;
-    /* margin-top: 500px; */
+  width: 100%;
+  height: 69px;
+  display: flex;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  /* margin-top: 500px; */
 }
 
 .Main-Inside-Div {
-    width: 100%;
-    height: calc(100vh - 69px - 69px);
-    display: flex;
-    flex-direction: row;
-    background-color: brown;
+  width: 100%;
+  height: calc(100vh - 69px - 69px);
+  display: flex;
+  flex-direction: row;
+  background-color: white;
 }
 
 .Container-Div {
-    width: 80%;
-    height: 100%;
-    background-color: white;
-    transition: all 5s linear;
-
+  width: 80%;
+  height: 100%;
+  background-color: #ebeff3;
+  transition: all 5s linear;
 }
 
 .Right-Div {
-    resize: both;
-    resize: both;
-    overflow: auto;
-    border: 2px solid black;
-    width: 20%;
-    height: 100%;
-    background-color: yellow;
+  resize: both;
+  resize: both;
+  overflow: auto;
+  width: 20%;
+  height: 100%;
+  background-color: yellow;
+}
+
+.GroupView {
+  width: 100%;
+  height: 69px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 15px;
+}
+
+.GroupView p {
+  font-size: 22px;
+  color: #506d85;
+  font-weight: 400;
+  font-family: Poppins;
+  margin: 0;
+  cursor: default;
+}
+
+.SearchGroupView {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 15px;
+}
+
+.SearchGroupInputView {
+  width: 100%;
+  height: 39px;
+  background-color: #f1f3fa;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 5px;
+}
+
+.SearchGroupIcon {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SearchGroupInput {
+  width: 90%;
+  height: 100%;
+  background-color: transparent;
+  border-width: 0;
+  outline: none;
+  font-weight: lighter;
+  font-family: Poppins;
+  color: #506d85;
+}
+
+.GroupListView {
+  width: 100%;
+  height: calc(100% - 69px - 39px);
+  /* background-color: red; */
+  padding-block: 15px;
+  overflow-y: scroll;
+  /* overflow: scroll; */
+}
+
+.GroupParentView {
+  width: 100%;
+  min-height: 31px;
+  /* background-color: #0076FE1A; */
+  overflow: auto;
+}
+
+.GroupParentView p {
+  font-size: 15px;
+  color: #506d85;
+  font-weight: 400;
+  font-family: Poppins;
+  margin: 0;
+  margin-left: 10px;
+  cursor: default;
+}
+
+.GroupParentViewInside {
+  width: 100%;
+  min-height: 31px;
+  /* background-color: #0076FE1A; */
+  overflow: auto;
+  display: flex;
+  align-items: center;
+}
+
+.GroupParentViewInside:hover {
+  background-color: #0076FE1A;
+}
+
+.GroupChildView {
+  width: 100%;
+  min-height: 31px;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+}
+
+.GroupChildView:hover {
+  background-color: #0076fe1a;
+}
+
+
+.GroupChildView p {
+  font-size: 15px;
+  color: #506d85;
+  font-weight: lighter;
+  font-family: sans-serif;
+  margin: 0;
+  margin-left: 70px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  margin-left: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 0px;
 }
