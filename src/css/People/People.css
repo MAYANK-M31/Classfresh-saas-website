@@ -1,7 +1,7 @@
 .Main-Div {
   width: 100%;
   height: 100vh;
-  background-color: #f2f3f5;
+  background-color: red;
   transition: all 5s linear;
 }
 
@@ -15,6 +15,8 @@
 
 .Left-Div {
   width: 286px;
+  max-width: 286px;
+  min-width: 286px;
   height: calc(100vh - 69px);
   background-color: white;
 }
@@ -28,10 +30,41 @@
 .UpperBar-Div {
   width: 100%;
   height: 69px;
-  display: flex;
-  flex-direction: row;
   background-color: #f2f3f5;
   /* margin-top: 500px; */
+}
+
+.UpperBar-Left {
+  width: calc(100% - 340px);
+  height: 69px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* background-color: red; */
+  float: left;
+  padding-left: 30px;
+  padding-right: 15px;
+}
+
+.UpperBar-Left p {
+  font-size: 15px;
+  color: #506d85;
+  font-weight: 400;
+  font-family: Poppins;
+  margin: 0;
+  margin-left: 10px;
+  margin-top: 2px;
+  cursor: default;
+}
+
+.UpperBar-Right {
+  width: 340px;
+  height: 69px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  float: left;
+  justify-content: center;
 }
 
 .Main-Inside-Div {
@@ -43,19 +76,18 @@
 }
 
 .Container-Div {
-  width: 80%;
+  width: calc(100% - 340px);
+  min-width: 1040px;
   height: 100%;
   background-color: #ebeff3;
   transition: all 5s linear;
 }
 
 .Right-Div {
-  resize: both;
-  resize: both;
-  overflow: auto;
-  width: 20%;
+  width: 340px;
+  min-width: 340px;
   height: 100%;
-  background-color: yellow;
+  background-color: white;
 }
 
 .GroupView {
@@ -151,7 +183,7 @@
 }
 
 .GroupParentViewInside:hover {
-  background-color: #0076FE1A;
+  background-color: #0076fe1a;
 }
 
 .GroupChildView {
@@ -166,7 +198,6 @@
   background-color: #0076fe1a;
 }
 
-
 .GroupChildView p {
   font-size: 15px;
   color: #506d85;
@@ -175,6 +206,111 @@
   margin: 0;
   margin-left: 70px;
 }
+
+.SearchUserInputView {
+  width: 400px;
+  height: 39px;
+  background-color: white;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 5px;
+}
+
+.SearchUserIcon {
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SearchUserInput {
+  width: 90%;
+  height: 100%;
+  background-color: transparent;
+  border-width: 0;
+  outline: none;
+  font-weight: lighter;
+  font-family: Poppins;
+  color: #506d85;
+}
+
+.FilterBtn {
+  width: 80px;
+  height: 37px;
+  background-color: #8a42ff;
+  margin-left: 20px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.FilterBtn p{
+ color: white;
+ margin: 0 0 0 0;
+ margin-right: 5px;
+}
+
+.AddTeacherBtn {
+  width: 153px;
+  height: 39px;
+  background-color: #1f425d;
+  margin-left: 25px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  padding-inline:10px;
+}
+
+.AddTeacherBtn p {
+  color: white;
+}
+
+.ImportBtn {
+  width: 93px;
+  height: 44px;
+  background-color: #02CE7C;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.ImportBtn p{
+ color: white;
+ margin: 0 0 0 0;
+ margin-right: 5px;
+}
+
+.ExportBtn {
+  width: 93px;
+  height: 44px;
+  background-color: #0069FF;
+  margin-left: 20px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.ExportBtn p{
+ color: white;
+ margin: 0 0 0 0;
+ margin-right: 5px;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
