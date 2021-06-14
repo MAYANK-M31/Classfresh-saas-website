@@ -121,14 +121,14 @@ const SideBar = () => {
 
             <Link style={{ textDecoration: "none" }} to="/connect/students">
               <div className="dropdown-content">
-                <img src={require("../../Assets/Logos/blackboard.png")} />
+                <img alt="class" src={require("../../Assets/Logos/blackboard.png")} />
                 <span>Students</span>
               </div>
             </Link>
 
             <Link style={{ textDecoration: "none" }} to="/connect/teachers">
               <div className="dropdown-content">
-                <img src={require("../../Assets/Logos/connect.png")} />
+                <img alt="teacher" src={require("../../Assets/Logos/connect.png")} />
                 <span>Teachers</span>
               </div>
             </Link>
