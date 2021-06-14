@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
 .Main-Div {
   width: 100%;
   height: 100vh;
-  background-color: red;
-  transition: all 5s linear;
+  outline: none;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: 0;
 }
 
 .Inside-Div {
@@ -80,7 +85,15 @@
   min-width: 1040px;
   height: 100%;
   background-color: #ebeff3;
-  transition: all 5s linear;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.ContainerTableDiv{
+  background-color: white;
+  width: 100% ;
+  height: 100%;
+  overflow-x:scroll;
 }
 
 .Right-Div {
@@ -161,6 +174,7 @@
   min-height: 31px;
   /* background-color: #0076FE1A; */
   overflow: auto;
+  transition: all 5s linear;
 }
 
 .GroupParentView p {
@@ -248,13 +262,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
 }
 
-.FilterBtn p{
- color: white;
- margin: 0 0 0 0;
- margin-right: 5px;
+.FilterBtn p {
+  color: white;
+  margin: 0 0 0 0;
+  margin-right: 5px;
 }
 
 .AddTeacherBtn {
@@ -267,7 +280,7 @@
   flex-direction: row;
   align-items: center;
   margin-left: auto;
-  padding-inline:10px;
+  padding-inline: 10px;
 }
 
 .AddTeacherBtn p {
@@ -277,40 +290,100 @@
 .ImportBtn {
   width: 93px;
   height: 44px;
-  background-color: #02CE7C;
+  background-color: #02ce7c;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
 }
 
-.ImportBtn p{
- color: white;
- margin: 0 0 0 0;
- margin-right: 5px;
+.ImportBtn p {
+  color: white;
+  margin: 0 0 0 0;
+  margin-right: 5px;
 }
 
 .ExportBtn {
   width: 93px;
   height: 44px;
-  background-color: #0069FF;
+  background-color: #0069ff;
   margin-left: 20px;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.ExportBtn p {
+  color: white;
+  margin: 0 0 0 0;
+  margin-right: 5px;
+}
+
+.Table {
+  width:100%;
+  overflow: hidden;
+  /* height: 100%; */
+}
+
+.TableHeader tr {
+  width: 100%;
+  height: 43px;
+  background-color: #f2f3f5;
+}
+
+.TableHeader tr th {
+  font-size: 15px;
+  color: #506d85;
+  font-family: "Poppins", "sans-serif";
+  font-weight: 100;
+  border-bottom: solid;
+  border-bottom-width: 0.5px;
+  border-color: #8c97ac33;
+}
+
+.TableRow tr {
+  font-size: 15px;
+  color: #2c385c;
+  font-family: "Poppins", "sans-serif";
+  text-transform: capitalize;
+  font-weight: 100;
+  height: 43px;
+  border-bottom: solid;
+  border-bottom-width: 0.5px;
+  border-color: #8c97ac33;
 
 }
 
-.ExportBtn p{
- color: white;
- margin: 0 0 0 0;
- margin-right: 5px;
+.TableRow{
+  overflow-y: scroll;
 }
 
+.RowNameDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.RowNameCircle {
+  width: 30px ;
+  height: 30px;
+  min-width: 30px ;
+  min-height: 30px;
+  background-color: #19ca82B3;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: "bold";
+  color: white;
+  font-family: "Poppins", "sans-serif";
+  text-transform: capitalize;
+  margin-right: 10px;
+}
 
 /* width */
 ::-webkit-scrollbar {
