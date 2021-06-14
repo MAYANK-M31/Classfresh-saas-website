@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "../../css/People/People.css";
 import PeopleHeader from "./Header/PeopleHeader";
-
-
+import TextField from "@material-ui/core/TextField";
 
 const People = () => {
+  const [addteacher, setaddteacher] = useState(false);
 
   return (
     <div className="Main-Div">
@@ -258,7 +258,14 @@ const People = () => {
                   </defs>
                 </svg>
               </div>
-              <div className="AddTeacherBtn">
+
+              {/* Add New User Button */}
+              <div
+                onClick={() => {
+                  setaddteacher(true);
+                }}
+                className="AddTeacherBtn"
+              >
                 <svg
                   width="18"
                   height="18"
@@ -341,10 +348,17 @@ const People = () => {
               </div>
             </div>
           </div>
+
           <div className="Main-Inside-Div">
-            <div className="Container-Div">
+            <div
+              className="Container-Div"
+              style={{
+                width: addteacher ? "calc(100% - 340px)" : "calc(100%)",
+                transition: "all 0.1s ease-out",
+              }}
+            >
               <div className="ContainerTableDiv">
-                <table class="Table"  >
+                <table class="Table">
                   <thead class="TableHeader">
                     <tr>
                       <th style={{ width: "5%" }} scope="col"></th>
@@ -364,7 +378,6 @@ const People = () => {
                         Status
                       </th>
                       <th style={{ width: "5%" }} scope="col"></th>
-                                     
                     </tr>
                   </thead>
 
@@ -449,7 +462,71 @@ const People = () => {
                 </table>
               </div>
             </div>
-            <div className="Right-Div"></div>
+
+            <div
+              className="Right-Div"
+              style={{ width: addteacher ? "340px" : "0px" }}
+            >
+              <div className="TitleDiv">
+                <p>New Teacher</p>
+                <svg
+                  onClick={() => {
+                    setaddteacher(false);
+                  }}
+                  width="23"
+                  height="23"
+                  viewBox="0 0 23 23"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="1"
+                    y="1"
+                    width="21"
+                    height="21"
+                    rx="5"
+                    stroke="#f65e72"
+                    stroke-width="2"
+                  />
+                  <g clip-path="url(#clip0)">
+                    <path
+                      d="M14.8268 6.39922L11.5002 9.72583L8.17362 6.39922C7.80636 6.03196 7.21023 6.03196 6.84297 6.39922L6.39945 6.84274C6.03219 7.21 6.03219 7.80612 6.39945 8.17338L9.72607 11.5L6.39945 14.8266C6.03219 15.1939 6.03219 15.79 6.39945 16.1573L6.84297 16.6008C7.21023 16.968 7.80636 16.968 8.17362 16.6008L11.5002 13.2742L14.8268 16.6008C15.1941 16.968 15.7902 16.968 16.1575 16.6008L16.601 16.1573C16.9683 15.79 16.9683 15.1939 16.601 14.8266L13.2744 11.5L16.601 8.17338C16.9683 7.80612 16.9683 7.21 16.601 6.84274L16.1575 6.39922C15.7902 6.03196 15.1941 6.03196 14.8268 6.39922V6.39922Z"
+                      fill="#f65e72"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0">
+                      <rect
+                        x="1.74219"
+                        y="11.5"
+                        width="13.8"
+                        height="13.8"
+                        rx="6.9"
+                        transform="rotate(-45 1.74219 11.5)"
+                        fill="white"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <div className="AddDataForm">
+                <form
+                  style={{ width: "100%", height: "50px" }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <div>
+                    <TextField
+                    style={{width:"80%",height:"40px"}}
+                      id="outlined"
+                      label="Name"
+                      defaultValue="Hello World"
+                      variant="outlined"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>

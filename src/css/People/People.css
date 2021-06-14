@@ -78,29 +78,33 @@
   display: flex;
   flex-direction: row;
   background-color: white;
+  transition: all 0.1s ease-out;
 }
 
 .Container-Div {
-  width: calc(100% - 340px);
+  /* width: calc(100% - 340px); */
   min-width: 1040px;
   height: 100%;
   background-color: #ebeff3;
   padding: 10px;
   overflow: hidden;
+  transition: all 0.1s ease-out;
 }
 
-.ContainerTableDiv{
+.ContainerTableDiv {
   background-color: white;
-  width: 100% ;
+  width: 100%;
   height: 100%;
-  overflow-x:scroll;
+  overflow-x: scroll;
+  transition: all 0.1s ease-out;
 }
 
 .Right-Div {
-  width: 340px;
-  min-width: 340px;
+  /* width: 340px; */
+  /* min-width: 340px; */
   height: 100%;
   background-color: white;
+  transition: all 0.1s ease-out;
 }
 
 .GroupView {
@@ -174,7 +178,7 @@
   min-height: 31px;
   /* background-color: #0076FE1A; */
   overflow: auto;
-  transition: all 5s linear;
+  transition: all 0.1s ease-out;
 }
 
 .GroupParentView p {
@@ -262,12 +266,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .FilterBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .AddTeacherBtn {
@@ -281,10 +287,12 @@
   align-items: center;
   margin-left: auto;
   padding-inline: 10px;
+  cursor: pointer;
 }
 
 .AddTeacherBtn p {
   color: white;
+  cursor: pointer;
 }
 
 .ImportBtn {
@@ -296,12 +304,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .ImportBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .ExportBtn {
@@ -314,16 +324,18 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .ExportBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .Table {
-  width:100%;
+  width: 100%;
   overflow: hidden;
   /* height: 100%; */
 }
@@ -354,10 +366,17 @@
   border-bottom: solid;
   border-bottom-width: 0.5px;
   border-color: #8c97ac33;
-
 }
 
-.TableRow{
+.TableRow tr:hover  {
+  background-color: #0475fc1a;
+}
+
+.TableRow tr:hover .RowNameDiv {
+  color: #0475fc;
+}
+
+.TableRow {
   overflow-y: scroll;
 }
 
@@ -368,11 +387,11 @@
 }
 
 .RowNameCircle {
-  width: 30px ;
+  width: 30px;
   height: 30px;
-  min-width: 30px ;
+  min-width: 30px;
   min-height: 30px;
-  background-color: #19ca82B3;
+  background-color: #19ca82b3;
   border-radius: 7px;
   display: flex;
   justify-content: center;
@@ -384,6 +403,23 @@
   text-transform: capitalize;
   margin-right: 10px;
 }
+
+.TitleDiv{
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.TitleDiv p{
+  font-size: 19px;
+  color: #506d85;
+  font-family: "Poppins", "sans-serif";
+  margin: 0;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
