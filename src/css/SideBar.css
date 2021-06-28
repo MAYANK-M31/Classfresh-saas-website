@@ -4,7 +4,8 @@
 .SideBar {
   width: 69px;
   height: 100vh;
-  background-color: #041c4f;
+  /* background-color: #041c4f; */
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;

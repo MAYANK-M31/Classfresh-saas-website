@@ -9,6 +9,7 @@ import People from "./Components/People/People";
 import Teachers from "./Components/Connect/Teachers";
 import Students from "./Components/Connect/Students";
 import FeeCollection from "./Components/FeeCollection/FeeCollection";
+import Result from "./Components/Result/Result";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <Route path="/connect/students" component={Students} />
           <Route path="/connect/teachers" component={Teachers} />
           <Route path="/feecollection" component={FeeCollection} /> 
-          {/* <Route path="/chatbot" component={} /> */}
+          <Route path="/result" component={Result} />
           {/* <Route path="/forms" component={For} /> */}
           <Route path="/people" component={People} />
           <Route path="/settings" component={Setting} />
