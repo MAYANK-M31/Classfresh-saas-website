@@ -27,6 +27,7 @@ const Styles = styled.div`
         }
       }
       height: 46px;
+     
     }
 
     .th,
@@ -71,7 +72,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }, [resolvedRef, indeterminate]);
 
     return (
-      <div>
+      <div className="checkboxselect">
         <input type="checkbox" ref={resolvedRef} {...rest} />
       </div>
     );
@@ -138,7 +139,7 @@ function Table({ columns, data, updateMyData }) {
     prepareRow,
     state: { selectedRowIds },
     selectedFlatRows,
-    getToggleAllRowsSelectedProps
+    getToggleAllRowsSelectedProps,
   } = useTable(
     {
       data: records,
@@ -174,21 +175,15 @@ function Table({ columns, data, updateMyData }) {
             >
               {headerGroups.map((headerGroup) => (
                 <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                  <div style={{ width: "100px" }} className="th">
-                     move
-                     <div>
-                    {
-                         
-                            <div>
-                              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                            </div>
-                          
-                    }
+                  <div style={{ width: "66px" }} className="th">
+                    <div>
+                      <IndeterminateCheckbox
+                        {...getToggleAllRowsSelectedProps()}
+                      />
                     </div>
                   </div>
                   {headerGroup.headers.map((column) => (
                     <div {...column.getHeaderProps()} className="th">
-                        
                       <div
                         style={{
                           width: "100%",
@@ -343,26 +338,67 @@ const Row = ({ row, index, moveRow }) => {
   drag(dragRef);
 
   return (
-    <tr ref={dropRef} {...row.getRowProps()} className="tr">
+    <tr ref={dropRef} {...row.getRowProps()}   className={opacity == 0 ? "tropacity" : "tr"}>
       <div
         style={{
-          width: "100px",
+          width: "66px",
           height: "100%",
           display: "flex",
           alignItems: "center",
-          cursor: "grabbing",
+          justifyContent: "space-between",
         }}
-        ref={dragRef}
         className="td"
       >
         <div style={{ display: "flex", flexDirection: "row" }}>
           <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
         </div>
-        move
+
+        <div
+          style={{
+            width: "20px",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+            cursor: "grabbing",
+          }}
+          ref={dragRef}
+        >
+          <svg
+            width="7"
+            height="14"
+            viewBox="0 0 7 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.15001 12.7413L6.81188 8.85304C6.93489 8.67348 7 8.49255 7 8.34217C7 8.05143 6.76666 7.87158 6.37608 7.87158H0.623012C0.232886 7.87158 0 8.0512 0 8.34126C0 8.49187 0.0651627 8.66991 0.188519 8.84987L2.85033 12.7399C3.02179 12.9901 3.25252 13.1286 3.50031 13.1286C3.74793 13.1287 3.97861 12.9917 4.15001 12.7413Z"
+              fill="#B8B9BA"
+            />
+            <g clip-path="url(#clip0)">
+              <path
+                d="M2.84999 1.25891L0.188122 5.14714C0.065106 5.3267 0 5.50763 0 5.65801C0 5.94875 0.233339 6.1286 0.623918 6.1286L6.37699 6.1286C6.76711 6.1286 7 5.94898 7 5.65892C7 5.50831 6.93484 5.33027 6.81148 5.15031L4.14967 1.26027C3.97821 1.0101 3.74748 0.871561 3.49969 0.871561C3.25207 0.871504 3.02139 1.00846 2.84999 1.25891Z"
+                fill="#B8B9BA"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect
+                  width="7"
+                  height="7"
+                  fill="white"
+                  transform="translate(7) rotate(90)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
       </div>
+
       {row.cells.map((cell) => {
         return (
-          <div {...cell.getCellProps()} className="td">
+          <div  {...cell.getCellProps()} className="td">
             {cell.render("Cell")}
           </div>
         );
