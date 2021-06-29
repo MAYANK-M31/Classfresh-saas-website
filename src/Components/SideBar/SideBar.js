@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../../css/SideBar.css";
+import { motion } from "framer-motion";
 
 const SideBar = () => {
   const [showConnect, setshowConnect] = useState(false);
@@ -23,7 +24,8 @@ const SideBar = () => {
       <div className="Box" style={{ backgroundColor: "#0076FE" }}>
         <Link to="/">
           <div id="LogoBox" className="Box-Inside">
-            {/* <svg
+            {/* <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="40"
               height="40"
               viewBox="0 0 40 40"
@@ -42,8 +44,9 @@ const SideBar = () => {
                 d="M36.7831 5.95195C38.4267 5.95195 39.7591 4.61956 39.7591 2.97598C39.7591 1.33239 38.4267 0 36.7831 0C35.1395 0 33.8071 1.33239 33.8071 2.97598C33.8071 4.61956 35.1395 5.95195 36.7831 5.95195Z"
                 fill="#0076FE"
               />
-            </svg> */}
-            <svg
+            </motion.svg> */}
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="40"
               height="40"
               viewBox="0 0 40 40"
@@ -62,7 +65,7 @@ const SideBar = () => {
                 d="M36.7831 5.95195C38.4267 5.95195 39.7591 4.61956 39.7591 2.97598C39.7591 1.33239 38.4267 0 36.7831 0C35.1395 0 33.8071 1.33239 33.8071 2.97598C33.8071 4.61956 35.1395 5.95195 36.7831 5.95195Z"
                 fill="white"
               />
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -70,6 +73,7 @@ const SideBar = () => {
       <div className="Box">
         <Link to="/">
           <div
+          
             className="Box-Inside"
             style={{
               backgroundColor: location.pathname == "/" ? "#0076FE" : null,
@@ -77,7 +81,8 @@ const SideBar = () => {
                 location.pathname == "/" ? "0px 0px 1px 1px #0475fc" : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="28"
               height="28"
               viewBox="0 0 28 28"
@@ -95,7 +100,7 @@ const SideBar = () => {
                   <rect width="28" height="28" fill="white" />
                 </clipPath>
               </defs>
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -170,7 +175,8 @@ const SideBar = () => {
           
           }}
         >
-          <svg
+          <motion.svg
+           whileTap={{ scale: 0.8 }}
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -217,7 +223,7 @@ const SideBar = () => {
                 : "#8C97AC"
               } 
             />
-          </svg>
+          </motion.svg>
         </div>
       </div>
 
@@ -234,7 +240,8 @@ const SideBar = () => {
                   : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="28"
               height="28"
               viewBox="0 0 28 28"
@@ -253,7 +260,7 @@ const SideBar = () => {
                    location.pathname == "/feecollection" ? "white": "#8C97AC"
                 }
               />
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -271,7 +278,8 @@ const SideBar = () => {
                   : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="30"
               height="20"
               viewBox="0 0 32 22"
@@ -284,7 +292,7 @@ const SideBar = () => {
                 stroke= {location.pathname == "/people" ? "white" : "#8C97AC"}
                 stroke-width="0.5"
               />
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -302,7 +310,8 @@ const SideBar = () => {
                   : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="29"
               height="29"
               viewBox="0 0 29 29"
@@ -337,7 +346,7 @@ const SideBar = () => {
                 d="M21.7495 22.441H13.8097C13.4284 22.441 13.1193 22.7501 13.1193 23.1314C13.1193 23.5127 13.4284 23.8218 13.8097 23.8218H21.7495C22.1309 23.8218 22.44 23.5127 22.44 23.1314C22.44 22.7501 22.1309 22.441 21.7495 22.441Z"
                  fill= {location.pathname == "/result" ? "white" : "#8C97AC"} 
               />
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -355,7 +364,8 @@ const SideBar = () => {
                   : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="32"
               height="29"
               viewBox="0 0 32 29"
@@ -389,7 +399,7 @@ const SideBar = () => {
 
                 stroke-width="0.5"
               />
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>
@@ -407,7 +417,8 @@ const SideBar = () => {
                   : null,
             }}
           >
-            <svg
+            <motion.svg
+             whileTap={{ scale: 0.8 }}
               width="28"
               height="28"
               viewBox="0 0 28 28"
@@ -429,7 +440,7 @@ const SideBar = () => {
                   <rect width="28" height="28" fill="white" />
                 </clipPath>
               </defs>
-            </svg>
+            </motion.svg>
           </div>
         </Link>
       </div>

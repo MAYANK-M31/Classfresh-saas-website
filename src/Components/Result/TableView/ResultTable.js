@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useTable, useBlockLayout, useResizeColumns } from "react-table";
+import {
+  useTable,
+  useBlockLayout,
+  useResizeColumns,
+  useRowSelect,
+} from "react-table";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
@@ -21,10 +26,8 @@ const Styles = styled.div`
           border-bottom: 0;
         }
       }
-      height:46px
+      height: 46px;
     }
-
-   
 
     .th,
     .td {
@@ -32,7 +35,6 @@ const Styles = styled.div`
       padding: 0.5rem;
       border-bottom: 0.5px solid #e2e5ea;
       border-right: 0.5px solid #e2e5ea;
-  
 
       :last-child {
         border-right: 0;
@@ -41,7 +43,7 @@ const Styles = styled.div`
       .resizer {
         display: inline-block;
         background: transparent;
-        width: 10px;
+        width: 15px;
         height: 100%;
         position: absolute;
         right: 0;
@@ -58,6 +60,24 @@ const Styles = styled.div`
     }
   }
 `;
+
+const IndeterminateCheckbox = React.forwardRef(
+    ({ indeterminate, ...rest }, ref) => {
+      const defaultRef = React.useRef()
+      const resolvedRef = ref || defaultRef
+  
+      React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate
+      }, [resolvedRef, indeterminate])
+  
+      return (
+        <div>
+          <input  type="checkbox" ref={resolvedRef} {...rest} />
+        </div>
+      )
+    }
+  )
+  
 
 function Table({ columns, data, updateMyData }) {
   const [records, setRecords] = React.useState(data);
@@ -78,7 +98,7 @@ function Table({ columns, data, updateMyData }) {
 
     // We'll only update the external data when the input is blurred
     const onBlur = () => {
-      alert(JSON.stringify({ id: id, value: value, index: index }));
+      //   alert(JSON.stringify({ id: id, value: value, index: index }));
       updateMyData(index, id, value);
     };
 
@@ -87,7 +107,7 @@ function Table({ columns, data, updateMyData }) {
       setValue(initialValue);
     }, [initialValue]);
 
-    return <input value={value} onChange={onChange} onBlur={onBlur} />;
+    return <input value={value} className="CellInput" onChange={onChange} onBlur={onBlur} />;
   };
 
   const getRowId = React.useCallback((row) => {
@@ -96,7 +116,7 @@ function Table({ columns, data, updateMyData }) {
 
   const defaultColumn = React.useMemo(
     () => ({
-      minWidth: 10,
+      minWidth: 150,
       width: 150,
       //   maxWidth: 400,
       Cell: EditableCell,
@@ -110,8 +130,8 @@ function Table({ columns, data, updateMyData }) {
     headerGroups,
     rows,
     prepareRow,
-    state,
-    resetResizing,
+    state: { selectedRowIds },
+    selectedFlatRows,
   } = useTable(
     {
       data: records,
@@ -121,7 +141,31 @@ function Table({ columns, data, updateMyData }) {
       updateMyData,
     },
     useBlockLayout,
-    useResizeColumns
+    useResizeColumns,
+    useRowSelect,
+    hooks => {
+        hooks.visibleColumns.push(columns => [
+          // Let's make a column for selection
+          {
+            id: 'selection',
+            // The header can use the table's getToggleAllRowsSelectedProps method
+            // to render a checkbox
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            ),
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to the render a checkbox
+            Cell: ({ row }) => (
+              <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
+          },
+          ...columns,
+        ])
+      }
   );
 
   const moveRow = (dragIndex, hoverIndex) => {
@@ -141,9 +185,11 @@ function Table({ columns, data, updateMyData }) {
       <div style={{ display: "inline-block" }}>
         <div>
           <div {...getTableProps()} className="table">
-            <div style={{backgroundColor:"white",position:"fixed"}} >
+            <div
+              style={{ backgroundColor: "white", position: "sticky", top: 0 }}
+            >
               {headerGroups.map((headerGroup) => (
-                <div {...headerGroup.getHeaderGroupProps()}  className="tr">
+                <div {...headerGroup.getHeaderGroupProps()} className="tr">
                   <div style={{ width: "100px" }} className="th">
                     move
                   </div>
@@ -156,29 +202,42 @@ function Table({ columns, data, updateMyData }) {
                           display: "flex",
                           alignItems: "center",
                           flexDirection: "row",
-                          justifyContent:"space-between"
+                          justifyContent: "space-between",
                         }}
                       >
-                          <div style={{overflow:"scroll",textOverflow:"ellipsis",whiteSpace:"nowrap"}} >
-                        {column.render("Header")}
+                        <div
+                          style={{
+                            overflow: "scroll",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {column.render("Header")}
                         </div>
-                        <div style={{width:"20px",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",zIndex:100}} >
-                        <svg
-                        width="13"
-                        height="8"
-                        viewBox="0 0 13 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
-                          fill="#E2E5EA"
-                        />
-                      </svg>
+                        <div
+                          style={{
+                            width: "20px",
+                            height: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 100,
+                          }}
+                        >
+                          <svg
+                            width="13"
+                            height="8"
+                            viewBox="0 0 13 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+                              fill="#E2E5EA"
+                            />
+                          </svg>
                         </div>
                       </div>
-
-                    
 
                       {/* Use column.getResizerProps to hook up the events correctly */}
                       <div
@@ -209,6 +268,21 @@ function Table({ columns, data, updateMyData }) {
           </div>
         </div>
       </div>
+      <p>Selected Rows: {Object.keys(selectedRowIds).length}</p>
+      <pre>
+        <code>
+          {JSON.stringify(
+            {
+              selectedRowIds: selectedRowIds,
+              "selectedFlatRows[].original": selectedFlatRows.map(
+                (d) => d.original
+              ),
+            },
+            null,
+            2
+          )}
+        </code>
+      </pre>
     </DndProvider>
   );
 }
@@ -275,7 +349,7 @@ const Row = ({ row, index, moveRow }) => {
   drag(dragRef);
 
   return (
-    <div ref={dropRef} {...row.getRowProps()} className="tr">
+    <tr ref={dropRef} {...row.getRowProps()} className="tr">
       <div
         style={{
           width: "100px",
@@ -296,7 +370,7 @@ const Row = ({ row, index, moveRow }) => {
           </div>
         );
       })}
-    </div>
+    </tr>
   );
 };
 
@@ -330,6 +404,7 @@ function ResultTable() {
         Header: "Profile Progress",
         accessor: "progress",
       },
+      
     ],
     []
   );
@@ -359,3 +434,4 @@ function ResultTable() {
 }
 
 export default ResultTable;
+
