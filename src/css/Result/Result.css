@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+.Main-Div {
+  width: 100%;
+  height: 100vh;
+  outline: none;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: 0;
+}
+
+.Inside-Div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-top: 69px;
+}
+.Middle-Div{
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.Header_Top{
+  color: "#505563";
+}
