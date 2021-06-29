@@ -17,12 +17,52 @@
   flex-direction: row;
   padding-top: 69px;
 }
-.Middle-Div{
+.Middle-Div {
   width: 100%;
   height: 100%;
   overflow: scroll;
 }
 
-.Header_Top{
+.Header_Top {
   color: "#505563";
+}
+
+/* .tr:hover {
+  background-color:#19CA820F
+} */
+.td:hover {
+  box-shadow: inset 0 0 0 1.5px #66afe9;
+}
+
+.td {
+  overflow: scroll;
+  min-height: 46px;
+
+}
+
+.td input {
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 100%;
+  outline: none;
+  font-size: 15px;
+  font-family: Poppins;
+  color: #2C385C;
+  height: 100%;
+}
+
+.table {
+  font-size: 15px;
+  font-family: Poppins;
+}
+
+.th {
+  background-color: #19ca820f;
+  color: #506d85;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 }

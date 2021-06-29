@@ -8,12 +8,12 @@ import update from "immutability-helper";
 import makeData from "./makeData";
 
 const Styles = styled.div`
-  padding: 1rem;
-
   .table {
     display: inline-block;
     border-spacing: 0;
-    border: 1px solid black;
+    border: 1px solid #e2e5ea;
+    border-left-width: 0px;
+    border-top-width: 0px;
 
     .tr {
       :last-child {
@@ -21,19 +21,19 @@ const Styles = styled.div`
           border-bottom: 0;
         }
       }
-      
-
     }
 
-    
+    .th {
+      background-color: #19ca820f;
+    }
 
     .th,
     .td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-     
+      border-bottom: 0.5px solid #e2e5ea;
+      border-right: 0.5px solid #e2e5ea;
+
       ${
         "" /* In this example we use an absolutely position resizer,
        so this is required. */
@@ -43,6 +43,8 @@ const Styles = styled.div`
       :last-child {
         border-right: 0;
       }
+
+     
 
       .resizer {
         display: inline-block;
@@ -65,8 +67,35 @@ const Styles = styled.div`
   }
 `;
 
-function Table({ columns, data }) {
+function Table({ columns, data ,updateMyData}) {
   const [records, setRecords] = React.useState(data);
+
+  // Create an editable cell renderer
+  const EditableCell = ({
+    value: initialValue,
+    row: { index },
+    column: { id },
+    updateMyData, // This is a custom function that we supplied to our table instance
+  }) => {
+    // We need to keep and update the state of the cell normally
+    const [value, setValue] = React.useState(initialValue);
+
+    const onChange = (e) => {
+      setValue(e.target.value);
+    };
+
+    // We'll only update the external data when the input is blurred
+    const onBlur = () => {
+      updateMyData(index, id, value);
+    };
+
+    // If the initialValue is changed external, sync it up with our state
+    React.useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
+
+    return <input value={value} onChange={onChange} onBlur={onBlur} />;
+  };
 
   const getRowId = React.useCallback((row) => {
     return row.id;
@@ -76,7 +105,8 @@ function Table({ columns, data }) {
     () => ({
       minWidth: 150,
       width: 150,
-    //   maxWidth: 400,
+      //   maxWidth: 400,
+      Cell: EditableCell,
     }),
     []
   );
@@ -95,6 +125,7 @@ function Table({ columns, data }) {
       columns,
       getRowId,
       defaultColumn,
+      updateMyData
     },
     useBlockLayout,
     useResizeColumns
@@ -120,7 +151,7 @@ function Table({ columns, data }) {
             <div>
               {headerGroups.map((headerGroup) => (
                 <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                  <div className="th">move</div>
+                  <div style={{width:"100px"}} className="th">move</div>
                   {headerGroup.headers.map((column) => (
                     <div {...column.getHeaderProps()} className="th">
                       {column.render("Header")}
@@ -206,7 +237,7 @@ const Row = ({ row, index, moveRow }) => {
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
-      type:DND_ITEM_TYPE,
+    type: DND_ITEM_TYPE,
     item: { type: DND_ITEM_TYPE, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -220,7 +251,9 @@ const Row = ({ row, index, moveRow }) => {
 
   return (
     <div ref={dropRef} {...row.getRowProps()} className="tr">
-      <div ref={dragRef} className="td">move</div>
+      <div style={{width:"100px",height:"100%",display:"flex",alignItems:"center"}} ref={dragRef} className="td">
+        move
+      </div>
       {row.cells.map((cell) => {
         return (
           <div {...cell.getCellProps()} className="td">
@@ -266,11 +299,31 @@ function ResultTable() {
     []
   );
 
-  const data = React.useMemo(() => makeData(10), []);
+  const [data, setData] = React.useState(() => makeData(20))
+
+  const updateMyData = (rowIndex, columnId, value) => {
+    // We also turn on the flag to not reset the page
+    setData(old =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...old[rowIndex],
+            [columnId]: value,
+          }
+        }
+        return row
+      })
+    )
+  }
+
 
   return (
     <Styles>
-      <Table columns={columns} data={data} />
+      <Table 
+      columns={columns} 
+      data={data}
+      updateMyData={updateMyData}
+     />
     </Styles>
   );
 }
