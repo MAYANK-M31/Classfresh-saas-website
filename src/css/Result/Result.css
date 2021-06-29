@@ -27,6 +27,23 @@
   color: "#505563";
 }
 
+
+
+.tr .th {
+  color: #506d85;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  min-height: 46px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #19ca820f;
+  padding-block-start: 50px;
+  
+}
+
+
 /* .tr:hover {
   background-color:#19CA820F
 } */
@@ -58,11 +75,3 @@
   font-family: Poppins;
 }
 
-.th {
-  background-color: #19ca820f;
-  color: #506d85;
-  font-size: 15px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-}

@@ -21,11 +21,10 @@ const Styles = styled.div`
           border-bottom: 0;
         }
       }
+      height:46px
     }
 
-    .th {
-      background-color: #19ca820f;
-    }
+   
 
     .th,
     .td {
@@ -33,18 +32,11 @@ const Styles = styled.div`
       padding: 0.5rem;
       border-bottom: 0.5px solid #e2e5ea;
       border-right: 0.5px solid #e2e5ea;
-
-      ${
-        "" /* In this example we use an absolutely position resizer,
-       so this is required. */
-      }
-      position: relative;
+  
 
       :last-child {
         border-right: 0;
       }
-
-     
 
       .resizer {
         display: inline-block;
@@ -67,7 +59,7 @@ const Styles = styled.div`
   }
 `;
 
-function Table({ columns, data ,updateMyData}) {
+function Table({ columns, data, updateMyData }) {
   const [records, setRecords] = React.useState(data);
 
   // Create an editable cell renderer
@@ -86,6 +78,7 @@ function Table({ columns, data ,updateMyData}) {
 
     // We'll only update the external data when the input is blurred
     const onBlur = () => {
+      alert(JSON.stringify({ id: id, value: value, index: index }));
       updateMyData(index, id, value);
     };
 
@@ -103,7 +96,7 @@ function Table({ columns, data ,updateMyData}) {
 
   const defaultColumn = React.useMemo(
     () => ({
-      minWidth: 150,
+      minWidth: 10,
       width: 150,
       //   maxWidth: 400,
       Cell: EditableCell,
@@ -125,7 +118,7 @@ function Table({ columns, data ,updateMyData}) {
       columns,
       getRowId,
       defaultColumn,
-      updateMyData
+      updateMyData,
     },
     useBlockLayout,
     useResizeColumns
@@ -148,13 +141,45 @@ function Table({ columns, data ,updateMyData}) {
       <div style={{ display: "inline-block" }}>
         <div>
           <div {...getTableProps()} className="table">
-            <div>
+            <div style={{backgroundColor:"white",position:"fixed"}} >
               {headerGroups.map((headerGroup) => (
-                <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                  <div style={{width:"100px"}} className="th">move</div>
+                <div {...headerGroup.getHeaderGroupProps()}  className="tr">
+                  <div style={{ width: "100px" }} className="th">
+                    move
+                  </div>
                   {headerGroup.headers.map((column) => (
                     <div {...column.getHeaderProps()} className="th">
-                      {column.render("Header")}
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          flexDirection: "row",
+                          justifyContent:"space-between"
+                        }}
+                      >
+                          <div style={{overflow:"scroll",textOverflow:"ellipsis",whiteSpace:"nowrap"}} >
+                        {column.render("Header")}
+                        </div>
+                        <div style={{width:"20px",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",zIndex:100}} >
+                        <svg
+                        width="13"
+                        height="8"
+                        viewBox="0 0 13 8"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+                          fill="#E2E5EA"
+                        />
+                      </svg>
+                        </div>
+                      </div>
+
+                    
+
                       {/* Use column.getResizerProps to hook up the events correctly */}
                       <div
                         {...column.getResizerProps()}
@@ -251,7 +276,17 @@ const Row = ({ row, index, moveRow }) => {
 
   return (
     <div ref={dropRef} {...row.getRowProps()} className="tr">
-      <div style={{width:"100px",height:"100%",display:"flex",alignItems:"center"}} ref={dragRef} className="td">
+      <div
+        style={{
+          width: "100px",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          cursor: "grabbing",
+        }}
+        ref={dragRef}
+        className="td"
+      >
         move
       </div>
       {row.cells.map((cell) => {
@@ -299,31 +334,26 @@ function ResultTable() {
     []
   );
 
-  const [data, setData] = React.useState(() => makeData(20))
+  const [data, setData] = React.useState(() => makeData(20));
 
   const updateMyData = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
-    setData(old =>
+    setData((old) =>
       old.map((row, index) => {
         if (index === rowIndex) {
           return {
             ...old[rowIndex],
             [columnId]: value,
-          }
+          };
         }
-        return row
+        return row;
       })
-    )
-  }
-
+    );
+  };
 
   return (
     <Styles>
-      <Table 
-      columns={columns} 
-      data={data}
-      updateMyData={updateMyData}
-     />
+      <Table columns={columns} data={data} updateMyData={updateMyData} />
     </Styles>
   );
 }
