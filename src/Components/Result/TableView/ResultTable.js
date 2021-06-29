@@ -62,22 +62,21 @@ const Styles = styled.div`
 `;
 
 const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-      const defaultRef = React.useRef()
-      const resolvedRef = ref || defaultRef
-  
-      React.useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate
-      }, [resolvedRef, indeterminate])
-  
-      return (
-        <div>
-          <input  type="checkbox" ref={resolvedRef} {...rest} />
-        </div>
-      )
-    }
-  )
-  
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
+
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+
+    return (
+      <div>
+        <input type="checkbox" ref={resolvedRef} {...rest} />
+      </div>
+    );
+  }
+);
 
 function Table({ columns, data, updateMyData }) {
   const [records, setRecords] = React.useState(data);
@@ -107,7 +106,14 @@ function Table({ columns, data, updateMyData }) {
       setValue(initialValue);
     }, [initialValue]);
 
-    return <input value={value} className="CellInput" onChange={onChange} onBlur={onBlur} />;
+    return (
+      <input
+        value={value}
+        className="CellInput"
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    );
   };
 
   const getRowId = React.useCallback((row) => {
@@ -132,6 +138,7 @@ function Table({ columns, data, updateMyData }) {
     prepareRow,
     state: { selectedRowIds },
     selectedFlatRows,
+    getToggleAllRowsSelectedProps
   } = useTable(
     {
       data: records,
@@ -142,30 +149,7 @@ function Table({ columns, data, updateMyData }) {
     },
     useBlockLayout,
     useResizeColumns,
-    useRowSelect,
-    hooks => {
-        hooks.visibleColumns.push(columns => [
-          // Let's make a column for selection
-          {
-            id: 'selection',
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox
-            Header: ({ getToggleAllRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-              </div>
-            ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
-            Cell: ({ row }) => (
-              <div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          },
-          ...columns,
-        ])
-      }
+    useRowSelect
   );
 
   const moveRow = (dragIndex, hoverIndex) => {
@@ -191,10 +175,20 @@ function Table({ columns, data, updateMyData }) {
               {headerGroups.map((headerGroup) => (
                 <div {...headerGroup.getHeaderGroupProps()} className="tr">
                   <div style={{ width: "100px" }} className="th">
-                    move
+                     move
+                     <div>
+                    {
+                         
+                            <div>
+                              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                            </div>
+                          
+                    }
+                    </div>
                   </div>
                   {headerGroup.headers.map((column) => (
                     <div {...column.getHeaderProps()} className="th">
+                        
                       <div
                         style={{
                           width: "100%",
@@ -361,6 +355,9 @@ const Row = ({ row, index, moveRow }) => {
         ref={dragRef}
         className="td"
       >
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+        </div>
         move
       </div>
       {row.cells.map((cell) => {
@@ -404,7 +401,6 @@ function ResultTable() {
         Header: "Profile Progress",
         accessor: "progress",
       },
-      
     ],
     []
   );
@@ -434,4 +430,3 @@ function ResultTable() {
 }
 
 export default ResultTable;
-
