@@ -22,11 +22,10 @@ import makeData from "./makeData";
 
 const Styles = styled.div`
   .table {
-    display: inline-block;
     border-spacing: 0;
     border: 1px solid #e2e5ea;
     border-left-width: 0px;
-    border-top-width: 0px;
+    margin-top:10px
 
     .tr {
       :last-child {
@@ -181,7 +180,7 @@ function Table({ columns, data, updateMyData }) {
               style={{
                 backgroundColor: "white",
                 position: "sticky",
-                top: 0,
+                top: "49px",
                 zIndex: 100,
               }}
             >

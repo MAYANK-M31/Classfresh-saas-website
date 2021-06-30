@@ -27,7 +27,8 @@
 }
 
 .ResultSidebar .SearchGroupView {
-  width: 286px;
+  min-width: 206px;
+  max-width: 286px;
   display: flex;
   justify-content: center;
   align-items: center;

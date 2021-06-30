@@ -15,28 +15,24 @@
   flex-direction: row;
   width: 100%;
   height: 100%;
-  
 }
 
 .gutter.gutter-horizontal {
   cursor: col-resize;
-   margin-left: -5px;
-   z-index: 100;
-   transition:  0.1s ease-in-out  
+  margin-left: -5px;
+  z-index: 100;
+  transition: 0.1s ease-in-out;
 }
 
 .gutter.gutter-horizontal:hover {
   background-color: #1389fd;
-  transition:  0.1s ease-in-out  
-
+  transition: 0.1s ease-in-out;
 }
-
 
 .gutter.gutter-horizontal:active {
   background-color: #1389fd;
-  transition:  0.1s ease-in-out  
+  transition: 0.1s ease-in-out;
 }
-
 
 .Inside-Div {
   width: 100%;
@@ -44,7 +40,6 @@
   display: flex;
   flex-direction: row;
   padding-top: 69px;
-  
 }
 .Middle-Div {
   width: 100%;
@@ -53,22 +48,21 @@
   border-style: solid;
   border-width: 0px 0px 0px 0.5px;
   border-left-color: #8c97ac83;
+  background-color: white;
 }
 
 .Header_Top {
   color: "#505563";
 }
 
-
-
-.tr{
+.tr {
   height: 46px;
   max-height: 46px;
   opacity: 1;
   background-color: white;
 }
 
-.tropacity{
+.tropacity {
   opacity: 0;
 }
 
@@ -115,7 +109,7 @@
   font-family: Poppins;
 }
 
-.checkboxselect  {
+.checkboxselect {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,16 +118,221 @@
   width: 16px;
   height: 16px;
   border-radius: 10px;
-
-  
 }
 
-button{
+button {
   width: 100px;
   outline: 0;
   background-color: transparent;
   color: red;
   overflow: hidden;
   border: 0;
+}
+
+.ResultUtilityTopBar {
+  width: inherit;
+  height: 49px;
+  z-index: 100;
+  position: fixed;
+  background-color: white;
+  float: inline-start;
+  top: 69px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #e2e5ea;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  /* justify-content: space-between; */
+}
+
+.LeftDiv {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  background-color: white;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+}
+
+.RightDiv {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  /* background-color: yellowgreen; */
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+  justify-content: flex-end;
+}
+
+.SideBarbtn{
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition: 0.1s ease-in-out;
+}
+
+.SideBarbtn:active{
+  box-shadow: 0px 0px 2px 2px #0475fc;
+  transition: 0.1s ease-in-out;
+}
+
+.SideBarbtn:hover{
+  background-color: #E2E5EA44;
+  transition: 0.1s ease-in-out;
+}
+
+.FilterRowBtn {
+  color: #66749F;
+  height: 30px;
+  width: 60px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: bold;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.FilterRowBtn:hover {
+  
+  background-color: #F0F1F3;
+  transition: 0.1s ease-in-out;
+}
+
+.FilterRowBtn:active {
+  
+  background-color: #E2E5EA;
+  transition: 0.1s ease-in-out;
+}
+
+.SortRowBtn {
+  color: #66749F;
+  height: 30px;
+  width: 65px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: bold;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.SortRowBtn:hover {
+  
+  background-color: #F0F1F3;
+  transition: 0.1s ease-in-out;
+}
+
+.SortRowBtn:active {
+  
+  background-color: #E2E5EA;
+  transition: 0.1s ease-in-out;
+}
+
+.InsertRowBtn {
+  color: white;
+  height: 30px;
+  width: 122px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #19CA82;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.InsertRowBtn:hover {
+  
+  background-color: #06C377;
+  transition: 0.1s ease-in-out;
+}
+
+.InsertRowBtn:active {
+  
+  background-color: #12BC77;
+  transition: 0.1s ease-in-out;
+}
+
+.InsertColumnBtn {
+  color: #66749F;
+  height: 30px;
+  width: 122px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: bold;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.InsertColumnBtn:hover {
+  
+  background-color: #F0F1F3;
+  transition: 0.1s ease-in-out;
+}
+
+.InsertColumnBtn:active {
+  
+  background-color: #E2E5EA;
+  transition: 0.1s ease-in-out;
+}
+
+
+
+.ShareMarksBtn {
+  color: #0069FF;
+  height: 38px;
+  width: 107px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: bold;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  background-color: #e0edfe;
+ margin-right: 60px;
+
+}
+
+.ShareMarksBtn:hover {
+  
+  background-color: #0069FF;
+  color: white;  transition: 0.1s ease-in-out;
+}
+
+.ShareMarksBtn:active {
+  
+  background-color: #0069FFCC;
+  color: white;
+  transition: 0.1s ease-in-out;
 }
 
