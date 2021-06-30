@@ -8,13 +8,12 @@ import Split from "react-split";
 const Result = () => {
   const [minimize, setminimize] = useState(false);
 
-
   return (
     <div className="Main-Div">
       <ResultHeader />
       <div className="Inside-Div">
         <Split
-          sizes={[minimize ?  0 : 15.5 , minimize ? 100 : 84.5]}
+          sizes={[minimize ? 0 : 15.5, minimize ? 100 : 84.5]}
           minSize={0}
           snapOffset={100}
           gutterSize={5}
@@ -25,45 +24,53 @@ const Result = () => {
           {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
           <ResultSidebar />
           {/* </div> */}
-          <div style={{borderWidth:minimize ? "0 0 0 0" : "0 0 0 0.5px"}} className="Middle-Div">
+          <div
+            style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}
+            className="Middle-Div"
+          >
             <div className="ResultUtilityTopBar">
               <div className="LeftDiv">
-                <div onClick={()=>{setminimize(minimize ? false : true)}} className="SideBarbtn" >
-                <svg
-                  style={{ marginLeft: "5px",cursor:"pointer" }}
-                  width="22"
-                  height="18"
-                  viewBox="0 0 22 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                <div
+                  onClick={() => {
+                    setminimize(minimize ? false : true);
+                  }}
+                  className="SideBarbtn"
                 >
-                  <rect
-                    x="21.8477"
-                    y="7.61536"
-                    width="2.76923"
-                    height="21.4615"
-                    rx="1.38462"
-                    transform="rotate(90 21.8477 7.61536)"
-                    fill="#2C385C"
-                  />
-                  <rect
-                    x="17.3477"
-                    y="15.2307"
-                    width="2.76923"
-                    height="16.9615"
-                    rx="1.38462"
-                    transform="rotate(90 17.3477 15.2307)"
-                    fill="#2C385C"
-                  />
-                  <rect
-                    x="10.4238"
-                    width="2.76923"
-                    height="10.0385"
-                    rx="1.38462"
-                    transform="rotate(90 10.4238 0)"
-                    fill="#2C385C"
-                  />
-                </svg>
+                  <svg
+                    style={{ marginLeft: "5px", cursor: "pointer" }}
+                    width="22"
+                    height="18"
+                    viewBox="0 0 22 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="21.8477"
+                      y="7.61536"
+                      width="2.76923"
+                      height="21.4615"
+                      rx="1.38462"
+                      transform="rotate(90 21.8477 7.61536)"
+                      fill="#2C385C"
+                    />
+                    <rect
+                      x="17.3477"
+                      y="15.2307"
+                      width="2.76923"
+                      height="16.9615"
+                      rx="1.38462"
+                      transform="rotate(90 17.3477 15.2307)"
+                      fill="#2C385C"
+                    />
+                    <rect
+                      x="10.4238"
+                      width="2.76923"
+                      height="10.0385"
+                      rx="1.38462"
+                      transform="rotate(90 10.4238 0)"
+                      fill="#2C385C"
+                    />
+                  </svg>
                 </div>
                 <div className="FilterRowBtn">
                   <svg
@@ -168,6 +175,7 @@ const Result = () => {
                   </svg>
                   Insert Column
                 </div>
+                
                 <div className="InsertRowBtn">
                   <svg
                     width="12"
@@ -192,14 +200,17 @@ const Result = () => {
                 </div>
               </div>
               <div className="RightDiv">
-              <div className="ShareMarksBtn">Share Marks</div>
+                <div className="ShareMarksBtn">Share Marks</div>
               </div>
             </div>
             <ResultTable />
           </div>
         </Split>
       </div>
+
+     
     </div>
+
   );
 };
 
