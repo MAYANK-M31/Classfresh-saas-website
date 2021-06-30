@@ -17,6 +17,7 @@ const Result = () => {
           minSize={0}
           snapOffset={100}
           gutterSize={5}
+        
           direction="horizontal"
           cursor="col-resize"
           className="split-flex" // You'll need to define this. check styles.css

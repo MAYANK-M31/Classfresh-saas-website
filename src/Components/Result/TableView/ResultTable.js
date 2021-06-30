@@ -9,6 +9,14 @@ import {
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
+import {
+  Menu,
+  MenuItem,
+  MenuButton,
+  MenuDivider,
+  MenuHeader
+} from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
 
 import makeData from "./makeData";
 
@@ -27,7 +35,6 @@ const Styles = styled.div`
         }
       }
       height: 46px;
-     
     }
 
     .th,
@@ -171,11 +178,25 @@ function Table({ columns, data, updateMyData }) {
         <div>
           <div {...getTableProps()} className="table">
             <div
-              style={{ backgroundColor: "white", position: "sticky", top: 0 }}
+              style={{
+                backgroundColor: "white",
+                position: "sticky",
+                top: 0,
+                zIndex: 100,
+              }}
             >
               {headerGroups.map((headerGroup) => (
                 <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                  <div style={{ width: "66px" }} className="th">
+                  <div
+                    style={{
+                      width: "66px",
+                      position: "sticky",
+                      top: 0,
+                      left: 0,
+                      zIndex: 100,
+                    }}
+                    className="th"
+                  >
                     <div>
                       <IndeterminateCheckbox
                         {...getToggleAllRowsSelectedProps()}
@@ -183,7 +204,7 @@ function Table({ columns, data, updateMyData }) {
                     </div>
                   </div>
                   {headerGroup.headers.map((column) => (
-                    <div {...column.getHeaderProps()} className="th">
+                    <div {...column.getHeaderProps()}  className="th">
                       <div
                         style={{
                           width: "100%",
@@ -192,13 +213,16 @@ function Table({ columns, data, updateMyData }) {
                           alignItems: "center",
                           flexDirection: "row",
                           justifyContent: "space-between",
+                          
                         }}
                       >
                         <div
                           style={{
-                            overflow: "scroll",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                          
+                            // textOverflow: "clip",
+                            // whiteSpace: "nowrap",
+                            // backgroundColor:"red"
                           }}
                         >
                           {column.render("Header")}
@@ -210,21 +234,50 @@ function Table({ columns, data, updateMyData }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            zIndex: 100,
                           }}
                         >
-                          <svg
-                            width="13"
-                            height="8"
-                            viewBox="0 0 13 8"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+
+                            {/* <svg
+                                  width="13"
+                                  height="8"
+                                  viewBox="0 0 13 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+                                    fill="#E2E5EA"
+                                  />
+                                </svg> */}
+                          <Menu
+                            menuButton={
+                              <MenuButton style={{backgroundColor:"transparent"}} >
+                                <svg
+                                  width="13"
+                                  height="8"
+                                  viewBox="0 0 13 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+                                    fill="#E2E5EA"
+                                  />
+                                </svg>
+                              </MenuButton>
+                            }
                           >
-                            <path
-                              d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
-                              fill="#E2E5EA"
-                            />
-                          </svg>
+                            <MenuItem>New File</MenuItem>
+                            <MenuItem>Save</MenuItem>
+                            <MenuItem>Close Window</MenuItem>
+                            <MenuDivider />
+                            <MenuHeader>Edit</MenuHeader>
+                            <MenuItem>Cut</MenuItem>
+                            <MenuItem>Copy</MenuItem>
+                            <MenuItem>Paste</MenuItem>
+                            <MenuDivider />
+                            <MenuItem>Print</MenuItem>
+                          </Menu>
                         </div>
                       </div>
 
@@ -338,7 +391,11 @@ const Row = ({ row, index, moveRow }) => {
   drag(dragRef);
 
   return (
-    <tr ref={dropRef} {...row.getRowProps()}   className={opacity == 0 ? "tropacity" : "tr"}>
+    <tr
+      ref={dropRef}
+      {...row.getRowProps()}
+      className={opacity == 0 ? "tropacity" : "tr"}
+    >
       <div
         style={{
           width: "66px",
@@ -346,6 +403,11 @@ const Row = ({ row, index, moveRow }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          position: "sticky",
+          top:0,
+          left:0,
+          zIndex:10,
+          backgroundColor: "white",
         }}
         className="td"
       >
@@ -398,7 +460,7 @@ const Row = ({ row, index, moveRow }) => {
 
       {row.cells.map((cell) => {
         return (
-          <div  {...cell.getCellProps()} className="td">
+          <div {...cell.getCellProps()} className="td">
             {cell.render("Cell")}
           </div>
         );

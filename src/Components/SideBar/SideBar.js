@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../../css/SideBar.css";
 import { motion } from "framer-motion";
+import classboard from "../../Assets/Logos/blackboard.png"
+import ConnectLogo from "../../Assets/Logos/connect.png"
 
 const SideBar = () => {
   const [showConnect, setshowConnect] = useState(false);
@@ -128,7 +130,7 @@ const SideBar = () => {
               <div className="dropdown-content">
                 <img
                   alt="class"
-                  src={require("../../Assets/Logos/blackboard.png")}
+                  src={classboard}
                 />
                 <span>Students</span>
               </div>
@@ -138,7 +140,7 @@ const SideBar = () => {
               <div className="dropdown-content">
                 <img
                   alt="teacher"
-                  src={require("../../Assets/Logos/connect.png")}
+                  src={ConnectLogo}
                 />
                 <span>Teachers</span>
               </div>

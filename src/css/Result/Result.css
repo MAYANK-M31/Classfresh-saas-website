@@ -65,6 +65,7 @@
   height: 46px;
   max-height: 46px;
   opacity: 1;
+  background-color: white;
 }
 
 .tropacity{
@@ -75,12 +76,12 @@
   color: #506d85;
   font-size: 15px;
   font-weight: 500;
-  overflow: hidden;
+  /* overflow: hidden; */
   min-height: 46px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #19ca820f;
+  background-color: #f1fcf8;
   padding-block-start: 50px;
 }
 
@@ -126,3 +127,13 @@
 
   
 }
+
+button{
+  width: 100px;
+  outline: 0;
+  background-color: transparent;
+  color: red;
+  overflow: hidden;
+  border: 0;
+}
+
