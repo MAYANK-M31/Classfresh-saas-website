@@ -15,23 +15,25 @@
   flex-direction: row;
   width: 100%;
   height: 100%;
+  transition: all 5s ease-out;
+
 }
 
 .gutter.gutter-horizontal {
   cursor: col-resize;
   margin-left: -5px;
   z-index: 100;
-  transition: 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .gutter.gutter-horizontal:hover {
   background-color: #1389fd;
-  transition: 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .gutter.gutter-horizontal:active {
   background-color: #1389fd;
-  transition: 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .Inside-Div {
@@ -49,6 +51,7 @@
   border-width: 0px 0px 0px 0.5px;
   border-left-color: #8c97ac83;
   background-color: white;
+  
 }
 
 .Header_Top {
@@ -336,3 +339,15 @@ button {
   transition: 0.1s ease-in-out;
 }
 
+.InsertDrawer{
+  width: 500px;
+  height: 100%;
+  background-color: white;
+}
+
+.LoadingFiles {
+  font-size: 22px;
+  font-family: Poppins;
+  font-weight: bold;
+  text-align: center;
+}

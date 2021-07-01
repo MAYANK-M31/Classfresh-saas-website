@@ -293,7 +293,7 @@ function Table({ columns, data, updateMyData }) {
               ))}
             </div>
 
-            <div {...getTableBodyProps()}>
+            <div style={{marginTop:"48px"}} {...getTableBodyProps()}>
               {rows.map(
                 (row, index) =>
                   prepareRow(row) || (
