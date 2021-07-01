@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import "../../css/People/Sidebar/PeopleSideBar.css";
 
 const PeopleSideBar = () => {
   return (
-    <div className="Left-Div">
+    <div className="PeopleSidebar">
       <div className="GroupView">
         <p>Group</p>
         <svg

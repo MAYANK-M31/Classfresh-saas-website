@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
-.Main-Div {
+.People {
   width: 100%;
   height: 100vh;
   outline: none;
@@ -10,36 +10,91 @@
   outline: 0;
 }
 
+.split-flex {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  transition: all 5s easeout;
+  /* overflow: hidden; */
+}
+
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+  margin-left: -5px;
+  z-index: 100;
+  transition: all 0.1s easeout;
+}
+
+.gutter.gutter-horizontal:hover {
+  background-color: #1389fd;
+  transition: all 0.1s easeout;
+}
+
+.gutter.gutter-horizontal:active {
+  background-color: #1389fd;
+  transition: all 0.1s easeout;
+}
+
 .Inside-Div {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
   padding-top: 69px;
+  overflow: hidden;
 }
 
-.Left-Div {
-  width: 286px;
-  max-width: 286px;
-  min-width: 286px;
-  height: calc(100vh - 69px);
+.People .LeftDiv {
+  width: 50%;
+  height: 100%;
+  display: flex;
   background-color: white;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
 }
 
-.Middle-Div {
-  width: 100%;
-  height: calc(100vh - 69px);
-  background-color: white;
+.People .RightDiv {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  /* background-color: yellowgreen; */
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+  justify-content: flex-end;
+  position: relative;
 }
 
-.UpperBar-Div {
+.People .Middle-Div {
   width: 100%;
+  height: 100%;
+  overflow: scroll;
+  border-style: solid;
+  border-width: 0px 0px 0px 0.5px;
+  border-left-color: #8c97ac83;
+  background-color: #ebeff3;
+}
+
+.People .UpperBar-Div {
+  width: inherit;
   height: 69px;
+  z-index: 100;
+  position: fixed;
+  float: inline-start;
+  top: 69px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #e2e5ea;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
   background-color: #f2f3f5;
   /* margin-top: 500px; */
 }
 
-.UpperBar-Left {
+.People .UpperBar-Left {
   width: calc(100% - 340px);
   height: 69px;
   display: flex;
@@ -51,7 +106,7 @@
   padding-right: 15px;
 }
 
-.UpperBar-Left p {
+.People .UpperBar-Left p {
   font-size: 15px;
   color: #506d85;
   font-weight: 400;
@@ -62,7 +117,7 @@
   cursor: default;
 }
 
-.UpperBar-Right {
+.People .UpperBar-Right {
   width: 340px;
   height: 69px;
   display: flex;
@@ -72,42 +127,43 @@
   justify-content: center;
 }
 
-.Main-Inside-Div {
+.People .Main-Inside-Div {
   width: 100%;
   height: calc(100vh - 69px - 69px);
   display: flex;
   flex-direction: row;
   background-color: white;
-  transition: all 0.1s ease-out;
+  transition: all 0.1s ease;
+  margin-top: 69px;
 }
 
-.Container-Div {
+.People .Container-Div {
   /* width: calc(100% - 340px); */
   min-width: 1040px;
   height: 100%;
   background-color: #ebeff3;
   padding: 10px;
   overflow: hidden;
-  transition: all 0.1s ease-out;
+  transition: all 0.1s ease;
 }
 
-.ContainerTableDiv {
+.People .ContainerTableDiv {
   background-color: white;
   width: 100%;
   height: 100%;
   overflow-x: scroll;
-  transition: all 0.1s ease-out;
+  transition: all 0.1s ease;
 }
 
-.Right-Div {
+.People .Right-Div {
   width: 340px;
-  /* min-width: 340px; */
+  min-width: 340px;
   height: 100%;
   background-color: white;
-  transition: all 0.1s ease-out;
+  transition: all 0.1s ease;
 }
 
-.GroupView {
+.People .GroupView {
   width: 100%;
   height: 69px;
   display: flex;
@@ -116,7 +172,7 @@
   padding-inline: 15px;
 }
 
-.GroupView p {
+.People .GroupView p {
   font-size: 22px;
   color: #506d85;
   font-weight: 400;
@@ -125,7 +181,7 @@
   cursor: default;
 }
 
-.SearchGroupView {
+.People .SearchGroupView {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -133,7 +189,7 @@
   padding-inline: 15px;
 }
 
-.SearchGroupInputView {
+.People .SearchGroupInputView {
   width: 100%;
   height: 39px;
   background-color: #f1f3fa;
@@ -145,7 +201,7 @@
   padding: 5px;
 }
 
-.SearchGroupIcon {
+.People .SearchGroupIcon {
   width: 20%;
   height: 100%;
   display: flex;
@@ -153,7 +209,7 @@
   align-items: center;
 }
 
-.SearchGroupInput {
+.People .SearchGroupInput {
   width: 90%;
   height: 100%;
   background-color: transparent;
@@ -164,7 +220,7 @@
   color: #506d85;
 }
 
-.GroupListView {
+.People .GroupListView {
   width: 100%;
   height: calc(100% - 69px - 39px);
   /* background-color: red; */
@@ -173,15 +229,15 @@
   /* overflow: scroll; */
 }
 
-.GroupParentView {
+.People .GroupParentView {
   width: 100%;
   min-height: 31px;
   /* background-color: #0076FE1A; */
   overflow: auto;
-  transition: all 0.1s ease-out;
+  transition: all 0people 0.1s ease;
 }
 
-.GroupParentView p {
+.People .GroupParentView p {
   font-size: 15px;
   color: #506d85;
   font-weight: 400;
@@ -191,7 +247,7 @@
   cursor: default;
 }
 
-.GroupParentViewInside {
+.People .GroupParentViewInside {
   width: 100%;
   min-height: 31px;
   /* background-color: #0076FE1A; */
@@ -200,11 +256,11 @@
   align-items: center;
 }
 
-.GroupParentViewInside:hover {
+.People .GroupParentViewInside:hover {
   background-color: #0076fe1a;
 }
 
-.GroupChildView {
+.People .GroupChildView {
   width: 100%;
   min-height: 31px;
   overflow: auto;
@@ -212,11 +268,11 @@
   align-items: center;
 }
 
-.GroupChildView:hover {
+.People .GroupChildView:hover {
   background-color: #0076fe1a;
 }
 
-.GroupChildView p {
+.People .GroupChildView p {
   font-size: 15px;
   color: #506d85;
   font-weight: lighter;
@@ -225,7 +281,7 @@
   margin-left: 70px;
 }
 
-.SearchUserInputView {
+.People .SearchUserInputView {
   width: 400px;
   height: 39px;
   background-color: white;
@@ -237,7 +293,7 @@
   padding: 5px;
 }
 
-.SearchUserIcon {
+.People .SearchUserIcon {
   width: 10%;
   height: 100%;
   display: flex;
@@ -245,7 +301,7 @@
   align-items: center;
 }
 
-.SearchUserInput {
+.People .SearchUserInput {
   width: 90%;
   height: 100%;
   background-color: transparent;
@@ -256,7 +312,7 @@
   color: #506d85;
 }
 
-.FilterBtn {
+.People .FilterBtn {
   width: 80px;
   height: 37px;
   background-color: #8a42ff;
@@ -269,14 +325,14 @@
   cursor: pointer;
 }
 
-.FilterBtn p {
+.People .FilterBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
   cursor: pointer;
 }
 
-.AddTeacherBtn {
+.People .AddTeacherBtn {
   width: 153px;
   height: 39px;
   background-color: #1f425d;
@@ -290,12 +346,12 @@
   cursor: pointer;
 }
 
-.AddTeacherBtn p {
+.People .AddTeacherBtn p {
   color: white;
   cursor: pointer;
 }
 
-.ImportBtn {
+.People .ImportBtn {
   width: 93px;
   height: 44px;
   background-color: #02ce7c;
@@ -307,14 +363,14 @@
   cursor: pointer;
 }
 
-.ImportBtn p {
+.People .ImportBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
   cursor: pointer;
 }
 
-.ExportBtn {
+.People .ExportBtn {
   width: 93px;
   height: 44px;
   background-color: #0069ff;
@@ -327,26 +383,26 @@
   cursor: pointer;
 }
 
-.ExportBtn p {
+.People .ExportBtn p {
   color: white;
   margin: 0 0 0 0;
   margin-right: 5px;
   cursor: pointer;
 }
 
-.Table {
+.People .Table {
   width: 100%;
   overflow: hidden;
   /* height: 100%; */
 }
 
-.TableHeader tr {
+.People .TableHeader tr {
   width: 100%;
   height: 43px;
   background-color: #f2f3f5;
 }
 
-.TableHeader tr th {
+.People .TableHeader tr th {
   font-size: 15px;
   color: #506d85;
   font-family: "Poppins", "sans-serif";
@@ -356,7 +412,7 @@
   border-color: #8c97ac33;
 }
 
-.TableRow tr {
+.People .TableRow tr {
   font-size: 15px;
   color: #2c385c;
   font-family: "Poppins", "sans-serif";
@@ -368,25 +424,25 @@
   border-color: #8c97ac33;
 }
 
-.TableRow tr:hover {
+.People .TableRow tr:hover {
   background-color: #0475fc1a;
 }
 
-.TableRow tr:hover .RowNameDiv {
+.People .TableRow tr:hover .RowNameDiv {
   color: #0475fc;
 }
 
-.TableRow {
+.People .TableRow {
   overflow-y: scroll;
 }
 
-.RowNameDiv {
+.People .RowNameDiv {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.RowNameCircle {
+.People .RowNameCircle {
   width: 30px;
   height: 30px;
   min-width: 30px;
@@ -404,7 +460,7 @@
   margin-right: 10px;
 }
 
-.TitleDiv {
+.People .TitleDiv {
   width: 100%;
   height: 60px;
   display: flex;
@@ -413,23 +469,30 @@
   padding: 20px;
 }
 
-.TitleDiv p {
+.People .TitleDiv p {
   font-size: 19px;
   color: #506d85;
   font-family: "Poppins", "sans-serif";
   margin: 0;
 }
 
-.AddDataForm {
+.People .FormDataView {
   width: 100%;
-  /* background-color: red; */
+  height: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.People .AddDataForm {
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding-inline: 20px;
   /* align-items: center; */
 }
 
-.InputView {
+.People .InputView {
   width: 100%;
   height: 48px;
   border-radius: 4px;
@@ -440,7 +503,7 @@
   margin-bottom: 12px;
 }
 
-.ClassSectionView {
+.People .ClassSectionView {
   width: 100%;
   height: 48px;
   display: flex;
@@ -449,7 +512,7 @@
   margin-bottom: 12px;
 }
 
-.ClassInputView {
+.People .ClassInputView {
   width: 48%;
   height: 48px;
   border-radius: 4px;
@@ -460,34 +523,33 @@
   margin-bottom: 12px;
 }
 
-.ClassInputView:focus {
+.People .ClassInputView:focus {
+  outline: none !important;
+  transition: all 0.1s linear;
+  border: 2.2px solid #0368fc;
+  padding: 15px;
+}
+
+.People .InputView:focus {
   outline: none !important;
   transition: all 0.1s linear;
   border: 2px solid #0368fc;
   padding: 15px;
 }
 
-.InputView:focus {
-  outline: none !important;
-  transition: all 0.1s linear;
-  border: 2px solid #0368fc;
-  padding: 15px;
-}
-
-.AddTeacherSaveBtnDiv{
-  width:340px;
-  height: 48px;
+.People .AddTeacherSaveBtnDiv {
+  width: 340px;
+  height: auto;
   border-radius: 4px;
   padding: 20px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
   align-items: center;
-  position: absolute;
-  bottom: 20px;
 }
 
-.AddTeacherSaveBtn {
+.People .AddTeacherSaveBtn {
   width: calc(340px - 40px);
   height: 48px;
   border-radius: 4px;
@@ -496,10 +558,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  
 }
 
-.AddTeacherSaveBtn p {
+.People .AddTeacherSaveBtn p {
   font-size: 15px;
   font-family: "Poppins", "sans-serif";
   color: white;

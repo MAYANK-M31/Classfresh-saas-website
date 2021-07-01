@@ -1,4 +1,4 @@
-.ResultSidebar {
+.PeopleSidebar {
   /* background-color: red; */
   width: 286px;
   height: 100%;
@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.ResultSidebar .GroupView {
+.PeopleSidebar .GroupView {
   min-width: 206px;
   max-width: 286px;
   height: 69px;
@@ -17,7 +17,7 @@
   /* background-color: #8a42ff; */
 }
 
-.ResultSidebar .GroupView p {
+.PeopleSidebar .GroupView p {
   font-size: 22px;
   color: #506d85;
   font-weight: 400;
@@ -26,7 +26,7 @@
   cursor: default;
 }
 
-.ResultSidebar .SearchGroupView {
+.PeopleSidebar .SearchGroupView {
   min-width: 206px;
   max-width: 286px;
   display: flex;
@@ -35,7 +35,7 @@
   padding-inline: 15px;
 }
 
-.ResultSidebar .SearchGroupInputView {
+.PeopleSidebar .SearchGroupInputView {
   width: 100%;
   height: 39px;
   border-radius: 7px;
@@ -47,7 +47,7 @@
   background-color: #F2F3F5;
 }
 
-.ResultSidebar .SearchGroupIcon {
+.PeopleSidebar .SearchGroupIcon {
   width: 20%;
   height: 100%;
   display: flex;
@@ -55,7 +55,7 @@
   align-items: center;
 }
 
-.ResultSidebar .SearchGroupInput {
+.PeopleSidebar .SearchGroupInput {
   width: 90%;
   height: 100%;
   background-color: transparent;
@@ -66,7 +66,7 @@
   color: #506d85;
 }
 
-.ResultSidebar .GroupListView {
+.PeopleSidebar .GroupListView {
   min-width: 286px;
   height: calc(100% - 69px - 39px);
   /* background-color: red; */
@@ -75,15 +75,15 @@
   /* overflow: scroll; */
 }
 
-.ResultSidebar .GroupParentView {
+.PeopleSidebar .GroupParentView {
   width: 100%;
   min-height: 31px;
   /* background-color: #0076FE1A; */
   overflow: auto;
-  transition: all 0resultsidebar 0.1s ease-out;
+  transition: all 0Peoplesidebar 0.1s ease-out;
 }
 
-.ResultSidebar .GroupParentView p {
+.PeopleSidebar .GroupParentView p {
   font-size: 15px;
   color: #506d85;
   font-weight: 400;
@@ -93,7 +93,7 @@
   cursor: default;
 }
 
-.ResultSidebar .GroupParentViewInside {
+.PeopleSidebar .GroupParentViewInside {
   width: 100%;
   min-height: 31px;
   /* background-color: #0076FE1A; */
@@ -102,11 +102,11 @@
   align-items: center;
 }
 
-.ResultSidebar .GroupParentViewInside:hover {
+.PeopleSidebar .GroupParentViewInside:hover {
   background-color: #0076fe1a;
 }
 
-.ResultSidebar .GroupChildView {
+.PeopleSidebar .GroupChildView {
   width: 100%;
   min-height: 31px;
   overflow: auto;
@@ -114,11 +114,11 @@
   align-items: center;
 }
 
-.ResultSidebar .GroupChildView:hover {
+.PeopleSidebar .GroupChildView:hover {
   background-color: #0076fe1a;
 }
 
-.ResultSidebar .GroupChildView p {
+.PeopleSidebar .GroupChildView p {
   font-size: 15px;
   color: #506d85;
   font-weight: lighter;
@@ -127,7 +127,7 @@
   margin-left: 70px;
 }
 
-.ResultSidebar .SearchUserInputView {
+.PeopleSidebar .SearchUserInputView {
   width: 400px;
   height: 39px;
   background-color: white;
@@ -139,7 +139,7 @@
   padding: 5px;
 }
 
-.ResultSidebar .SearchUserIcon {
+.PeopleSidebar .SearchUserIcon {
   width: 10%;
   height: 100%;
   display: flex;
@@ -147,7 +147,7 @@
   align-items: center;
 }
 
-.ResultSidebar .SearchUserInput {
+.PeopleSidebar .SearchUserInput {
   width: 90%;
   height: 100%;
   background-color: transparent;
@@ -158,7 +158,7 @@
   color: #506d85;
 }
 
-.ResultSidebar .FilterBtn {
+.PeopleSidebar .FilterBtn {
   width: 80px;
   height: 37px;
   background-color: #8a42ff;
