@@ -1,7 +1,5 @@
 import React, { Component, useState } from "react";
-import { render } from "react-dom";
-import SlidingPane from "react-sliding-pane";
-import "react-sliding-pane/dist/react-sliding-pane.css";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 const Settings = () => {
   const [state, setState] = useState({
@@ -11,42 +9,23 @@ const Settings = () => {
 
   return (
     <div>
-      <button onClick={() => setState({ isPaneOpen: true })}>
-        Click me to open right pane!
-      </button>
-      <div style={{ marginTop: "32px" }}>
-        <button onClick={() => setState({ isPaneOpenLeft: true })}>
-          Click me to open left pane with 20% width!
-        </button>
-      </div>
-      <SlidingPane
-      
-        className="some-custom-class"
-        overlayClassName="some-custom-overlay-class"
-        isOpen={state.isPaneOpen}
-        title="Hey, it is optional pane title.  I can be React component too."
-        subtitle="Optional subtitle."
-        onRequestClose={() => {
-          // triggered on "<" on left top click or on outside click
-          setState({ isPaneOpen: false });
-        }}
-      >
-        <div>And I am pane content. BTW, what rocks?</div>
-        <br />
-        <img src="img.png" />
-      </SlidingPane>
-      <SlidingPane
-        closeIcon={<div>Some div containing custom close icon.</div>}
-        isOpen={state.isPaneOpenLeft}
-        title="Hey, it is optional pane title.  I can be React component too."
-        from="left"
-        width="200px"
-        onRequestClose={() => setState({ isPaneOpenLeft: false })}
-      >
-        <div>And I am pane content on left.</div>
-      </SlidingPane>
+    
+      <React.Fragment key={45}>
+        <button onClick={()=>{setState(state ? false : true)}}>hi</button>
+        <SwipeableDrawer
+          anchor={"right"}
+          open={state}
+          onClose={()=>{setState(false)}}
+          onOpen={()=>{setState(false)}}
+        >
+          <div style={{width:"300px"}} >
+
+          </div>
+          {/* {list(anchor)} */}
+        </SwipeableDrawer>
+      </React.Fragment>
     </div>
   );
 };
 
-export default Settings
+export default Settings;
