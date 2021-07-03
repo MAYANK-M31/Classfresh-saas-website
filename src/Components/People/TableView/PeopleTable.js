@@ -14,7 +14,9 @@ const ResultTable = () => {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+               
               }}
+              className="TableHeaderColumn"
               scope="col"
             >
               <input
@@ -22,19 +24,19 @@ const ResultTable = () => {
                 type="checkbox"
               />
             </th>
-            <th style={{ width: "25%", minWidth: "350px" }} scope="col">
+            <th  className="TableHeaderColumn" style={{ width: "25%", minWidth: "350px" }} scope="col">
               Name
             </th>
-            <th style={{ width: "25%", minWidth: "350px" }} scope="col">
+            <th  className="TableHeaderColumn" style={{ width: "25%", minWidth: "350px" }} scope="col">
               Contact/Email
             </th>
-            <th style={{ width: "15%", minWidth: "250px" }} scope="col">
+            <th  className="TableHeaderColumn" style={{ width: "15%", minWidth: "250px" }} scope="col">
               Class Assigned
             </th>
-            <th style={{ width: "15%", minWidth: "250px" }} scope="col">
+            <th  className="TableHeaderColumn" style={{ width: "15%", minWidth: "250px" }} scope="col">
               Gender
             </th>
-            <th style={{ width: "15%", minWidth: "250px" }} scope="col">
+            <th  className="TableHeaderColumn" style={{ width: "15%", minWidth: "250px" }} scope="col">
               Status
             </th>
             {/* <th style={{ width: "5%" ,minWidth:"60px"}} scope="col"></th> */}
