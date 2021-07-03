@@ -4,6 +4,18 @@ import PeopleHeader from "./Header/PeopleHeader";
 import TextField from "@material-ui/core/TextField";
 import PeopleSideBar from "./PeopleSideBar";
 import Split from "react-split";
+import PeopleTable from "./TableView/PeopleTable";
+import makeData from "./TableView/makeData";
+
+const RawData = [
+  {
+    id: 0,
+    contact: "mayankm31@gmail.com",
+    class: "6th",
+    gender: "male",
+    status: "active",
+  },
+];
 
 const People = () => {
   const [addteacher, setaddteacher] = useState(false);
@@ -30,16 +42,56 @@ const People = () => {
           >
             <div className="UpperBar-Div">
               <div className="UpperBar-Left">
-                <input
-                  style={{ width: "20px", height: "20px" }}
-                  type="checkbox"
-                />
-                <p>Select all</p>
-                <hr
-                  style={{ width: "1px", height: "35%", marginInline: "20px" }}
-                ></hr>
+                
+                <div
+                  onClick={() => {
+                    setminimize(minimize ? false : true);
+                  }}
+                  className="SideBarbtn"
+                >
+                  <svg
+                    style={{ marginLeft: "5px", cursor: "pointer" }}
+                    width="22"
+                    height="18"
+                    viewBox="0 0 22 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="21.8477"
+                      y="7.61536"
+                      width="2.76923"
+                      height="21.4615"
+                      rx="1.38462"
+                      transform="rotate(90 21.8477 7.61536)"
+                      fill="#2C385C"
+                    />
+                    <rect
+                      x="17.3477"
+                      y="15.2307"
+                      width="2.76923"
+                      height="16.9615"
+                      rx="1.38462"
+                      transform="rotate(90 17.3477 15.2307)"
+                      fill="#2C385C"
+                    />
+                    <rect
+                      x="10.4238"
+                      width="2.76923"
+                      height="10.0385"
+                      rx="1.38462"
+                      transform="rotate(90 10.4238 0)"
+                      fill="#2C385C"
+                    />
+                  </svg>
+                </div>
 
-                <div className="SearchUserView">
+               
+                {/* <hr
+                  style={{ width: "1px", height: "35%", marginInline: "20px" }}
+                ></hr> */}
+
+                <div  className="SearchUserView">
                   <div className="SearchUserInputView">
                     <div className="SearchUserIcon">
                       <svg
@@ -184,117 +236,14 @@ const People = () => {
               <div
                 className="Container-Div"
                 style={{
-                  width: addteacher ? "calc(100% - 340px)" : "calc(100%)",
-                  transition: addteacher ? "all 0.1s ease" : "all 0.1s ease",
+                  width: "100%",
+                  // width: addteacher ? "calc(100% - 340px)" : "calc(100%)",
                 }}
               >
-                <div className="ContainerTableDiv">
-                  <table class="Table">
-                    <thead class="TableHeader">
-                      <tr>
-                        <th style={{ width: "5%" }} scope="col"></th>
-                        <th style={{ width: "25%" }} scope="col">
-                          Name
-                        </th>
-                        <th style={{ width: "25%" }} scope="col">
-                          Contact/Email
-                        </th>
-                        <th style={{ width: "15%" }} scope="col">
-                          Class Assigned
-                        </th>
-                        <th style={{ width: "15%" }} scope="col">
-                          Gender
-                        </th>
-                        <th style={{ width: "15%" }} scope="col">
-                          Status
-                        </th>
-                        <th style={{ width: "5%" }} scope="col"></th>
-                      </tr>
-                    </thead>
-
-                    <tbody className="TableRow">
-                      <tr>
-                        <td
-                          style={{
-                            verticalAlign: "center",
-                            paddingTop: "8px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <input
-                            style={{ width: "16px", height: "16px" }}
-                            type="checkbox"
-                          />
-                        </td>
-                        <td>
-                          <div className="RowNameDiv">
-                            <div className="RowNameCircle">MR</div>
-                            Grant Cardone
-                          </div>
-                        </td>
-                        <td>8076505054</td>
-                        <td>1st</td>
-                        <td>Male</td>
-                        <td>Active</td>
-                      </tr>
-                      <tr>
-                        <td
-                          style={{
-                            height: "43px",
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <input
-                            style={{ width: "16px", height: "16px" }}
-                            type="checkbox"
-                          />
-                        </td>
-                        <td>
-                          <div className="RowNameDiv">
-                            <div className="RowNameCircle">MR</div>
-                            Mark Rober
-                          </div>
-                        </td>
-                        <td>8076505054</td>
-                        <td>1st</td>
-                        <td>Male</td>
-                        <td>Active</td>
-                      </tr>
-                      <tr>
-                        <td
-                          style={{
-                            height: "43px",
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <input
-                            style={{ width: "16px", height: "16px" }}
-                            type="checkbox"
-                          />
-                        </td>
-                        <td>
-                          <div className="RowNameDiv">
-                            <div className="RowNameCircle">MR</div>
-                            Mark Rober
-                          </div>
-                        </td>
-                        <td>8076505054</td>
-                        <td>1st</td>
-                        <td>Male</td>
-                        <td>Active</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <PeopleTable />
               </div>
 
-              <div className="Right-Div" hidden={!addteacher ? true : false}>
+              <div className={!addteacher ? "Right-Div" : "Right-Div-Open"}>
                 <div className="TitleDiv">
                   <p>New Teacher</p>
                   <svg
@@ -338,7 +287,7 @@ const People = () => {
                   </svg>
                 </div>
 
-                <div className="FormDataView" >
+                <div className="FormDataView">
                   <div className="AddDataForm">
                     <div className="InputFormView">
                       <input className="InputView" placeholder="Enter Name" />
