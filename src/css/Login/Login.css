@@ -95,7 +95,7 @@
 }
 
 .Inner-Div {
-  width: 600px;
+  width: 515px;
   height: 100vh;
   background-color: transparent;
   z-index: 10000;
@@ -109,7 +109,7 @@
 
 .Form-Box-Outer-Div {
   width: 100%;
-  height: 75vh;
+  height: 60vh;
   max-height: 687px;
   background-color: white;
   box-shadow: 0 15px 35px 0 rgb(60 66 87 / 8%), 0 5px 15px 0 rgb(0 0 0 / 12%);
@@ -118,16 +118,18 @@
 
 .Logo-Div {
   width: 100%;
-  height: 20%;
+  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .Inside-Form-Div {
   width: 100%;
-  height: 80%;
-  padding-inline: 100px;
+  height: 75%;
+  padding-inline: 40px;
+  margin-top: 20px;
 }
 
 .form-group {
