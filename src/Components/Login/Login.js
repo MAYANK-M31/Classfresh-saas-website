@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import "../../css/Login/Login.css";
 import Logo from "../../Assets/Logos/Classfresh(logo).png";
 import { Form, Button } from "react-bootstrap";
 
 const Login = () => {
+
+  const Login =()=>{
+    window.location = "http://console.localhost:3000/"
+  }
+
+  useEffect(()=>{
+    document.title = "Classfresh:Log in"
+  },[])
+
   return (
     <div className="Login-Main">
       <div className="Triangle"></div>
       <div className="Upper-Nav">
         <div className="Option-Div">
           Don't have account?
-          <div className="Nav-Button">Signup</div>
+          <Link style={{textDecoration:"none"}} to={"/signup"}>
+          <div  className="Nav-Button">Signup</div>
+          </Link>
         </div>
       </div>
       <div className="Vertical-Line" />
@@ -37,10 +50,12 @@ const Login = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" />
                   </Form.Group>
-                  <div className="Button-Div">
+                  <div onClick={()=>Login()} className="Button-Div">
+                 
                     <div className="Button">
                       <p>Login</p>
                     </div>
+                   
                   </div>
                 </Form>
               </div>
