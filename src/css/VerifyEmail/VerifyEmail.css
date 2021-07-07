@@ -1,10 +1,10 @@
-.Login-Main {
+.VerifyEmail-Main-Main {
   width: 100vw;
   height: 100vh;
   background-color: white;
 }
 
-.Login-Main .Triangle {
+.VerifyEmail-Main .Triangle {
   position: absolute;
   height: 100vh;
   left: 0px;
@@ -16,18 +16,17 @@
   background-color: #f7fafc;
 }
 
-.Login-Main .Upper-Nav {
+.VerifyEmail-Main .Upper-Nav {
   position: absolute;
   width: 100%;
   height: 69px;
   /* border: 1px dashed #eceef4;
-    border-top-width: 0; */
-  padding-inline: 30px;
+        border-top-width: 0; */
+  padding-inline: 23px;
   z-index: 1000;
-  
 }
 
-.Login-Main .Option-Div {
+.VerifyEmail-Main .Option-Div {
   width: auto;
   height: inherit;
   display: flex;
@@ -40,7 +39,7 @@
   float: right;
 }
 
-.Login-Main .Nav-Button {
+.VerifyEmail-Main .Nav-Button {
   width: 94px;
   height: 36px;
   border: 2px solid #2f66fc;
@@ -56,13 +55,13 @@
   margin-left: 20px;
 }
 
-.Login-Main .Nav-Button:hover {
+.VerifyEmail-Main .Nav-Button:hover {
   background-color: #2f66fc;
   color: white;
   transition: all 0.1s ease-in-out;
 }
 
-.Login-Main .Cover-Div {
+.VerifyEmail-Main .Cover-Div {
   width: 100vw;
   height: 100vh;
   background-color: transparent;
@@ -73,7 +72,7 @@
   align-items: center;
 }
 
-.Login-Main .Outer-Div {
+.VerifyEmail-Main .Outer-Div {
   width: 65%;
   height: 100vh;
   background-color: transparent;
@@ -87,7 +86,7 @@
   justify-content: center;
 }
 
-.Login-Main .Vertical-Line {
+.VerifyEmail-Main .Vertical-Line {
   width: 1px;
   height: 100vh;
   position: absolute;
@@ -96,7 +95,7 @@
   margin-left: 50vw;
 }
 
-.Login-Main .Inner-Div {
+.VerifyEmail-Main .Inner-Div {
   width: 515px;
   height: 100vh;
   background-color: transparent;
@@ -109,40 +108,56 @@
   border-block-width: 0;
 }
 
-.Login-Main .Form-Box-Outer-Div {
+.VerifyEmail-Main .Form-Box-Outer-Div {
   width: 100%;
-  height: 480px;
+  height: 400px;
+  /* max-height: 478px;
+      min-height: 60vh; */
   background-color: white;
   box-shadow: 0 15px 35px 0 rgb(60 66 87 / 8%), 0 5px 15px 0 rgb(0 0 0 / 12%);
-  padding: 10px;
+  padding: 60px 10px 60px 10px;
 }
 
-.Login-Main .Logo-Div {
+.VerifyEmail-Main .Logo-Div {
   width: 100%;
-  height: 25%;
+  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.Login-Main .Inside-Form-Div {
+.VerifyEmail-Main .Inside-Form-Div {
   width: 100%;
-  height: 75%;
+  height: 90%;
   padding-inline: 40px;
   margin-top: 20px;
+  margin-top: 60px;
 }
 
-.Login-Main .form-group {
+.Email-Heading {
   color: #506d85;
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
+  text-align: center;
 }
 
-.Login-Main .form-group input {
+.Email-SubHeading{
+    color: #506d85;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.EmailId{
+    color: #0076FE;
+    font-weight: bold;
+}
+
+.VerifyEmail-Main .form-group input {
   height: 45px;
   border-radius: 4px;
 }
-.Login-Main .Button-Div {
+.VerifyEmail-Main .Button-Div {
   width: inherit;
   height: auto;
   border-radius: 4px;
@@ -154,7 +169,7 @@
   margin-top: 40px;
 }
 
-.Login-Main .Button {
+.VerifyEmail-Main .Button {
   width: 100%;
   height: 48px;
   border-radius: 4px;
@@ -166,12 +181,12 @@
   transition: all 0.1s ease-in-out;
 }
 
-.Login-Main .Button:hover {
+.VerifyEmail-Main .Button:hover {
   background-color: #045ce0;
   transition: all 0.1s ease-in-out;
 }
 
-.Login-Main .Button p {
+.VerifyEmail-Main .Button p {
   font-size: 15px;
   font-family: "Poppins", "sans-serif";
   color: white;
@@ -181,36 +196,17 @@
 }
 
 @media only screen and (max-width: 788px) {
-  .Login-Main .Outer-Div {
+  .VerifyEmail-Main .Outer-Div {
     width: 100%;
-    height: 100vh;
-    background-color: transparent;
-    z-index: 1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px dashed #eceef4;
-    border-top-width: 0;
-    border-block-width: 0;
   }
-  .Login-Main .Inner-Div {
+  .VerifyEmail-Main .Inner-Div {
     width: 90vw;
-    height: 100vh;
-    background-color: transparent;
-    z-index: 1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px dashed #eceef4;
-    border-top-width: 0;
-    border-block-width: 0;
   }
-  .Login-Main .Inside-Form-Div {
+
+  .VerifyEmail-Main .Inside-Form-Div {
     padding-inline: 20px;
   }
-  .Login-Main .Form-Box-Outer-Div {
-    height: 500px;
+  .VerifyEmail-Main .Form-Box-Outer-Div {
+    margin-top: 69px;
   }
 }

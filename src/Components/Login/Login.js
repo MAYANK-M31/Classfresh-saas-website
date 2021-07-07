@@ -15,6 +15,7 @@ const Login = () => {
     document.title = "Classfresh:Log in"
   },[])
 
+
   return (
     <div className="Login-Main">
       <div className="Triangle"></div>
@@ -36,25 +37,29 @@ const Login = () => {
                 <img style={{ width: "221px", height: "67px" }} src={Logo} />
               </div>
               <div className="Inside-Form-Div">
-                <Form>
-                  <Form.Group className="mb-3 " controlId="formBasicEmail">
+                <Form onSubmit={()=>{alert("hi")}} >
+                  <Form.Group 
+                   className="mb-3 " controlId="formBasicEmail">
                     <Form.Label>Email/Contact</Form.Label>
                     <Form.Control
-                      type="email"
+                      name="email" 
                       className="Input"
                       placeholder="Enter email / contact"
+                      required
                     />
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
+                    <Form.Label style={{color:"#2F66FC",float:"right"}} >Forgot Password?</Form.Label>
+                    <Form.Control   required type="password" placeholder="Password" />
                   </Form.Group>
-                  <div onClick={()=>Login()} className="Button-Div">
+                  
+                  <div className="Button-Div">
                  
-                    <div className="Button">
+                    <button className="Button">
                       <p>Login</p>
-                    </div>
+                    </button>
                    
                   </div>
                 </Form>
