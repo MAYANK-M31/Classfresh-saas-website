@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Logo from "../../Assets/Logos/Classfresh(logo).png";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import "../../css/Signup/Signup.css";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
@@ -34,10 +34,25 @@ const Signup = () => {
       address: address,
     };
     setLoader(true);
-    await axios.post(`${URL}/signup`, Data).then((res) => {
+    await axios.post(`${URL}/signup`, Data).then(async (res) => {
       if (res.data.status == 200) {
         window.location = "http://easycap.in";
         setLoader(true);
+      } else if (res.data.status == 401) {
+        //401 email is unverified
+        const Body = { email: email };
+        await axios.post(`${URL}/sendmail/sendotp`, Body).then(({data}) => {
+          if (data.status == 200) {
+            if (data.payload.email) {
+              window.location = `${window.location.origin}/verifyemail?email=${data.payload.email}`;
+            }
+          }
+        });
+      } else if (res.data.status == 403) {
+        //403 password in not created
+        setalert(true);
+        setalertdata(res.data.message);
+        setLoader(false);
       } else {
         setalert(true);
         setalertdata(res.data.message);
@@ -160,7 +175,11 @@ const Signup = () => {
                     </div>
                   </Form.Group>
                   <div className="Button-Div">
-                    <button disabled={Loader} style={{opacity:Loader ? 0.5 : 1}} className="Button">
+                    <button
+                      disabled={Loader}
+                      style={{ opacity: Loader ? 0.5 : 1 }}
+                      className="Button"
+                    >
                       {Loader ? <p>Loading...</p> : <p>Create Account</p>}
                     </button>
                   </div>
