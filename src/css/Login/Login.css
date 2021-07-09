@@ -109,13 +109,28 @@
   border-block-width: 0;
 }
 
+
+
 .Login-Main .Form-Box-Outer-Div {
   width: 100%;
   height: 480px;
   background-color: white;
   box-shadow: 0 15px 35px 0 rgb(60 66 87 / 8%), 0 5px 15px 0 rgb(0 0 0 / 12%);
   padding: 10px;
+  transition: all 0.1s ease;
+
 }
+
+.Login-Main .Form-Box-Outer-Div-Alert {
+  width: 100%;
+  height: 520px;
+  background-color: white;
+  box-shadow: 0 15px 35px 0 rgb(60 66 87 / 8%), 0 5px 15px 0 rgb(0 0 0 / 12%);
+  padding: 10px;
+  transition: all 0.1s ease;
+}
+
+
 
 .Login-Main .Logo-Div {
   width: 100%;
@@ -123,6 +138,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.Login-Main .Form-Alert-Div {
+  width: auto;
+  height: auto;
+  padding: 10px;
+  margin-inline: 8%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid #ed5f74;
+  background-color: #ed5f741e;
+  border-radius: 4px;
+  transition: height 0.5 ease;
 }
 
 .Login-Main .Inside-Form-Div {

@@ -153,10 +153,18 @@
 .Signup-Main .Form-Alert-Div {
   width: auto;
   height: auto;
+  padding: 8px;
+  margin-inline: 8%;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid #ed5f74;
+  background-color: #ed5f741e;
+  border-radius: 4px;
+  transition: height 0.5 ease;
 }
 
 .Signup-Main .Form-Alert-Div span {

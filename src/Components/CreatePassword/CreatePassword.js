@@ -18,6 +18,9 @@ const override = css`
 const CreatePassword = () => {
   const [password, setpassword] = useState(null);
   const [Loading, setLoading] = useState(true);
+  const [alert, setalert] = useState(false);
+  const [alertdata, setalertdata] = useState(null);
+  const [Loader, setLoader] = useState(false);
 
   useEffect(() => {
     document.title = "Classfresh:Create Password";
@@ -36,9 +39,9 @@ const CreatePassword = () => {
         },
       }).then(({ data }) => {
         console.log(data);
-        if (data.status == 200 ) {
+        if (data.status == 200) {
           setLoading(false);
-        } else if (data.status == 408 || data.status == 401 ) {
+        } else if (data.status == 408 || data.status == 401) {
           window.location = `${window.location.origin}/signup`;
         }
       });
@@ -46,6 +49,39 @@ const CreatePassword = () => {
 
     VerifyEmail();
   }, []);
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    const Data = {
+      password: password,
+    };
+
+    setLoader(true);
+    const query = new URLSearchParams(window.location.search);
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/signup/createpassword`,
+      headers: {
+        Authorization: "Bearer " + query.get("token"),
+      },
+      data: Data
+      
+    }).then(async (res) => {
+      if (res.data.status == 200) {
+        window.location = `${window.location.origin}/login`;
+        setLoader(true);
+      } else if (res.data.status == 433) {
+        //433 password already created
+        window.location = `${window.location.origin}/login`;
+      } else if (res.data.status == 401) {
+        setalert(true);
+        setalertdata(res.data.message);
+        setLoader(false);
+      } else {
+        window.location = `${window.location.origin}/signup`;
+      }
+    });
+  };
 
   return (
     <div className="CreatePassword-Main">
@@ -56,7 +92,7 @@ const CreatePassword = () => {
       <div className="Cover-Div">
         <div className="Outer-Div">
           <div className="Inner-Div">
-            <div className="Form-Box-Outer-Div">
+            <div className= {alert ?  "Form-Box-Outer-Div-Alert": "Form-Box-Outer-Div" } >
               <div className="Logo-Div">
                 <img style={{ width: "221px", height: "67px" }} src={Logo} />
               </div>
@@ -74,7 +110,7 @@ const CreatePassword = () => {
               ) : (
                 <div>
                   <div className="Inside-Form-Div">
-                    <Form>
+                    <Form onSubmit={(e) => HandleSubmit(e)}>
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicPassword"
@@ -83,12 +119,36 @@ const CreatePassword = () => {
                         <Form.Control
                           type="password"
                           placeholder="Enter new password"
+                          value={password}
+                          onChange={(e) => {
+                            setpassword(e.target.value);
+                          }}
+                          required
                         />
+                        <div hidden={!alert} className="Form-Alert-Div">
+                          <svg
+                            aria-hidden="true"
+                            height="16"
+                            width="30"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M10.115 1.308l5.635 11.269A2.365 2.365 0 0 1 13.634 16H2.365A2.365 2.365 0 0 1 .25 12.577L5.884 1.308a2.365 2.365 0 0 1 4.231 0zM8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 9c.552 0 1-.32 1-.714V4.714C9 4.32 8.552 4 8 4s-1 .32-1 .714v3.572C7 8.68 7.448 9 8 9z"
+                              fill="#ed5f74"
+                            ></path>
+                          </svg>
+                          <span style={{ color: "#ed5f74" }}>{alertdata}</span>
+                        </div>
                       </Form.Group>
                       <div className="Button-Div">
-                        <div className="Button">
-                          <p>Create a New Password</p>
-                        </div>
+                        <button
+                          disabled={Loader}
+                          style={{ opacity: Loader ? 0.5 : 1 }}
+                          className="Button"
+                        >
+                          {Loader ? <p>Loading...</p> : <p>Create Account</p>}
+                        </button>
                       </div>
                     </Form>
                   </div>

@@ -5,10 +5,18 @@ import Logo from "../../Assets/Logos/Classfresh(logo).png";
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../css/Signup/Signup.css";
 import axios from "axios";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-
 import { URL } from "../../URL/URL";
+
+
+import { css } from "@emotion/react";
+import PulseLoader from "react-spinners/PulseLoader";
+
+const Loadercss = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-top:6px
+`;
 
 const Signup = () => {
   const [name, setname] = useState("");
@@ -36,28 +44,56 @@ const Signup = () => {
     setLoader(true);
     await axios.post(`${URL}/signup`, Data).then(async (res) => {
       if (res.data.status == 200) {
-        window.location = "http://easycap.in";
-        setLoader(true);
-      } else if (res.data.status == 401) {
-        //401 email is unverified
         const Body = { email: email };
-        await axios.post(`${URL}/sendmail/sendotp`, Body).then(({data}) => {
+        await axios.post(`${URL}/sendmail/sendotp`, Body).then(({ data }) => {
           if (data.status == 200) {
             if (data.payload.email) {
               window.location = `${window.location.origin}/verifyemail?email=${data.payload.email}`;
             }
           }
+        }).catch((err) => {
+          setalert(true);
+          setalertdata("Something went wrong");
+          setLoader(false);
+        });
+        setLoader(true);
+      } else if (res.data.status == 401) {
+        //401 email is unverified
+        const Body = { email: email };
+        await axios.post(`${URL}/sendmail/sendotp`, Body).then(({ data }) => {
+          if (data.status == 200) {
+            if (data.payload.email) {
+              window.location = `${window.location.origin}/verifyemail?email=${data.payload.email}`;
+            }
+          }
+        }).catch((err) => {
+          setalert(true);
+          setalertdata("Something went wrong");
+          setLoader(false);
         });
       } else if (res.data.status == 403) {
         //403 password in not created
-        setalert(true);
-        setalertdata(res.data.message);
-        setLoader(false);
+        const Body = { email: email };
+        await axios.post(`${URL}/sendmail/sendotp`, Body).then(({ data }) => {
+          if (data.status == 200) {
+            if (data.payload.email) {
+              window.location = `${window.location.origin}/verifyemail?email=${data.payload.email}`;
+            }
+          }
+        }).catch((err) => {
+          setalert(true);
+          setalertdata("Something went wrong");
+          setLoader(false);
+        });
       } else {
         setalert(true);
         setalertdata(res.data.message);
         setLoader(false);
       }
+    }).catch((err) => {
+      setalert(true);
+      setalertdata("Something went wrong");
+      setLoader(false);
     });
   };
 
@@ -80,6 +116,21 @@ const Signup = () => {
             <div className="Form-Box-Outer-Div">
               <div className="Logo-Div">
                 <img style={{ width: "221px", height: "67px" }} src={Logo} />
+              </div>
+              <div hidden={!alert} className="Form-Alert-Div">
+                <svg
+                  aria-hidden="true"
+                  height="15"
+                  width="15"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.115 1.308l5.635 11.269A2.365 2.365 0 0 1 13.634 16H2.365A2.365 2.365 0 0 1 .25 12.577L5.884 1.308a2.365 2.365 0 0 1 4.231 0zM8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 9c.552 0 1-.32 1-.714V4.714C9 4.32 8.552 4 8 4s-1 .32-1 .714v3.572C7 8.68 7.448 9 8 9z"
+                    fill="#ed5f74"
+                  ></path>
+                </svg>
+                <span style={{ color: "#ed5f74" }}>{alertdata}</span>
               </div>
               <div className="Inside-Form-Div">
                 <Form onSubmit={(e) => HandleSubmit(e)}>
@@ -157,22 +208,6 @@ const Signup = () => {
                       }}
                       required
                     />
-
-                    <div hidden={!alert} className="Form-Alert-Div">
-                      <svg
-                        aria-hidden="true"
-                        height="15"
-                        width="15"
-                        viewBox="0 0 16 16"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.115 1.308l5.635 11.269A2.365 2.365 0 0 1 13.634 16H2.365A2.365 2.365 0 0 1 .25 12.577L5.884 1.308a2.365 2.365 0 0 1 4.231 0zM8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 9c.552 0 1-.32 1-.714V4.714C9 4.32 8.552 4 8 4s-1 .32-1 .714v3.572C7 8.68 7.448 9 8 9z"
-                          fill="#ed5f74"
-                        ></path>
-                      </svg>
-                      <span style={{ color: "#ed5f74" }}>{alertdata}</span>
-                    </div>
                   </Form.Group>
                   <div className="Button-Div">
                     <button
@@ -180,7 +215,17 @@ const Signup = () => {
                       style={{ opacity: Loader ? 0.5 : 1 }}
                       className="Button"
                     >
-                      {Loader ? <p>Loading...</p> : <p>Create Account</p>}
+                      {Loader ? (
+                        <PulseLoader
+                          color={"white"}
+                          loading={true}
+                          css={Loadercss}
+                          size={8}
+                          margin={3}
+                        />
+                      ) : (
+                        <p>Create Account</p>
+                      )}
                     </button>
                   </div>
                 </Form>
