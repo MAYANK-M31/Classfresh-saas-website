@@ -50,14 +50,8 @@ const Login = () => {
         // console.log(res.data);
         if (res.data.status == 200) {
 
-          // var expiryDate = new Date(Date.now()); 
+          localStorage.setItem("access_token",res.data.payload.access_token)
 
-          // setCookie("access_token", res.data.payload.access_token, {
-          //   path: "/",
-          //   expires: expiryDate,
-          // });
-
-          console.log(cookies.access_token);
           // window.location = "http://console.localhost:3000/";
         } else {
           
