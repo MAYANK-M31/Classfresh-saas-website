@@ -16,6 +16,7 @@ function Console() {
 
   useEffect(()=>{
     document.title = "Classfresh Console"
+    
   },[])
  
   return (

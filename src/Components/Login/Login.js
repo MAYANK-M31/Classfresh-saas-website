@@ -25,8 +25,8 @@ const Login = () => {
   const [alert, setalert] = useState(false);
   const [alertdata, setalertdata] = useState(null);
   const [Loader, setLoader] = useState(false);
+  let TOKEN = localStorage.getItem("access_token");
 
-  const [cookies, setCookie, removeCookie] = useCookies(["appSession"]);
 
   // const Login =()=>{
   //   window.location = "http://console.localhost:3000/"
@@ -34,7 +34,10 @@ const Login = () => {
 
   useEffect(() => {
     document.title = "Classfresh:Log in";
+
   }, []);
+
+  
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -52,7 +55,7 @@ const Login = () => {
 
           localStorage.setItem("access_token",res.data.payload.access_token)
 
-          // window.location = "http://console.localhost:3000/";
+          window.location = "http://localhost:3000/";
         } else {
           
           setalert(true);
@@ -127,7 +130,7 @@ const Login = () => {
 
                   <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Label style={{ color: "#2F66FC", float: "right" }}>
+                    <Form.Label className="ForgotPassword" style={{ color: "#2F66FC", float: "right" }}>
                       Forgot Password?
                     </Form.Label>
                     <Form.Control
