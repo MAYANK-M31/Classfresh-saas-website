@@ -6,20 +6,65 @@ import PeopleSideBar from "./PeopleSideBar";
 import Split from "react-split";
 import PeopleTable from "./TableView/PeopleTable";
 import makeData from "./TableView/makeData";
+import { URL } from "../../URL/URL";
+import axios from "axios";
+import { Form, Button } from "react-bootstrap";
 
-const RawData = [
-  {
-    id: 0,
-    contact: "mayankm31@gmail.com",
-    class: "6th",
-    gender: "male",
-    status: "active",
-  },
-];
+import { css } from "@emotion/react";
+import PulseLoader from "react-spinners/PulseLoader";
+
+const Loadercss = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-top: 6px;
+`;
 
 const People = () => {
   const [addteacher, setaddteacher] = useState(false);
   const [minimize, setminimize] = useState(false);
+  const [name, setname] = useState("");
+  const [contact, setcontact] = useState("");
+  const [gender, setgender] = useState("");
+  const [Class, setClass] = useState("");
+  const [section, setsection] = useState("");
+  const [Loader, setLoader] = useState("");
+
+  let TOKEN = localStorage.getItem("access_token");
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    const Data = {
+      name: name,
+      contact: contact,
+      gender: gender,
+      class: Class,
+      section: section,
+      status: "active",
+    };
+    setLoader(true);
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/teacher/add`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Data,
+    }).then((res) => {
+      if (res.data.status == 200) {
+        setLoader(false);
+        setname("");
+        setcontact("");
+        setgender("");
+        setClass("");
+        setsection("");
+      } else {
+        alert("something went wrong");
+      }
+      console.log(res.data);
+    });
+  };
 
   return (
     <div className="People">
@@ -42,7 +87,6 @@ const People = () => {
           >
             <div className="UpperBar-Div">
               <div className="UpperBar-Left">
-                
                 <div
                   onClick={() => {
                     setminimize(minimize ? false : true);
@@ -86,12 +130,11 @@ const People = () => {
                   </svg>
                 </div>
 
-               
                 {/* <hr
                   style={{ width: "1px", height: "35%", marginInline: "20px" }}
                 ></hr> */}
 
-                <div  className="SearchUserView">
+                <div className="SearchUserView">
                   <div className="SearchUserInputView">
                     <div className="SearchUserIcon">
                       <svg
@@ -287,34 +330,93 @@ const People = () => {
                   </svg>
                 </div>
 
-                <div className="FormDataView">
+                <Form
+                  onSubmit={(e) => HandleSubmit(e)}
+                  className="FormDataView"
+                >
                   <div className="AddDataForm">
-                    <div className="InputFormView">
-                      <input className="InputView" placeholder="Enter Name" />
+                    <Form.Group className="InputFormView">
                       <input
+                        name="name"
+                        type="text"
+                        className="InputView"
+                        placeholder="Enter Name"
+                        required
+                        value={name}
+                        onChange={(e) => {
+                          setname(e.target.value);
+                        }}
+                      />
+                      <input
+                        name="contact"
+                        type="text"
                         className="InputView"
                         placeholder="Contact/Email"
+                        required
+                        value={contact}
+                        onChange={(e) => {
+                          setcontact(e.target.value);
+                        }}
                       />
                       <input
-                        type="dropdown"
+                        name="gender"
+                        type="text"
                         className="InputView"
                         placeholder="Gender"
+                        required
+                        value={gender}
+                        onChange={(e) => {
+                          setgender(e.target.value);
+                        }}
                       />
                       <div className="ClassSectionView">
-                        <input className="ClassInputView" placeholder="Class" />
                         <input
+                          name="class"
+                          type="text"
+                          className="ClassInputView"
+                          placeholder="Class"
+                          required
+                          value={Class}
+                          onChange={(e) => {
+                            setClass(e.target.value);
+                          }}
+                        />
+                        <input
+                          name="section"
+                          type="text"
                           className="ClassInputView"
                           placeholder="Section"
+                          required
+                          value={section}
+                          onChange={(e) => {
+                            setsection(e.target.value);
+                          }}
                         />
                       </div>
-                    </div>
+                    </Form.Group>
                   </div>
                   <div className="AddTeacherSaveBtnDiv">
-                    <div className="AddTeacherSaveBtn">
-                      <p>Save</p>
-                    </div>
+                    <button
+                      // type="submit"
+                      // onClick={(e) => HandleSubmit(e)}
+                      disabled={Loader}
+                      style={{ opacity: Loader ? 0.5 : 1 }}
+                      className="AddTeacherSaveBtn"
+                    >
+                      {Loader ? (
+                        <PulseLoader
+                          color={"white"}
+                          loading={true}
+                          css={Loadercss}
+                          size={8}
+                          margin={3}
+                        />
+                      ) : (
+                        <p style={{ cursor: "pointer" }}>Add Teacher</p>
+                      )}
+                    </button>
                   </div>
-                </div>
+                </Form>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ function Console() {
 
   useEffect(()=>{
     document.title = "Classfresh Console"
-    
+
   },[])
  
   return (
@@ -24,6 +24,7 @@ function Console() {
       <ScrollMemory />
       <SideBar />
       <div className="App-Main">
+      {/* {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />} */}
         <Route path="/" exact component={Dashboard} />
         <Route path="/connect/students" component={Students} />
         <Route path="/connect/teachers" component={Teachers} />

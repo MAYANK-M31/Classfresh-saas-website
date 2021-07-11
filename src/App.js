@@ -14,15 +14,11 @@ function App() {
   const [access, setaccess] = useState(false);
 
   useEffect(() => {
-
-    if (TOKEN == undefined) {
-      setaccess(false);
-    
-    } else {
+    // if (TOKEN == undefined) {
+    //   setaccess(false);
+    // } else {
       VerifyToken();
-      
-    }
-  
+    // }
   }, []);
 
   const VerifyToken = async () => {
@@ -36,21 +32,18 @@ function App() {
       console.log(data);
       if (data.status == 200) {
         // localStorage.setItem("access_token",data.payload.access_token)
-       return setaccess(true);
+        return setaccess(true);
       } else {
-       return localStorage.removeItem("access_token") ,setaccess(false)
+        setaccess(false)
+        return localStorage.removeItem("access_token"), setaccess(false);
       }
     });
   };
 
   return (
     <BrowserRouter>
-    {access ? 
-    <Redirect to={"/"}/>
-    :
-    <Redirect to={"/login"}/>
-    }
-      <Route to={"/"} render={() => ( access ? <Console /> : <Verify />)} />
+      {/* {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />} */}
+      <Route to={"/"} render={() => (access ? <Console /> : <Verify />)} />
     </BrowserRouter>
   );
 }
