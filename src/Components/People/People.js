@@ -91,12 +91,17 @@ const People = () => {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
+
+    if(gender == null) return toast.error("Please select gender", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+
     const Data = {
       name: name,
       contact: contact,
-      // gender: gender.value,
-      // class: Class.value,
-      // section: section.value,
+      gender: gender.value ,
+      class: ClassSectionList,
       status: "active",
     };
     setLoader(true);
@@ -112,11 +117,12 @@ const People = () => {
       .then((res) => {
         if (res.data.status == 200) {
           setLoader(false);
-          setname(null);
-          setcontact(null);
+          setname("");
+          setcontact("");
           setgender(null);
           setClass(null);
           setsection(null);
+          setClassSectionList([])
           toast.success("New Teacher added ", {
             position: "bottom-left",
             autoClose: 3000,
