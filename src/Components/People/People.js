@@ -94,9 +94,9 @@ const People = () => {
     const Data = {
       name: name,
       contact: contact,
-      gender: gender.value,
-      class: Class.value,
-      section: section.value,
+      // gender: gender.value,
+      // class: Class.value,
+      // section: section.value,
       status: "active",
     };
     setLoader(true);
@@ -522,7 +522,7 @@ const People = () => {
                             setsection(e.target.value);
                           }}
                         /> */}
-                        <button
+                        <div
                           // type="submit"
                           onClick={AddClass}
                           disabled={Loader}
@@ -530,7 +530,7 @@ const People = () => {
                           className="AddClasses"
                         >
                           <span style={{ cursor: "pointer" }}>Add</span>
-                        </button>
+                        </div>
                       </div>
                     </Form.Group>
                   </div>
@@ -539,6 +539,7 @@ const People = () => {
                       <Chip
                         key={index}
                         size="medium"
+                        
                         // icon={<FaceIcon />}
                         label={`${item.class.label.toUpperCase()}-${item.section.label.toUpperCase()}`}
                         clickable

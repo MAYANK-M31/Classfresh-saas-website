@@ -623,6 +623,7 @@
   flex-wrap: wrap;
   padding-inline: 20px;
   overflow: scroll;
+  transition: all 0.1s ease;
 }
 
 .People .AddTeacherSaveBtnDiv {
