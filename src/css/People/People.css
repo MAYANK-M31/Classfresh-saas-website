@@ -208,7 +208,6 @@
   /* justify-content: center; */
   align-items: center;
   padding: 5px;
-
 }
 
 .People .SearchGroupIcon {
@@ -291,7 +290,7 @@
   margin-left: 70px;
 }
 
-.People .SideBarbtn{
+.People .SideBarbtn {
   height: 35px;
   width: 35px;
   display: flex;
@@ -302,13 +301,13 @@
   margin-right: 15px;
 }
 
-.People .SideBarbtn:active{
+.People .SideBarbtn:active {
   box-shadow: 0px 0px 2px 2px #0475fc;
   transition: 0.1s ease-in-out;
 }
 
-.People .SideBarbtn:hover{
-  background-color: #E2E5EA44;
+.People .SideBarbtn:hover {
+  background-color: #e2e5ea44;
   transition: 0.1s ease-in-out;
 }
 
@@ -440,14 +439,14 @@
   bottom: 0; */
 }
 
-.People .TableHeaderColumn{
+.People .TableHeaderColumn {
   width: 100%;
   height: 43px;
   background-color: #f2f3f5;
   position: sticky;
-  z-index:100000 ;
+  z-index: 100000;
   bottom: 0;
-  position:"sticky";
+  position: "sticky";
   top: 0;
 }
 
@@ -461,10 +460,9 @@
   color: #506d85;
   font-family: "Poppins", "sans-serif";
   font-weight: 100;
- 
 }
 
-.People .TableRow{
+.People .TableRow {
   margin-top: 680px;
 }
 
@@ -478,7 +476,6 @@
   border-bottom: solid;
   border-bottom-width: 0.5px;
   border-color: #8c97ac33;
- 
 }
 
 .People .TableRow tr:hover {
@@ -587,18 +584,32 @@
   padding: 15px;
 }
 
-.People .AddClasses{
+.People .AddClasses {
   width: 65px;
   height: 48px;
   border-radius: 4px;
-  background-color: #0368fc;
+  background-color: #0368fc00;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   transition: all 0.1s ease;
-  color: white;
+  color: #0368fc;
+  border: 2.2px solid #0368fc;
   font-weight: bold;
+  transition: all 0.1s ease;
+}
+
+.People .AddClasses:hover {
+  background-color: #0367fc25;
+  transition: all 0.1s ease;
+  color: #0368fc;
+}
+
+.People .AddClasses:active {
+  background-color: #0367fc;
+  transition: all 0.1s ease;
+  color: white;
 }
 
 .People .InputView:focus {
@@ -606,6 +617,16 @@
   transition: all 0.1s linear;
   border: 2px solid #0368fc;
   padding: 15px;
+}
+
+
+
+.People .Chip-Div {
+  width: 340px;
+  height: inherit;
+  flex-wrap: wrap;
+  padding-inline: 20px;
+  overflow-y: scroll;
 }
 
 .People .AddTeacherSaveBtnDiv {
@@ -619,7 +640,6 @@
   align-items: flex-end;
   align-items: center;
 }
-
 
 .People .AddTeacherSaveBtn {
   width: calc(340px - 40px);
@@ -643,9 +663,7 @@
   transition: all 0.1s ease;
 }
 
-
-
-.People  .css-yk16xz-control{
+.People .css-yk16xz-control {
   height: 48px;
   width: 100%;
   height: 48px;
@@ -656,9 +674,7 @@
   margin-bottom: 12px;
 }
 
-
-
-.People  .css-1pahdxg-control{
+.People .css-1pahdxg-control {
   height: 48px;
   width: 100%;
   height: 48px;
@@ -669,12 +685,10 @@
   margin-bottom: 12px;
 }
 
-.People .css-g1d714-ValueContainer{
+.People .css-g1d714-ValueContainer {
   width: 100%;
   height: 48px;
 }
-
-
 
 .People .AddTeacherSaveBtn p {
   font-size: 15px;

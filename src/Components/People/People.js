@@ -9,7 +9,9 @@ import { URL } from "../../URL/URL";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import Select from "react-select";
-import Chip from '@material-ui/core/Chip';
+import Creatable from "react-select/creatable";
+
+import Chip from "@material-ui/core/Chip";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +25,7 @@ const Loadercss = css`
   border-color: red;
   margin-top: 6px;
 `;
+
 
 const People = () => {
   const [addteacher, setaddteacher] = useState(false);
@@ -41,14 +44,39 @@ const People = () => {
     { value: "female", label: "Female" },
   ];
 
+  const ClassOptions = [
+    { value: "1", label: "I" },
+    { value: "2", label: "II" },
+    { value: "3", label: "III" },
+    { value: "4", label: "IV" },
+    { value: "5", label: "V" },
+    { value: "6", label: "VI" },
+    { value: "7", label: "VII" },
+    { value: "8", label: "VIII" },
+    { value: "9", label: "IX" },
+    { value: "10", label: "X" },
+    { value: "11", label: "XI" },
+    { value: "12", label: "XII" },
+    { value: "ukg", label: "UKG" },
+    { value: "lkg", label: "LKG" },
+  ];
+  const SectionOptions = [
+    { value: "a", label: "A" },
+    { value: "b", label: "B" },
+    { value: "c", label: "C" },
+    { value: "d", label: "D" },
+    { value: "e", label: "E" },
+    { value: "f", label: "F" },
+  ];
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     const Data = {
       name: name,
       contact: contact,
       gender: gender.value,
-      class: Class,
-      section: section,
+      class: Class.value,
+      section: section.value,
       status: "active",
     };
     setLoader(true);
@@ -401,6 +429,7 @@ const People = () => {
                         name="gender"
                         type="text"
                         placeholder="Gender"
+                        isClearable="true"
                         className="Input"
                         options={options}
                         value={gender}
@@ -410,7 +439,40 @@ const People = () => {
                       />
 
                       <div className="ClassSectionView">
-                        <input
+                        <div style={{ width: "110px" }}>
+                          <Creatable
+                            name="class"
+                            type="text"
+                            isClearable="true"
+                            autoComplete="off"
+                            className="Input"
+                            placeholder="Class"
+                            options={ClassOptions}
+                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+                            value={Class}
+                            onChange={(e) => {
+                              setClass(e);
+                            }}
+                          />
+                        </div>
+
+                        <div style={{ width: "110px" }}>
+                          <Creatable
+                            name="class"
+                            type="text"
+                            isClearable="true"
+                            autoComplete="off"
+                            className="Input"
+                            placeholder="Section"
+                            options={SectionOptions}
+                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+                            value={section}
+                            onChange={(e) => {
+                              setsection(e);
+                            }}
+                          />
+                        </div>
+                        {/* <input
                           name="class"
                           type="text"
                           autoComplete="off"
@@ -433,22 +495,37 @@ const People = () => {
                           onChange={(e) => {
                             setsection(e.target.value);
                           }}
-                        />
+                        /> */}
                         <button
                           // type="submit"
                           disabled={Loader}
                           style={{ opacity: Loader ? 0.5 : 1 }}
                           className="AddClasses"
                         >
-                        
-                            <span style={{ cursor: "pointer" }}>Add</span>
-                          
+                          <span style={{ cursor: "pointer" }}>Add</span>
                         </button>
                       </div>
-                      <div style={{flexWrap:"wrap"}} >
-                      <Chip size="small" label="Basic" />
-                      </div>
                     </Form.Group>
+                  </div>
+                  <div className="Chip-Div">
+                    <Chip
+                      size="medium"
+                      // icon={<FaceIcon />}
+                      label="6th-A"
+                      clickable
+                      variant="outlined"
+                      color="primary"
+                      style={{
+                        color: "#0368fc",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        backgroundColor: "white",
+                        border: "2px solid #0368fc",
+                        margin: "5px",
+                      }}
+                      // onDelete={()=>{alert("hi")}}
+                      // deleteIcon={<DoneIcon color="secondary" />}
+                    />
                   </div>
                   <div className="AddTeacherSaveBtnDiv">
                     <ToastContainer />
