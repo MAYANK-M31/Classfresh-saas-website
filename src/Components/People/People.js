@@ -1,7 +1,6 @@
 import React, { Component, useState } from "react";
 import "../../css/People/People.css";
 import PeopleHeader from "./Header/PeopleHeader";
-import TextField from "@material-ui/core/TextField";
 import PeopleSideBar from "./PeopleSideBar";
 import Split from "react-split";
 import PeopleTable from "./TableView/PeopleTable";
@@ -9,6 +8,11 @@ import makeData from "./TableView/makeData";
 import { URL } from "../../URL/URL";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
+import Select from "react-select";
+import Chip from '@material-ui/core/Chip';
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -25,19 +29,24 @@ const People = () => {
   const [minimize, setminimize] = useState(false);
   const [name, setname] = useState("");
   const [contact, setcontact] = useState("");
-  const [gender, setgender] = useState("");
+  const [gender, setgender] = useState(null);
   const [Class, setClass] = useState("");
   const [section, setsection] = useState("");
   const [Loader, setLoader] = useState("");
 
   let TOKEN = localStorage.getItem("access_token");
 
+  const options = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+  ];
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     const Data = {
       name: name,
       contact: contact,
-      gender: gender,
+      gender: gender.value,
       class: Class,
       section: section,
       status: "active",
@@ -51,19 +60,34 @@ const People = () => {
         Authorization: "Bearer " + TOKEN,
       },
       data: Data,
-    }).then((res) => {
-      if (res.data.status == 200) {
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          setLoader(false);
+          setname("");
+          setcontact("");
+          setgender("");
+          setClass("");
+          setsection("");
+          toast.success("New Teacher added ", {
+            position: "bottom-left",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "bottom-left",
+            autoClose: 3000,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 3000,
+        });
         setLoader(false);
-        setname("");
-        setcontact("");
-        setgender("");
-        setClass("");
-        setsection("");
-      } else {
-        alert("something went wrong");
-      }
-      console.log(res.data);
-    });
+      });
   };
 
   return (
@@ -339,6 +363,7 @@ const People = () => {
                       <input
                         name="name"
                         type="text"
+                        autoComplete="off"
                         className="InputView"
                         placeholder="Enter Name"
                         required
@@ -348,6 +373,7 @@ const People = () => {
                         }}
                       />
                       <input
+                        autoComplete="off"
                         name="contact"
                         type="text"
                         className="InputView"
@@ -358,9 +384,10 @@ const People = () => {
                           setcontact(e.target.value);
                         }}
                       />
-                      <input
+                      {/* <input
                         name="gender"
                         type="text"
+                        autoComplete="off"
                         className="InputView"
                         placeholder="Gender"
                         required
@@ -368,11 +395,25 @@ const People = () => {
                         onChange={(e) => {
                           setgender(e.target.value);
                         }}
+                      /> */}
+
+                      <Select
+                        name="gender"
+                        type="text"
+                        placeholder="Gender"
+                        className="Input"
+                        options={options}
+                        value={gender}
+                        onChange={(e) => {
+                          setgender(e);
+                        }}
                       />
+
                       <div className="ClassSectionView">
                         <input
                           name="class"
                           type="text"
+                          autoComplete="off"
                           className="ClassInputView"
                           placeholder="Class"
                           required
@@ -384,6 +425,7 @@ const People = () => {
                         <input
                           name="section"
                           type="text"
+                          autoComplete="off"
                           className="ClassInputView"
                           placeholder="Section"
                           required
@@ -392,13 +434,26 @@ const People = () => {
                             setsection(e.target.value);
                           }}
                         />
+                        <button
+                          // type="submit"
+                          disabled={Loader}
+                          style={{ opacity: Loader ? 0.5 : 1 }}
+                          className="AddClasses"
+                        >
+                        
+                            <span style={{ cursor: "pointer" }}>Add</span>
+                          
+                        </button>
+                      </div>
+                      <div style={{flexWrap:"wrap"}} >
+                      <Chip size="small" label="Basic" />
                       </div>
                     </Form.Group>
                   </div>
                   <div className="AddTeacherSaveBtnDiv">
+                    <ToastContainer />
                     <button
                       // type="submit"
-                      // onClick={(e) => HandleSubmit(e)}
                       disabled={Loader}
                       style={{ opacity: Loader ? 0.5 : 1 }}
                       className="AddTeacherSaveBtn"
@@ -412,7 +467,7 @@ const People = () => {
                           margin={3}
                         />
                       ) : (
-                        <p style={{ cursor: "pointer" }}>Add Teacher</p>
+                        <p style={{ cursor: "pointer" }}>Save</p>
                       )}
                     </button>
                   </div>

@@ -570,7 +570,7 @@
 }
 
 .People .ClassInputView {
-  width: 48%;
+  width: 35%;
   height: 48px;
   border-radius: 4px;
   outline: none !important;
@@ -585,6 +585,20 @@
   transition: all 0.1s linear;
   border: 2.2px solid #0368fc;
   padding: 15px;
+}
+
+.People .AddClasses{
+  width: 65px;
+  height: 48px;
+  border-radius: 4px;
+  background-color: #0368fc;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease;
+  color: white;
+  font-weight: bold;
 }
 
 .People .InputView:focus {
@@ -606,6 +620,7 @@
   align-items: center;
 }
 
+
 .People .AddTeacherSaveBtn {
   width: calc(340px - 40px);
   height: 48px;
@@ -615,7 +630,51 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  transition: all 0.1s ease;
 }
+
+.People .AddTeacherSaveBtn:hover {
+  background-color: #0a58ce;
+  transition: all 0.1s ease;
+}
+
+.People .AddTeacherSaveBtn:active {
+  background-color: #0368fc;
+  transition: all 0.1s ease;
+}
+
+
+
+.People  .css-yk16xz-control{
+  height: 48px;
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+
+
+.People  .css-1pahdxg-control{
+  height: 48px;
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+.People .css-g1d714-ValueContainer{
+  width: 100%;
+  height: 48px;
+}
+
+
 
 .People .AddTeacherSaveBtn p {
   font-size: 15px;
