@@ -26,16 +26,16 @@ const Loadercss = css`
   margin-top: 6px;
 `;
 
-
 const People = () => {
   const [addteacher, setaddteacher] = useState(false);
   const [minimize, setminimize] = useState(false);
-  const [name, setname] = useState("");
-  const [contact, setcontact] = useState("");
+  const [name, setname] = useState(null);
+  const [contact, setcontact] = useState(null);
   const [gender, setgender] = useState(null);
-  const [Class, setClass] = useState("");
-  const [section, setsection] = useState("");
-  const [Loader, setLoader] = useState("");
+  const [Class, setClass] = useState(null);
+  const [section, setsection] = useState(null);
+  const [ClassSectionList, setClassSectionList] = useState([]);
+  const [Loader, setLoader] = useState(false);
 
   let TOKEN = localStorage.getItem("access_token");
 
@@ -69,6 +69,26 @@ const People = () => {
     { value: "f", label: "F" },
   ];
 
+  let ClassArray = ClassSectionList;
+
+  const AddClass = () => {
+    if (Class == null || section == null) {
+      return null;
+    }
+
+    ClassArray.push({ class: Class, section: section });
+    setClassSectionList(ClassArray);
+    setClass(null);
+    setsection(null);
+  };
+
+  const DeleteClass = (data) => {
+    ClassArray = ClassArray.filter(function (obj) {
+      return obj !== data;
+    });
+    setClassSectionList(ClassArray);
+  };
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     const Data = {
@@ -92,11 +112,11 @@ const People = () => {
       .then((res) => {
         if (res.data.status == 200) {
           setLoader(false);
-          setname("");
-          setcontact("");
-          setgender("");
-          setClass("");
-          setsection("");
+          setname(null);
+          setcontact(null);
+          setgender(null);
+          setClass(null);
+          setsection(null);
           toast.success("New Teacher added ", {
             position: "bottom-left",
             autoClose: 3000,
@@ -448,7 +468,10 @@ const People = () => {
                             className="Input"
                             placeholder="Class"
                             options={ClassOptions}
-                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+                            components={{
+                              DropdownIndicator: () => null,
+                              IndicatorSeparator: () => null,
+                            }}
                             value={Class}
                             onChange={(e) => {
                               setClass(e);
@@ -465,7 +488,10 @@ const People = () => {
                             className="Input"
                             placeholder="Section"
                             options={SectionOptions}
-                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+                            components={{
+                              DropdownIndicator: () => null,
+                              IndicatorSeparator: () => null,
+                            }}
                             value={section}
                             onChange={(e) => {
                               setsection(e);
@@ -498,6 +524,7 @@ const People = () => {
                         /> */}
                         <button
                           // type="submit"
+                          onClick={AddClass}
                           disabled={Loader}
                           style={{ opacity: Loader ? 0.5 : 1 }}
                           className="AddClasses"
@@ -508,24 +535,27 @@ const People = () => {
                     </Form.Group>
                   </div>
                   <div className="Chip-Div">
-                    <Chip
-                      size="medium"
-                      // icon={<FaceIcon />}
-                      label="6th-A"
-                      clickable
-                      variant="outlined"
-                      color="primary"
-                      style={{
-                        color: "#0368fc",
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        backgroundColor: "white",
-                        border: "2px solid #0368fc",
-                        margin: "5px",
-                      }}
-                      // onDelete={()=>{alert("hi")}}
-                      // deleteIcon={<DoneIcon color="secondary" />}
-                    />
+                    {ClassSectionList.map((item, index) => (
+                      <Chip
+                        key={index}
+                        size="medium"
+                        // icon={<FaceIcon />}
+                        label={`${item.class.label.toUpperCase()}-${item.section.label.toUpperCase()}`}
+                        clickable
+                        variant="outlined"
+                        color="primary"
+                        style={{
+                          color: "#0368fc",
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                          backgroundColor: "white",
+                          border: "2px solid #0368fc",
+                          margin: "5px",
+                        }}
+                        onDelete={() => DeleteClass(item)}
+                        // deleteIcon={<DoneIcon color="secondary" />}
+                      />
+                    ))}
                   </div>
                   <div className="AddTeacherSaveBtnDiv">
                     <ToastContainer />

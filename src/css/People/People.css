@@ -600,11 +600,7 @@
   transition: all 0.1s ease;
 }
 
-.People .AddClasses:hover {
-  background-color: #0367fc25;
-  transition: all 0.1s ease;
-  color: #0368fc;
-}
+
 
 .People .AddClasses:active {
   background-color: #0367fc;
@@ -623,10 +619,10 @@
 
 .People .Chip-Div {
   width: 340px;
-  height: inherit;
+  height: 350px;
   flex-wrap: wrap;
   padding-inline: 20px;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 .People .AddTeacherSaveBtnDiv {
