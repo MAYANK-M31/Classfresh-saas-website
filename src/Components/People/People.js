@@ -36,6 +36,7 @@ const People = () => {
   const [section, setsection] = useState(null);
   const [ClassSectionList, setClassSectionList] = useState([]);
   const [Loader, setLoader] = useState(false);
+  const [RenderList,setRenderList] = useState(false)
 
   let TOKEN = localStorage.getItem("access_token");
 
@@ -72,7 +73,7 @@ const People = () => {
   let ClassArray = ClassSectionList;
 
   const AddClass = () => {
-    if (Class == null || section == null) {
+    if (Class == null ) {
       return null;
     }
 
@@ -123,10 +124,12 @@ const People = () => {
           setClass(null);
           setsection(null);
           setClassSectionList([])
+          setRenderList(true)
           toast.success("New Teacher added ", {
             position: "bottom-left",
             autoClose: 3000,
           });
+          setRenderList(false)
         } else {
           toast.warning(res.data.message, {
             position: "bottom-left",
@@ -361,7 +364,7 @@ const People = () => {
                   // width: addteacher ? "calc(100% - 340px)" : "calc(100%)",
                 }}
               >
-                <PeopleTable />
+                <PeopleTable key={RenderList} />
               </div>
 
               <div className={!addteacher ? "Right-Div" : "Right-Div-Open"}>
@@ -547,7 +550,7 @@ const People = () => {
                         size="medium"
                         
                         // icon={<FaceIcon />}
-                        label={`${item.class.label.toUpperCase()}-${item.section.label.toUpperCase()}`}
+                        label= {item.section == undefined ?  `${item.class.label.toUpperCase()}` : `${item.class.label.toUpperCase()}-${item.section.label.toUpperCase()}` }
                         clickable
                         variant="outlined"
                         color="primary"
