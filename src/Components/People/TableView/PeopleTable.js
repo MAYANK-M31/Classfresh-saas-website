@@ -5,6 +5,8 @@ import { URL } from "../../../URL/URL";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const Colors = ["#ceebc4", "#FAA61A", "#FF4080", "#FC00FE", "#FF8C5F", "#FF4080"]
+
 const ResultTable = () => {
   const [Data, setData] = useState([]);
   let TOKEN = localStorage.getItem("access_token");
@@ -40,6 +42,7 @@ const ResultTable = () => {
             verticalAlign: "center",
             paddingTop: "8px",
             textAlign: "center",
+
           }}
         >
           <input style={{ width: "16px", height: "16px" }} type="checkbox" />
