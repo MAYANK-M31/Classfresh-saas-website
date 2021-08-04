@@ -103,6 +103,9 @@ const PeopleSideBar = () => {
             <p>Teachers</p>
           </div>
           <div className="GroupChildView">
+            <p>Users By Class</p>
+          </div>
+          <div className="GroupChildView">
             <p>All Users</p>
           </div>
           <div className="GroupChildView">
@@ -141,6 +144,9 @@ const PeopleSideBar = () => {
             </svg>
 
             <p>Students</p>
+          </div>
+          <div className="GroupChildView">
+            <p>Users By Class</p>
           </div>
           <div className="GroupChildView">
             <p>All Users</p>

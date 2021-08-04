@@ -78,10 +78,10 @@
 }
 
 .People .UpperBar-Div {
-  width: inherit;
+  width: 100%;
+  min-width: 1040px;
   height: 69px;
   z-index: 100;
-  position: fixed;
   float: inline-start;
   top: 69px;
   display: flex;
@@ -134,11 +134,11 @@
   flex-direction: row;
   background-color: white;
   transition: all 0.1s ease;
-  margin-top: 69px;
+  /* margin-top: 69px; */
 }
 
 .People .Container-Div {
-  /* width: calc(100% - 340px); */
+  width: 100% ;
   min-width: 1040px;
   height: 100%;
   background-color: #ebeff3;
@@ -446,8 +446,9 @@
   position: sticky;
   z-index: 100;
   bottom: 0;
-  position: "sticky";
   top: 0;
+ 
+  
 }
 
 .People .TableHeader tr {

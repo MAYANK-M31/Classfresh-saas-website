@@ -5,7 +5,14 @@ import { URL } from "../../../URL/URL";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Colors = ["#ceebc4", "#FAA61A", "#FF4080", "#FC00FE", "#FF8C5F", "#FF4080"]
+const Colors = [
+  "#ceebc4",
+  "#FAA61A",
+  "#FF4080",
+  "#FC00FE",
+  "#FF8C5F",
+  "#FF4080",
+];
 
 const ResultTable = () => {
   const [Data, setData] = useState([]);
@@ -35,35 +42,42 @@ const ResultTable = () => {
     });
   };
   const Row = () => {
-    return Data.map((item,i) => (
+    return Data.map((item, i) => (
       <tr key={item.uuid}>
-        <td
-          style={{
-            verticalAlign: "center",
-            paddingTop: "8px",
-            textAlign: "center",
-
-          }}
-        >
-          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
-        </td>
         <td>
           <div className="RowNameDiv">
-            <div className="RowNameCircle">{i+1}</div>
+            <div
+              style={{
+                width: "50px",
+                height: "inherit",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <input
+                style={{ width: "18px", height: "18px" }}
+                type="checkbox"
+              />
+            </div>
+            <div className="RowNameCircle">{i + 1}</div>
+
             {item.name}
           </div>
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
-          { item.class.length > 0 ?
-          item.class.map((ele, i) =>
-            i == item.class.length - 1 
-              ?  ele.section == null ?  ele.class.label : ele.class.label + "-" + ele.section.label 
-              :  ele.section == null ?  ele.class.label + ", "  : ele.class.label + "-" + ele.section.label + ", "
-          )
-          :
-          "--"
-          }
+          {item.class.length > 0
+            ? item.class.map((ele, i) =>
+                i == item.class.length - 1
+                  ? ele.section == null
+                    ? ele.class.label
+                    : ele.class.label + "-" + ele.section.label
+                  : ele.section == null
+                  ? ele.class.label + ", "
+                  : ele.class.label + "-" + ele.section.label + ", "
+              )
+            : "--"}
         </td>
         <td> {item.gender}</td>
         <td
@@ -72,7 +86,6 @@ const ResultTable = () => {
             fontWeight: "bold",
           }}
         >
-          
           {item.status}
         </td>
       </tr>
@@ -85,28 +98,34 @@ const ResultTable = () => {
         <thead class="TableHeader">
           <tr>
             <th
-              style={{
-                minWidth: "60px",
-                height: "inherit",
+              className="TableHeaderColumn"
+            
+              scope="col"
+            >
+              <div   style={{
+                width: "25%",
+                minWidth: "350px",
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              className="TableHeaderColumn"
-              scope="col"
-            >
-              <input
-                style={{ width: "18px", height: "18px" }}
-                type="checkbox"
-              />
-            </th>
-            <th
-              className="TableHeaderColumn"
-              style={{ width: "25%", minWidth: "350px" }}
-              scope="col"
-            >
+                alignItems:"center"
+              }}>
+              <div
+                style={{
+                  width: "50px",
+                  height: "inherit",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+               
+                <input
+                  style={{ width: "18px", height: "18px" }}
+                  type="checkbox"
+                />
+              </div>
               Name
+              </div>
             </th>
             <th
               className="TableHeaderColumn"
