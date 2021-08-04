@@ -7,6 +7,9 @@ import Split from "react-split";
 import "react-toastify/dist/ReactToastify.css";
 
 import AllTeachers from "./Teachers/AllTeachers";
+import TeachersByClass from "./Teachers/TeachersByClass";
+import AllStudents from "./Students/AllStudents";
+import StudentsByClass from "./Students/StudentsByClass";
 
 const People = () => {
   const [minimize, setminimize] = useState(false);
@@ -25,7 +28,12 @@ const People = () => {
           cursor="col-resize"
           className="split-flex" // You'll need to define this. check styles.css
         >
-          <PeopleSideBar opentab={(data)=>{setOpen(data)}} opened={Open} />
+          <PeopleSideBar
+            opentab={(data) => {
+              setOpen(data);
+            }}
+            opened={Open}
+          />
 
           <div
             style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}
@@ -37,10 +45,25 @@ const People = () => {
                   setminimize(minimize ? false : true);
                 }}
               />
+            ) : Open == "teachersbyclass" ? (
+              <TeachersByClass
+                Minimize={() => {
+                  setminimize(minimize ? false : true);
+                }}
+              />
+            ) : Open == "allstudents" ? (
+              <AllStudents
+                Minimize={() => {
+                  setminimize(minimize ? false : true);
+                }}
+              />
+            ) : Open == "studentsbyclass" ? (
+              <StudentsByClass
+                Minimize={() => {
+                  setminimize(minimize ? false : true);
+                }}
+              />
             ) : null}
-
-
-
           </div>
         </Split>
       </div>

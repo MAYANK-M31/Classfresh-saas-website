@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import "../../../css/People/People.css";
 
-import TeachersByClassTable from "../TableView/TeachersByClassTable";
+import AllStudentsTable from "../TableView/AllStudentsTable";
 import { URL } from "../../../URL/URL";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
@@ -23,7 +23,7 @@ const Loadercss = css`
   margin-top: 6px;
 `;
 
-const TeachersByClass = ({Minimize}) => {
+const AllStudents = ({Minimize}) => {
   const [addteacher, setaddteacher] = useState(false);
   const [minimize, setminimize] = useState(false);
   const [name, setname] = useState(null);
@@ -344,7 +344,7 @@ const TeachersByClass = ({Minimize}) => {
             // width: addteacher ? "calc(100% - 340px)" : "calc(100%)",
           }}
         >
-          <TeachersByClassTable key={RenderList} />
+          <AllStudentsTable key={RenderList} />
         </div>
 
         <div className={!addteacher ? "Right-Div" : "Right-Div-Open"}>
@@ -575,4 +575,4 @@ const TeachersByClass = ({Minimize}) => {
   );
 };
 
-export default TeachersByClass;
+export default AllStudents;
