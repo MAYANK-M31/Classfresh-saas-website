@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Colors = ["#ceebc4", "#FAA61A", "#FF4080", "#FC00FE", "#FF8C5F", "#FF4080"]
 
-const ResultTable = () => {
+const StudentsByClassTable = () => {
   const [Data, setData] = useState([]);
   let TOKEN = localStorage.getItem("access_token");
 
@@ -147,4 +147,4 @@ const ResultTable = () => {
   );
 };
 
-export default ResultTable;
+export default StudentsByClassTable;

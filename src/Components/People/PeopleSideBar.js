@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../css/People/Sidebar/PeopleSideBar.css";
 
-const PeopleSideBar = () => {
+const PeopleSideBar = ({ opentab, opened }) => {
   return (
     <div className="PeopleSidebar">
       <div className="GroupView">
@@ -102,14 +102,25 @@ const PeopleSideBar = () => {
 
             <p>Teachers</p>
           </div>
-          <div className="GroupChildView">
-            <p>Users By Class</p>
+
+          <div
+            onClick={() => opentab("teachersbyclass")}
+            style={{ backgroundColor: opened == "teachersbyclass" && "#0368fc1a" }}
+            className={"GroupChildView"}
+          >
+            <p style={{ color: opened == "teachersbyclass" && "#0368fc" }}>
+              Users By Class
+            </p>
           </div>
-          <div className="GroupChildView">
-            <p>All Users</p>
-          </div>
-          <div className="GroupChildView">
-            <p>Recently Added</p>
+
+          <div
+            onClick={() => opentab("allteachers")}
+            style={{ backgroundColor: opened == "allteachers" && "#0368fc1a" }}
+            className={"GroupChildView"}
+          >
+            <p style={{ color: opened == "allteachers" && "#0368fc" }}>
+              All Users
+            </p>
           </div>
         </div>
 
@@ -145,15 +156,26 @@ const PeopleSideBar = () => {
 
             <p>Students</p>
           </div>
-          <div className="GroupChildView">
-            <p>Users By Class</p>
+           <div
+            onClick={() => opentab("studentsbyclass")}
+            style={{ backgroundColor: opened == "studentsbyclass" && "#0368fc1a" }}
+            className={"GroupChildView"}
+          >
+            <p style={{ color: opened == "studentsbyclass" && "#0368fc" }}>
+              Users By Class
+            </p>
           </div>
-          <div className="GroupChildView">
-            <p>All Users</p>
+          <div
+            onClick={() => opentab("allstudents")}
+            style={{ backgroundColor: opened == "allstudents" && "#0368fc1a" }}
+            className={"GroupChildView"}
+          >
+            <p style={{ color: opened == "allstudents" && "#0368fc" }}>
+            All Users
+            </p>
           </div>
-          <div className="GroupChildView">
-            <p>Recently Added</p>
-          </div>
+       
+       
         </div>
 
         <div className="GroupParentView">
@@ -188,11 +210,14 @@ const PeopleSideBar = () => {
 
             <p>Office Staff</p>
           </div>
-          <div className="GroupChildView">
-            <p>All Users</p>
-          </div>
-          <div className="GroupChildView">
-            <p>Recently Added</p>
+          <div
+            onClick={() => opentab("allstaff")}
+            style={{ backgroundColor: opened == "allstaff" && "#0368fc1a" }}
+            className={"GroupChildView"}
+          >
+            <p style={{ color: opened == "allstaff" && "#0368fc" }}>
+            All Users
+            </p>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ const Loadercss = css`
   margin-top: 6px;
 `;
 
-const AllTeachers = ({Minimize}) => {
+const TeachersByClass = ({Minimize}) => {
   const [addteacher, setaddteacher] = useState(false);
   const [minimize, setminimize] = useState(false);
   const [name, setname] = useState(null);
@@ -575,4 +575,4 @@ const AllTeachers = ({Minimize}) => {
   );
 };
 
-export default AllTeachers;
+export default TeachersByClass;
