@@ -12,3 +12,7 @@
   height: 100vh;
   margin-left: 69px;
 }
+
+p{
+  margin-bottom: 0px !important;
+}

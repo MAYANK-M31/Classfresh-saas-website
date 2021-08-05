@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "../../../css/Common/Header.css";
 
-const PeopleHeader = () => {
+const ClassesHeader = () => {
   return (
     <div className="header">
       <div className="TitleView">
-        <span>Users</span>
+        <span>Classes</span>
       </div>
       <div className="SearchView">
       </div>
@@ -86,4 +86,4 @@ const PeopleHeader = () => {
   );
 };
 
-export default PeopleHeader;
+export default ClassesHeader;

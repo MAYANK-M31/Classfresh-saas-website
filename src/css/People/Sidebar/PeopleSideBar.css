@@ -80,7 +80,7 @@
   min-height: 31px;
   /* background-color: #0076FE1A; */
   overflow: auto;
-  transition: all 0Peoplesidebar 0.1s ease-out;
+  transition: all 0.2s ease 0s;
 }
 
 .PeopleSidebar .GroupParentView p {
@@ -91,6 +91,8 @@
   margin: 0;
   margin-left: 10px;
   cursor: default;
+  transition: all 0.2s ease 0s;
+
 }
 
 .PeopleSidebar .GroupParentViewInside {
@@ -100,10 +102,13 @@
   overflow: auto;
   display: flex;
   align-items: center;
+  transition: all 0.2s ease 0s;
 }
 
 .PeopleSidebar .GroupParentViewInside:hover {
-  background-color: #0076fe1a;
+  background-color: rgba(109, 109, 109, 0.116);
+  transition: all 0.2s ease 0s;
+
 }
 
 .PeopleSidebar .GroupChildView {
@@ -112,10 +117,13 @@
   overflow: auto;
   display: flex;
   align-items: center;
+  transition: all 0.2s ease 0s;
 }
 
 .PeopleSidebar .GroupChildView:hover {
-  background-color: #0076fe1a;
+  background-color: rgba(109, 109, 109, 0.116);
+  transition: all 0.2s ease 0s;
+
 }
 
 .PeopleSidebar .GroupChildView p {
@@ -125,6 +133,8 @@
   font-family: sans-serif;
   margin: 0;
   margin-left: 70px;
+  transition: all 0.2s ease 0s;
+
 }
 
 .PeopleSidebar .SearchUserInputView {

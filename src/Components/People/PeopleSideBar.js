@@ -158,7 +158,7 @@ const PeopleSideBar = ({ opentab, opened }) => {
           </div>
            <div
             onClick={() => opentab("studentsbyclass")}
-            style={{ backgroundColor: opened == "studentsbyclass" && "#0368fc1a" }}
+            style={{ backgroundColor: opened == "studentsbyclass" && "#0368fc1a"}}
             className={"GroupChildView"}
           >
             <p style={{ color: opened == "studentsbyclass" && "#0368fc" }}>
