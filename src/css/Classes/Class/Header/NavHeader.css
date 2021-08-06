@@ -1,6 +1,6 @@
 .NavDiv {
   width: 100%;
-  height: 39px;
+  height: 45px;
   display: flex;
   align-items: center;
   position: relative;
@@ -17,6 +17,7 @@
   font-size: 15px;
   font-family: "Poppins", "sans-serif";
   font-weight: bold;
+  cursor: pointer;
 }
 
 .Line {
@@ -35,4 +36,14 @@
   bottom: 0;
   transition: all 0.2s ease;
   left: 0px;
+}
+
+.HighLightBarRight {
+  width: 105px;
+  height: 2.5px;
+  background-color: #0069ff;
+  position: absolute;
+  bottom: 0;
+  transition: all 0.2s ease;
+  left: 95px;
 }

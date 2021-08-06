@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const UtilityHeader = ({ ShowModal }) => {
+const StudentsUtilityHeader = ({ ShowModal }) => {
   return (
     <div className="UtilityDiv">
       <div className="InputDivLeft">
@@ -79,4 +79,4 @@ const UtilityHeader = ({ ShowModal }) => {
   );
 };
 
-export default UtilityHeader;
+export default StudentsUtilityHeader;

@@ -16,8 +16,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
 import StudentsTable from "../Class/Table/StudentsTable";
-import UtilityHeader from "../Class/Header/UtilityHeader";
+import TeachersTable from "../Class/Table/TeachersTable.";
+
+import StudentsUtilityHeader from "./Header/StudentsUtilityHeader";
 import NavHeader from "./Header/NavHeader";
+import TeachersUtilityHeader from "./Header/TeachersUtilityHeader";
 
 const Loadercss = css`
   display: block;
@@ -34,16 +37,30 @@ const Class = () => {
   const [alert, setalert] = useState(false);
   const [alertdata, setalertdata] = useState(null);
   const [Loader, setLoader] = useState(false);
+  const [Tab, setTab] = useState("students");
 
   return (
     <div className="Class">
       <ClassHeader classname={"X"} section={"B"} />
       <div className="Main-Div">
         <div className="Container-Div">
-          <NavHeader />
-          <UtilityHeader ShowModal={() => setModalShow(true)} />
-
-          <StudentsTable />
+          <NavHeader
+            StudentsTab={() => setTab("students")}
+            TeachersTab={() => setTab("teachers")}
+            IndicatorPosition={Tab == "students" ? 0 : 1}
+          />
+          {Tab == "students" && (
+            <>
+              <StudentsUtilityHeader ShowModal={() => setModalShow(true)} />
+              <StudentsTable />
+            </>
+          )}
+          {Tab == "teachers" && (
+            <>
+              <TeachersUtilityHeader ShowModal={() => setModalShow(true)} />
+              <TeachersTable />
+            </>
+          )}
         </div>
       </div>
       <MyVerticallyCenteredModal
