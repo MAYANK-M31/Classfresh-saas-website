@@ -5,16 +5,8 @@ import "../../../css/Classes/Table/ClassesTable.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, Router } from "react-router-dom";
 
-const Colors = [
-  "#ceebc4",
-  "#FAA61A",
-  "#FF4080",
-  "#FC00FE",
-  "#FF8C5F",
-  "#FF4080",
-];
+const Colors = ["#ceebc4", "#FAA61A", "#FF4080", "#FC00FE", "#FF8C5F", "#FF4080"]
 
 const ClassesTable = () => {
   const [Data, setData] = useState([]);
@@ -44,28 +36,25 @@ const ClassesTable = () => {
     });
   };
   const Row = () => {
-    return Data.map((item, i) => (
+    return Data.map((item,i) => (
       <tr key={item.uuid}>
-        <td>
-          <Link style={{ width: "100%" }}   to={"/users/class?class=6&section=b"}  >
-            <div className="RowNameDiv" style={{ color: "#0076FE" }}>
-              {item.name}
-            </div>
-          </Link>
+     
+             <td>
+          <div className="RowNameDiv" style={{color:"#0076FE"}} >
+          {item.name}
+          </div>
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
-          {item.class.length > 0
-            ? item.class.map((ele, i) =>
-                i == item.class.length - 1
-                  ? ele.section == null
-                    ? ele.class.label
-                    : ele.class.label + "-" + ele.section.label
-                  : ele.section == null
-                  ? ele.class.label + ", "
-                  : ele.class.label + "-" + ele.section.label + ", "
-              )
-            : "--"}
+          { item.class.length > 0 ?
+          item.class.map((ele, i) =>
+            i == item.class.length - 1 
+              ?  ele.section == null ?  ele.class.label : ele.class.label + "-" + ele.section.label 
+              :  ele.section == null ?  ele.class.label + ", "  : ele.class.label + "-" + ele.section.label + ", "
+          )
+          :
+          "--"
+          }
         </td>
         <td> {item.gender}</td>
         <td
@@ -74,6 +63,7 @@ const ClassesTable = () => {
             fontWeight: "bold",
           }}
         >
+          
           {item.status}
         </td>
       </tr>
@@ -85,11 +75,13 @@ const ClassesTable = () => {
       <table class="Table">
         <thead class="TableHeader">
           <tr>
+     
             <th
               className="TableHeaderColumn"
               style={{ width: "25%", minWidth: "350px" }}
               scope="col"
             >
+              
               Class
             </th>
             <th

@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { URL } from "../../../URL/URL";
-import "../../../css/Classes/Table/ClassesTable.css";
+import { URL } from "../../../../URL/URL";
+import "../../../../css/Classes/Class/Table/StudentsTable.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, Router } from "react-router-dom";
 
 const Colors = [
   "#ceebc4",
@@ -46,12 +45,20 @@ const ClassesTable = () => {
   const Row = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
+        <td
+          style={{
+            verticalAlign: "center",
+            paddingTop: "8px",
+            textAlign: "center",
+          }}
+        >
+          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
+        </td>
         <td>
-          <Link style={{ width: "100%" }}   to={"/users/class?class=6&section=b"}  >
-            <div className="RowNameDiv" style={{ color: "#0076FE" }}>
-              {item.name}
-            </div>
-          </Link>
+          <div className="RowNameDiv">
+            <div className="RowNameCircle">{i + 1}</div>
+            {item.name}
+          </div>
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
@@ -86,32 +93,55 @@ const ClassesTable = () => {
         <thead class="TableHeader">
           <tr>
             <th
+              style={{
+                minWidth: "60px",
+                maxWidth: "60px",
+                width: "60px",
+                height: "inherit",
+              }}
               className="TableHeaderColumn"
-              style={{ width: "25%", minWidth: "350px" }}
               scope="col"
             >
-              Class
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <input
+                  style={{ width: "18px", height: "18px" }}
+                  type="checkbox"
+                />
+              </div>
             </th>
             <th
               className="TableHeaderColumn"
               style={{ width: "25%", minWidth: "350px" }}
               scope="col"
             >
-              No. of Teachers
+              Name
+            </th>
+            <th
+              className="TableHeaderColumn"
+              style={{ width: "25%", minWidth: "350px" }}
+              scope="col"
+            >
+              Contact/Email
             </th>
             <th
               className="TableHeaderColumn"
               style={{ width: "15%", minWidth: "250px" }}
               scope="col"
             >
-              No. of Students
+              Class Assigned
             </th>
             <th
               className="TableHeaderColumn"
               style={{ width: "15%", minWidth: "250px" }}
               scope="col"
             >
-              Created On
+              Gender
             </th>
             <th
               className="TableHeaderColumn"

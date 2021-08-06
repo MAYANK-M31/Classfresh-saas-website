@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
-.Classes {
+.Class {
   width: 100%;
   height: 100vh;
   outline: none;
 }
 
-.Classes .Main-Div {
+.Class .Main-Div {
   width: 100%;
   height: 100%;
   display: flex;
@@ -18,7 +18,7 @@
   padding-inline: 50px;
 }
 
-.Classes .Container-Div {
+.Class .Container-Div {
   width: 100%;
   height: 100%;
   max-width: 2040px;
@@ -27,7 +27,7 @@
   /* background-color: aqua; */
 }
 
-.Classes .TitleDiv {
+.Class .TitleDiv {
   width: 100%;
   height: 40px;
   background-color: white;
@@ -36,32 +36,71 @@
   align-items: center;
 }
 
-.Classes .Title {
+.Class .Title {
   font-size: 25px;
   color: #506d85;
   font-weight: 100;
   font-family: "Poppins";
 }
 
-.Classes .UtilityDiv {
+.Class .UtilityDiv {
   width: 100%;
   height: 60px;
   background-color: white;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
-.Classes .InputDiv {
-  width: 600px;
+.Class .InputDivLeft {
+  width: auto;
   height: 100%;
-  /* background-color: white; */
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.Classes .SearchGroupInputView {
+.Class .InputDivRight {
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Class .ImportBtnDiv {
+  width: 90px;
+  height: 39px;
+  background-color: #5fdd70;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 100;
+  font-family: "Poppins";
+}
+
+.Class .ExportBtnDiv {
+  width: 90px;
+  height: 39px;
+  background-color: #0069ff;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 100;
+  font-family: "Poppins";
+  margin-left: 10px;
+}
+
+.Class .SearchGroupInputView {
   width: 198px;
   height: 39px;
   background-color: white;
@@ -74,7 +113,7 @@
   border: 1px solid #dfe1e6;
 }
 
-.Classes .SearchGroupIcon {
+.Class .SearchGroupIcon {
   width: 20%;
   height: 100%;
   display: flex;
@@ -82,7 +121,7 @@
   align-items: center;
 }
 
-.Classes .SearchGroupInput {
+.Class .SearchGroupInput {
   width: 90%;
   height: 100%;
   background-color: transparent;
@@ -93,7 +132,7 @@
   color: #506d85;
 }
 
-.Classes .CreateClassBtnDiv {
+.Class .CreateClassBtnDiv {
   width: 120px;
   height: 39px;
   background-color: #0069ff;
@@ -109,7 +148,23 @@
   margin-left: 10px;
 }
 
-.Classes .TableDiv {
+.Class .FilterBtnDiv {
+  width: 80px;
+  height: 39px;
+  background-color: #edeced;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #64656a;
+  font-size: 14px;
+  font-weight: 100;
+  font-family: "Poppins";
+  margin-left: 10px;
+}
+
+.Class .TableDiv {
   width: 100%;
   height: calc(100% - 40px - 60px);
   background-color: white;
@@ -136,7 +191,7 @@
   font-family: "Poppins";
 }
 
-.ModalCloseBtn{
+.ModalCloseBtn {
   width: 50px;
   height: 50px;
   background-color: white !important;
@@ -179,11 +234,10 @@
   align-items: flex-end;
 }
 
-
 .Modal-Button-Div Button {
   width: 100%;
   height: 44px;
-  background-color: #2F66FC;
+  background-color: #2f66fc;
   display: flex;
   justify-content: center;
   align-items: center;
