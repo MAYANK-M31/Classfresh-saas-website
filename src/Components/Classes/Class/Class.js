@@ -33,11 +33,12 @@ const Class = () => {
   const [ModalShow, setModalShow] = useState(false);
   const [ClassInput, setClassInput] = useState(null);
   const [section, setsection] = useState(null);
-  const [ClassSectionList, setClassSectionList] = useState([]);
-  const [alert, setalert] = useState(false);
-  const [alertdata, setalertdata] = useState(null);
+
   const [Loader, setLoader] = useState(false);
   const [Tab, setTab] = useState("students");
+
+  const [openstudentsidebar, setopenstudentsidebar] = useState(false);
+  const [openteachersidebar, setopenteachersidebar] = useState(false);
 
   return (
     <div className="Class">
@@ -51,14 +52,26 @@ const Class = () => {
           />
           {Tab == "students" && (
             <>
-              <StudentsUtilityHeader ShowModal={() => setModalShow(true)} />
-              <StudentsTable />
+              <StudentsUtilityHeader
+                ShowSideBar={() => setopenstudentsidebar(true)}
+                ShowModal={() => setModalShow(true)}
+              />
+              <StudentsTable
+                openSideBar={openstudentsidebar}
+                closeSideBar={() => setopenstudentsidebar(false)}
+              />
             </>
           )}
           {Tab == "teachers" && (
             <>
-              <TeachersUtilityHeader ShowModal={() => setModalShow(true)} />
-              <TeachersTable />
+              <TeachersUtilityHeader
+                ShowSideBar={() => setopenteachersidebar(true)}
+                ShowModal={() => setModalShow(true)}
+              />
+              <TeachersTable
+                openSideBar={openteachersidebar}
+                closeSideBar={() => setopenteachersidebar(false)}
+              />
             </>
           )}
         </div>

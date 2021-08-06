@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const TeachersUtilityHeader = ({ ShowModal }) => {
+const TeachersUtilityHeader = ({ ShowModal, ShowSideBar }) => {
   return (
     <div className="UtilityDiv">
       <div className="InputDivLeft">
@@ -26,7 +26,7 @@ const TeachersUtilityHeader = ({ ShowModal }) => {
           <input className="SearchGroupInput" placeholder="Search" />
         </div>
         <div>
-          <button onClick={ShowModal} className="CreateClassBtnDiv">
+          <button onClick={ShowSideBar} className="CreateClassBtnDiv">
             <p style={{ cursor: "pointer" }}>Add Teacher</p>
           </button>
         </div>
@@ -49,9 +49,7 @@ const TeachersUtilityHeader = ({ ShowModal }) => {
         </div>
       </div>
 
-
       <div className="InputDivRight">
-
         <div>
           <button onClick={ShowModal} className="ImportBtnDiv">
             <p style={{ cursor: "pointer" }}>Import</p>

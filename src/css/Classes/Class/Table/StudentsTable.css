@@ -1,6 +1,15 @@
+.Class .Main {
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: row;
+}
+
 .Class .TableDiv .Table {
   width: 100%;
-  
+
   /* overflow: hidden; */
   /* height: 100%; */
   position: relative;
@@ -13,7 +22,7 @@
   position: relative;
 }
 
-.Class  .TableDiv .TableHeader {
+.Class .TableDiv .TableHeader {
   width: 100%;
   height: 43px;
   background-color: #f2f3f5;
@@ -25,7 +34,7 @@
     bottom: 0; */
 }
 
-.Class  .TableDiv .TableHeaderColumn {
+.Class .TableDiv .TableHeaderColumn {
   width: 100%;
   height: 43px;
   background-color: white;
@@ -36,26 +45,25 @@
   border-bottom: solid;
   border-bottom-width: 0.5px;
   border-color: #8c97ac33;
-  
 }
 
-.Class  .TableDiv .TableHeader tr {
+.Class .TableDiv .TableHeader tr {
   width: 100%;
   height: inherit;
 }
 
-.Class  .TableDiv .TableHeader tr th {
+.Class .TableDiv .TableHeader tr th {
   font-size: 15px;
   color: #506d85;
   font-family: "Poppins", "sans-serif";
   font-weight: 100;
 }
 
-.Class  .TableDiv .TableRow {
+.Class .TableDiv .TableRow {
   margin-top: 680px;
 }
 
-.Class  .TableDiv .TableRow tr {
+.Class .TableDiv .TableRow tr {
   font-size: 15px;
   color: #2c385c;
   font-family: "Poppins", "sans-serif";
@@ -67,26 +75,25 @@
   border-color: #8c97ac33;
 }
 
-.Class  .TableDiv .TableRow tr:hover {
-    background-color: rgba(109, 109, 109, 0.116);
-
+.Class .TableDiv .TableRow tr:hover {
+  background-color: rgba(109, 109, 109, 0.116);
 }
 
-.Class  .TableDiv .TableRow tr:hover .RowNameDiv {
+.Class .TableDiv .TableRow tr:hover .RowNameDiv {
   color: #0475fc;
 }
 
-.Class  .TableDiv .TableRow {
+.Class .TableDiv .TableRow {
   overflow-y: scroll;
 }
 
-.Class  .TableDiv .RowNameDiv {
+.Class .TableDiv .RowNameDiv {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.Class  .TableDiv .RowNameCircle {
+.Class .TableDiv .RowNameCircle {
   width: 30px;
   height: 30px;
   min-width: 30px;
@@ -104,7 +111,7 @@
   margin-right: 10px;
 }
 
-.Class  .TableDiv .css-yk16xz-control {
+.Class .TableDiv .css-yk16xz-control {
   height: 48px;
   width: 100%;
   height: 48px;
@@ -115,7 +122,7 @@
   margin-bottom: 12px;
 }
 
-.Class  .TableDiv .css-1pahdxg-control {
+.Class .TableDiv .css-1pahdxg-control {
   height: 48px;
   width: 100%;
   height: 48px;
@@ -126,17 +133,237 @@
   margin-bottom: 12px;
 }
 
-.Class  .TableDiv .css-g1d714-ValueContainer {
+.Class .TableDiv .css-g1d714-ValueContainer {
   width: 100%;
   height: 48px;
 }
 
-.Class  .TableDiv .AddTeacherSaveBtn p {
+.Class .TableDiv .AddTeacherSaveBtn p {
   font-size: 15px;
   font-family: "Poppins", "sans-serif";
   color: white;
   font-weight: bold;
   margin: 0;
+}
+
+.Class .Right-Div {
+  width: 0px;
+  min-width: 0px;
+  height: 100%;
+  background-color: white;
+
+  transition: all 0.1s ease;
+  border: 0px  solid #e5e8ed;
+  border-radius: 3px;
+}
+
+.Class .Right-Div-Open {
+  width: 340px;
+  min-width: 340px;
+  height: 100%;
+  background-color: white;
+  transition: all 0.1s ease;
+  border: 1px  solid #e5e8ed;
+  border-radius: 3px;
+}
+
+.Class .RightDiv {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  /* background-color: yellowgreen; */
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.Class .TitleDiv {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.Class .TitleDiv p {
+  font-size: 19px;
+  color: #506d85;
+  font-family: "Poppins", "sans-serif";
+  margin: 0;
+}
+
+.Class .FormDataView {
+  width: 100%;
+  height: calc(100% - 210px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Class .AddDataForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 20px;
+  /* align-items: center; */
+  margin-top: 10px;
+}
+
+.Class .InputView {
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  padding: 16px;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+.Class .ClassSectionView {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.Class .ClassInputView {
+  width: 35%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  padding: 16px;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+.Class .ClassInputView:focus {
+  outline: none !important;
+  transition: all 0.1s linear;
+  border: 2.2px solid #0368fc;
+  padding: 15px;
+}
+
+.Class .AddClasses {
+  width: 65px;
+  height: 48px;
+  border-radius: 4px;
+  background-color: #0368fc00;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease;
+  color: #0368fc;
+  border: 2.2px solid #0368fc;
+  font-weight: bold;
+  transition: all 0.1s ease;
+}
+
+.Class .AddClasses:active {
+  background-color: #0367fc;
+  transition: all 0.1s ease;
+  color: white;
+}
+
+.Class .InputView:focus {
+  outline: none !important;
+  transition: all 0.1s linear;
+  border: 2px solid #0368fc;
+  padding: 15px;
+}
+
+.Class .AddTeacherSaveBtnDiv {
+  width: 340px;
+  height: auto;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-items: center;
+}
+
+.Class .AddTeacherSaveBtn {
+  width: calc(340px - 40px);
+  height: 48px;
+  border-radius: 4px;
+  background-color: #0368fc;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease;
+}
+
+.Class .AddTeacherSaveBtn:hover {
+  background-color: #0a58ce;
+  transition: all 0.1s ease;
+}
+
+.Class .AddTeacherSaveBtn:active {
+  background-color: #0368fc;
+  transition: all 0.1s ease;
+}
+
+.Class .css-yk16xz-control {
+  height: 48px;
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+.Class .css-1pahdxg-control {
+  height: 48px;
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  outline: none !important;
+  border: 1px solid #e5e8ed;
+  color: #031b4e;
+  margin-bottom: 12px;
+}
+
+.Class .css-g1d714-ValueContainer {
+  width: 100%;
+  height: 48px;
+}
+
+.Class .AddTeacherSaveBtn p {
+  font-size: 15px;
+  font-family: "Poppins", "sans-serif";
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  margin-left: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 0px;
 }
 
 /* width */
