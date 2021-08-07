@@ -13,6 +13,7 @@ import Result from "../Components/Result/Result";
 
 import Class from "../Components/Classes/Class/Class";
 import Users from "../Components/Classes/Classes";
+import AllUsers from "../Components/AllUsers/AllUsers"
 
 
 function Console() {
@@ -37,7 +38,7 @@ function Console() {
         <Route exact path="/users/classes" component={Users} />
         <Route path="/users/classes/:class" component={Class} />
 
-        <Route path="/users/all" component={People} />
+        <Route path="/users/all" component={AllUsers} />
         <Route path="/settings" component={Setting} />
       </div>
     </div>

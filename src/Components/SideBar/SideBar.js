@@ -18,12 +18,12 @@ const SideBar = () => {
       location.pathname === "/connect/students" ||
       location.pathname === "/connect/teachers"
     ) {
-      return setshowConnect(false);
+      setshowConnect(false);
     } else if (
       location.pathname === "/users/classes" ||
       location.pathname === "/users/all"
     ) {
-      return setshowUsers(false);
+      setshowUsers(false);
     }
   }, [location]);
 
@@ -119,7 +119,9 @@ const SideBar = () => {
               clearTimeout(x);
             }}
             onMouseLeave={() => {
-              setshowConnect(false);
+              x = setTimeout(() => {
+                setshowConnect(false);
+              }, 1000);
             }}
             className="dropdown"
             style={{
@@ -131,14 +133,26 @@ const SideBar = () => {
           >
             <h2>Connect</h2>
 
-            <Link style={{ textDecoration: "none" }} to="/connect/students">
+            <Link
+              onMouseEnter={() => {
+                setshowConnect(true);
+              }}
+              style={{ textDecoration: "none" }}
+              to="/connect/students"
+            >
               <div className="dropdown-content">
                 <img alt="class" src={classboard} />
                 <span>Students</span>
               </div>
             </Link>
 
-            <Link style={{ textDecoration: "none" }} to="/connect/teachers">
+            <Link
+              onMouseEnter={() => {
+                setshowConnect(true);
+              }}
+              style={{ textDecoration: "none" }}
+              to="/connect/teachers"
+            >
               <div className="dropdown-content">
                 <img alt="teacher" src={ConnectLogo} />
                 <span>Teachers</span>
@@ -158,7 +172,7 @@ const SideBar = () => {
           onMouseLeave={() => {
             x = setTimeout(() => {
               setshowConnect(false);
-            }, 500);
+            }, 1000);
           }}
           className="Box-Inside"
           style={{
@@ -221,7 +235,9 @@ const SideBar = () => {
               clearTimeout(x);
             }}
             onMouseLeave={() => {
-              setshowUsers(false);
+              x = setTimeout(() => {
+                setshowUsers(false);
+              }, 1000);
             }}
             className="dropdown"
             style={{
@@ -233,14 +249,26 @@ const SideBar = () => {
           >
             {/* <h2>Users</h2> */}
 
-            <Link style={{ textDecoration: "none" }} to="/users/classes">
+            <Link
+              onMouseEnter={() => {
+                setshowUsers(true);
+              }}
+              style={{ textDecoration: "none" }}
+              to="/users/classes"
+            >
               <div className="dropdown-content">
                 <img alt="class" src={classboard} />
                 <span>Classes</span>
               </div>
             </Link>
 
-            <Link style={{ textDecoration: "none" }} to="/users/all">
+            <Link
+              onMouseEnter={() => {
+                setshowUsers(true);
+              }}
+              style={{ textDecoration: "none" }}
+              to="/users/all"
+            >
               <div className="dropdown-content">
                 <img alt="teacher" src={ConnectLogo} />
                 <span>All Users</span>
@@ -260,7 +288,7 @@ const SideBar = () => {
           onMouseLeave={() => {
             x = setTimeout(() => {
               setshowUsers(false);
-            }, 500);
+            }, 1000);
           }}
           className="Box-Inside"
           style={{
