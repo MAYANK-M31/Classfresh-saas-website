@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, matchPath, useLocation } from "react-router-dom";
 import "../../css/SideBar.css";
 import { motion } from "framer-motion";
 import classboard from "../../Assets/Logos/blackboard.png";
@@ -19,14 +19,13 @@ const SideBar = () => {
       location.pathname === "/connect/teachers"
     ) {
       return setshowConnect(false);
-    }else  if (
+    } else if (
       location.pathname === "/users/classes" ||
       location.pathname === "/users/all"
     ) {
       return setshowUsers(false);
     }
   }, [location]);
-
 
   return (
     <nav className="SideBar">
@@ -152,7 +151,7 @@ const SideBar = () => {
           onMouseEnter={() => {
             if (showConnect !== true) {
               setshowConnect(true);
-              setshowUsers(false)
+              setshowUsers(false);
               clearTimeout(x);
             }
           }}
@@ -164,15 +163,9 @@ const SideBar = () => {
           className="Box-Inside"
           style={{
             backgroundColor:
-              location.pathname == "/connect/students"
-                ? "#0076FE"
-                : location.pathname == "/connect/teachers"
-                ? "#0076FE"
-                : null,
+              location.pathname.split("/")[1] == "connect" ? "#0076FE" : null,
             boxShadow:
-              location.pathname == "/connect/students"
-                ? "0px 0px 1px 1px #0475fc"
-                : location.pathname == "/connect/teachers"
+              location.pathname.split("/")[1] == "connect"
                 ? "0px 0px 1px 1px #0475fc"
                 : null,
           }}
@@ -188,9 +181,7 @@ const SideBar = () => {
             <path
               d="M16.625 5.25H6.125C5.642 5.25 5.25 5.642 5.25 6.125C5.25 6.608 5.642 7 6.125 7H16.625C17.108 7 17.5 6.608 17.5 6.125C17.5 5.642 17.108 5.25 16.625 5.25Z"
               fill={
-                location.pathname == "/connect/students"
-                  ? "white"
-                  : location.pathname == "/connect/teachers"
+                location.pathname.split("/")[1] == "connect"
                   ? "white"
                   : "#8C97AC"
               }
@@ -198,9 +189,7 @@ const SideBar = () => {
             <path
               d="M13.125 8.75H6.125C5.642 8.75 5.25 9.142 5.25 9.625C5.25 10.108 5.642 10.5 6.125 10.5H13.125C13.608 10.5 14 10.108 14 9.625C14 9.142 13.608 8.75 13.125 8.75Z"
               fill={
-                location.pathname == "/connect/students"
-                  ? "white"
-                  : location.pathname == "/connect/teachers"
+                location.pathname.split("/")[1] == "connect"
                   ? "white"
                   : "#8C97AC"
               }
@@ -208,9 +197,7 @@ const SideBar = () => {
             <path
               d="M19.25 0H3.5C1.56975 0 0 1.56975 0 3.5V21C0 21.3395 0.196 21.6493 0.504 21.7927C0.62125 21.847 0.749 21.875 0.875 21.875C1.07625 21.875 1.27575 21.805 1.435 21.672L6.44175 17.5H19.25C21.1803 17.5 22.75 15.9303 22.75 14V3.5C22.75 1.56975 21.1803 0 19.25 0ZM21 14C21 14.9642 20.216 15.75 19.25 15.75H6.125C5.92025 15.75 5.7225 15.8218 5.565 15.953L1.75 19.1327V3.5C1.75 2.53575 2.534 1.75 3.5 1.75H19.25C20.216 1.75 21 2.53575 21 3.5V14Z"
               fill={
-                location.pathname == "/connect/students"
-                  ? "white"
-                  : location.pathname == "/connect/teachers"
+                location.pathname.split("/")[1] == "connect"
                   ? "white"
                   : "#8C97AC"
               }
@@ -218,9 +205,7 @@ const SideBar = () => {
             <path
               d="M24.5 7C24.017 7 23.625 7.392 23.625 7.875C23.625 8.358 24.017 8.75 24.5 8.75C25.466 8.75 26.25 9.53575 26.25 10.5V25.3032L23.296 22.9408C23.142 22.8183 22.9478 22.75 22.75 22.75H10.5C9.534 22.75 8.75 21.9642 8.75 21V20.125C8.75 19.642 8.358 19.25 7.875 19.25C7.392 19.25 7 19.642 7 20.125V21C7 22.9303 8.56975 24.5 10.5 24.5H22.442L26.5773 27.8092C26.7365 27.9352 26.9307 28 27.125 28C27.2528 28 27.3822 27.972 27.5047 27.9142C27.8075 27.7673 28 27.461 28 27.125V10.5C28 8.56975 26.4303 7 24.5 7Z"
               fill={
-                location.pathname == "/connect/students"
-                  ? "white"
-                  : location.pathname == "/connect/teachers"
+                location.pathname.split("/")[1] == "connect"
                   ? "white"
                   : "#8C97AC"
               }
@@ -246,7 +231,7 @@ const SideBar = () => {
               left: "75px",
             }}
           >
-            <h2>Users</h2>
+            {/* <h2>Users</h2> */}
 
             <Link style={{ textDecoration: "none" }} to="/users/classes">
               <div className="dropdown-content">
@@ -268,7 +253,7 @@ const SideBar = () => {
           onMouseEnter={() => {
             if (showUsers !== true) {
               setshowUsers(true);
-              setshowConnect(false)
+              setshowConnect(false);
               clearTimeout(x);
             }
           }}
@@ -280,15 +265,9 @@ const SideBar = () => {
           className="Box-Inside"
           style={{
             backgroundColor:
-              location.pathname == "/users/classes"
-                ? "#0076FE"
-                : location.pathname == "/users/all"
-                ? "#0076FE"
-                : null,
+              location.pathname.split("/")[1] == "users" ? "#0076FE" : null,
             boxShadow:
-              location.pathname == "/users/classes"
-                ? "0px 0px 1px 1px #0475fc"
-                : location.pathname == "/users/all"
+              location.pathname.split("/")[1] == "users"
                 ? "0px 0px 1px 1px #0475fc"
                 : null,
           }}
@@ -304,25 +283,16 @@ const SideBar = () => {
             <path
               d="M27.6755 9.78119C28.6126 9.1227 29.2331 8.02733 29.2331 6.79266C29.2331 4.77288 27.5995 3.13932 25.5797 3.13932C23.56 3.13932 21.9264 4.77288 21.9264 6.79266C21.9264 8.02733 22.5406 9.1227 23.484 9.78119C22.6799 10.0598 21.9454 10.4903 21.3249 11.0475C20.4701 10.3194 19.4634 9.76219 18.3617 9.43295C19.6977 8.6225 20.5968 7.14723 20.5968 5.46936C20.5968 2.91138 18.5263 0.840942 15.9683 0.840942C13.4104 0.840942 11.3399 2.91771 11.3399 5.46936C11.3399 7.14723 12.2327 8.6225 13.575 9.43295C12.486 9.76219 11.4919 10.313 10.6435 11.0285C10.023 10.484 9.30115 10.0598 8.5097 9.78752C9.44677 9.12903 10.0673 8.03366 10.0673 6.799C10.0673 4.77921 8.43372 3.14565 6.41393 3.14565C4.39414 3.14565 2.76059 4.77921 2.76059 6.799C2.76059 8.03366 3.37475 9.12903 4.31816 9.78752C1.80451 10.655 0 13.042 0 15.8469V16.2648C0 16.2774 0.0126632 16.2901 0.0253265 16.2901H7.7689C7.72458 16.6383 7.69925 16.9992 7.69925 17.3601V17.7907C7.69925 19.6522 9.20617 21.1591 11.0677 21.1591H20.8817C22.7432 21.1591 24.2501 19.6522 24.2501 17.7907V17.3601C24.2501 16.9992 24.2248 16.6383 24.1805 16.2901H31.9747C31.9873 16.2901 32 16.2774 32 16.2648V15.8469C31.9873 13.0356 30.1892 10.6486 27.6755 9.78119ZM22.9395 6.78633C22.9395 5.33006 24.1235 4.14605 25.5797 4.14605C27.036 4.14605 28.22 5.33006 28.22 6.78633C28.22 8.22361 27.0613 9.39496 25.6304 9.42662C25.6114 9.42662 25.5987 9.42662 25.5797 9.42662C25.5607 9.42662 25.5481 9.42662 25.5291 9.42662C24.0918 9.40129 22.9395 8.22994 22.9395 6.78633ZM12.3403 5.46936C12.3403 3.4749 13.9612 1.854 15.9557 1.854C17.9501 1.854 19.571 3.4749 19.571 5.46936C19.571 7.39417 18.0578 8.97074 16.1646 9.07838C16.095 9.07838 16.0253 9.07838 15.9557 9.07838C15.886 9.07838 15.8164 9.07838 15.7467 9.07838C13.8536 8.97074 12.3403 7.39417 12.3403 5.46936ZM3.75465 6.78633C3.75465 5.33006 4.93866 4.14605 6.39493 4.14605C7.85121 4.14605 9.03522 5.33006 9.03522 6.78633C9.03522 8.22361 7.87653 9.39496 6.44559 9.42662C6.42659 9.42662 6.41393 9.42662 6.39493 9.42662C6.37594 9.42662 6.36328 9.42662 6.34428 9.42662C4.91334 9.40129 3.75465 8.22994 3.75465 6.78633ZM7.94618 15.2707H1.02572C1.31065 12.5734 3.59003 10.4587 6.35695 10.4397C6.36961 10.4397 6.38227 10.4397 6.39493 10.4397C6.4076 10.4397 6.42026 10.4397 6.43292 10.4397C7.7499 10.446 8.95291 10.9335 9.88366 11.725C8.9719 12.7127 8.29442 13.9284 7.94618 15.2707ZM23.2244 17.7907C23.2244 19.0887 22.167 20.146 20.869 20.146H11.055C9.75703 20.146 8.69964 19.0887 8.69964 17.7907V17.3601C8.69964 13.4282 11.8401 10.2117 15.7467 10.0978C15.8164 10.1041 15.8924 10.1041 15.962 10.1041C16.0317 10.1041 16.1076 10.1041 16.1773 10.0978C20.0839 10.2117 23.2244 13.4282 23.2244 17.3601V17.7907ZM23.9778 15.2707C23.6296 13.9347 22.9648 12.7381 22.0594 11.7503C22.9964 10.9399 24.2121 10.4523 25.5418 10.4397C25.5544 10.4397 25.5671 10.4397 25.5797 10.4397C25.5924 10.4397 25.6051 10.4397 25.6177 10.4397C28.3846 10.4587 30.664 12.5734 30.949 15.2707H23.9778Z"
               fill={
-                location.pathname == "/users/classes"
-                  ? "white"
-                  : location.pathname == "/users/all"
-                  ? "white"
-                  : "#8C97AC"
+                location.pathname.split("/")[1] == "users" ? "white" : "#8C97AC"
               }
               stroke={
-                location.pathname == "/users/classes"
-                  ? "white"
-                  : location.pathname == "/users/all"
-                  ? "white"
-                  : "#8C97AC"
+                location.pathname.split("/")[1] == "users" ? "white" : "#8C97AC"
               }
               stroke-width="0.5"
             />
           </motion.svg>
         </div>
       </div>
-
 
       <div className="Box">
         <Link to="/feecollection">

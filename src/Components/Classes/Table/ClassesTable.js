@@ -47,7 +47,7 @@ const ClassesTable = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
         <td>
-          <Link style={{ width: "100%" }}   to={"/users/class?class=6&section=b"}  >
+          <Link style={{ width: "100%" }}   to={"/users/classes/class?class=6&section=b"}  >
             <div className="RowNameDiv" style={{ color: "#0076FE" }}>
               {item.name}
             </div>

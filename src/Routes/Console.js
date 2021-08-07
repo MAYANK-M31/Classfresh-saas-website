@@ -10,8 +10,9 @@ import Teachers from "../Components/Connect/Teachers";
 import Students from "../Components/Connect/Students";
 import FeeCollection from "../Components/FeeCollection/FeeCollection";
 import Result from "../Components/Result/Result";
-import Classes from "../Components/Classes/Classes";
+
 import Class from "../Components/Classes/Class/Class";
+import Users from "../Components/Classes/Classes";
 
 
 function Console() {
@@ -33,8 +34,8 @@ function Console() {
         <Route path="/connect/teachers" component={Teachers} />
         <Route path="/feecollection" component={FeeCollection} />
         <Route path="/result" component={Result} />
-        <Route path="/users/classes" component={Classes} />
-        <Route path="/users/class" component={Class} />
+        <Route exact path="/users/classes" component={Users} />
+        <Route path="/users/classes/:class" component={Class} />
 
         <Route path="/users/all" component={People} />
         <Route path="/settings" component={Setting} />

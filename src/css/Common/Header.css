@@ -134,3 +134,14 @@
   justify-content: center;
   align-items: center;
 }
+
+.BackBtn{
+  width: 37px;
+  height: 37px;
+  background-color: #8c97ac2f;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}

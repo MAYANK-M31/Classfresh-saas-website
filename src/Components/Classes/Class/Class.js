@@ -53,7 +53,7 @@ const Class = () => {
           {Tab == "students" && (
             <>
               <StudentsUtilityHeader
-                ShowSideBar={() => setopenstudentsidebar(true)}
+                ShowSideBar={() => {openstudentsidebar ? setopenstudentsidebar(false) : setopenstudentsidebar(true)}}
                 ShowModal={() => setModalShow(true)}
               />
               <StudentsTable
@@ -65,7 +65,7 @@ const Class = () => {
           {Tab == "teachers" && (
             <>
               <TeachersUtilityHeader
-                ShowSideBar={() => setopenteachersidebar(true)}
+                ShowSideBar={() => {openteachersidebar ? setopenteachersidebar(false) : setopenteachersidebar(true)}}
                 ShowModal={() => setModalShow(true)}
               />
               <TeachersTable
