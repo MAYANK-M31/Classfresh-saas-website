@@ -1,4 +1,10 @@
-import React, { Component, useState } from "react";
+import React, {
+  Component,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "../../css/Classes/Classes.css";
 import ClassesHeader from "./Header/ClassesHeader";
 
@@ -7,16 +13,18 @@ import ClassesTable from "./Table/ClassesTable";
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
 
-import Select from "react-select";
-import Chip from "@material-ui/core/Chip";
+import { URL } from "../../URL/URL";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
+import MoonLoader from "react-spinners/MoonLoader";
+
 import NavHeader from "../Classes/Header/NavHeader";
 import ClassesUtilityHeader from "./Header/ClassesUtilityHeader";
+import axios from "axios";
 
 const Loadercss = css`
   display: block;
@@ -28,61 +36,128 @@ const Loadercss = css`
 const Classes = () => {
   const [ModalShow, setModalShow] = useState(false);
   const [ClassInput, setClassInput] = useState(null);
-  const [section, setsection] = useState(null);
+  const [Section, setSection] = useState(null);
   const [Loader, setLoader] = useState(false);
+  const [Loading, setLoading] = useState(true);
 
-  const [Tab, setTab] = useState("students");
+  let TOKEN = localStorage.getItem("access_token");
 
-  const [openalluserssidebar, setopenalluserssidebar] = useState(false);
+  const [Data, setData] = useState([]);
+
+  useEffect(() => {
+    FetchRow();
+  }, []);
+
+  const FetchRow = async () => {
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/batch/fetch`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+    }).then(({ data }) => {
+      console.log(data.payload);
+      if (data.status == 200) {
+        setLoading(false);
+        return setData(data.payload.data);
+      } else {
+        setLoading(false);
+        return toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 3000,
+        });
+      }
+    });
+  };
+
+  const HandleCreateClass = useCallback(async (e) => {
+    e.preventDefault();
+
+    if (!ClassInput)
+      return toast.error("Please Select Class", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    setLoader(false);
+
+    setLoader(true);
+
+    const Body = {
+      batch: {
+        class: ClassInput,
+        section: Section,
+      },
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/batch/create`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          setLoader(false);
+          setModalShow(false);
+          setClassInput(null);
+          setSection(null);
+          FetchRow();
+          toast.success("New Batch Created Successfully ", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+        setLoader(false);
+      });
+  });
 
   return (
     <div className="Classes">
       <ClassesHeader />
-
-      {/* {Tab == "students" && (
-            <>
-              <StudentsUtilityHeader
-                ShowSideBar={() => setopenstudentsidebar(true)}
-                ShowModal={() => setModalShow(true)}
-              />
-              <StudentsTable
-                openSideBar={openstudentsidebar}
-                closeSideBar={() => setopenstudentsidebar(false)}
-              />
-            </>
-          )}
-          {Tab == "teachers" && (
-            <>
-              <TeachersUtilityHeader
-                ShowSideBar={() => setopenteachersidebar(true)}
-                ShowModal={() => setModalShow(true)}
-              />
-              <TeachersTable
-                openSideBar={openteachersidebar}
-                closeSideBar={() => setopenteachersidebar(false)}
-              />
-            </>
-          )} */}
-
-      <div className="Main-Div">
-        <div className="Container-Div">
-          {/* <NavHeader
-            StudentsTab={() => setTab("students")}
-            TeachersTab={() => setTab("teachers")}
-            IndicatorPosition={Tab == "students" ? 0 : 1}
-          /> */}
-          <ClassesUtilityHeader ShowModal={() => setModalShow(true)} />
-          <ClassesTable />
+      {!Loading ? (
+        <div className="Main-Div">
+          <div className="Container-Div">
+            <ClassesUtilityHeader ShowModal={() => setModalShow(true)} />
+            <ClassesTable Data={Data} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="Main-Div">
+          <MoonLoader
+            color={"#0d71eb"}
+            loading={true}
+            css={Loadercss}
+            size={80}
+            margin={3}
+          />
+        </div>
+      )}
+      <ToastContainer />
 
       <MyVerticallyCenteredModal
         show={ModalShow}
         onHide={() => setModalShow(false)}
         ClassOptions={ClassOptions}
         ClassInput={ClassInput}
+        Section={Section}
+        HandleCreateClass={(e) => HandleCreateClass(e)}
         setSection={(e) => {
-          setsection(e);
+          setSection(e);
         }}
         setClass={(e) => {
           setClassInput(e);
@@ -140,7 +215,7 @@ function MyVerticallyCenteredModal(props) {
         <div>CREATE CLASS</div>
       </div>
 
-      <Form className="FormView">
+      <Form onSubmit={(e) => props.HandleCreateClass(e)} className="FormView">
         <Form.Group className="mb-3 " controlId="ModalInputFormView">
           <Form.Label>Class</Form.Label>
           <div style={{ width: "100%" }}>
@@ -156,7 +231,7 @@ function MyVerticallyCenteredModal(props) {
                 DropdownIndicator: () => null,
                 IndicatorSeparator: () => null,
               }}
-              value={props.ClassInput}
+              // value={props.ClassInput}
               onChange={(e) => {
                 props.setClass(e);
               }}
@@ -178,7 +253,7 @@ function MyVerticallyCenteredModal(props) {
                 DropdownIndicator: () => null,
                 IndicatorSeparator: () => null,
               }}
-              value={props.section}
+              // value={props.Section}
               onChange={(e) => {
                 props.setSection(e);
               }}

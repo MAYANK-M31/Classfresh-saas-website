@@ -16,58 +16,25 @@ const Colors = [
   "#FF4080",
 ];
 
-const ClassesTable = () => {
-  const [Data, setData] = useState([]);
-  let TOKEN = localStorage.getItem("access_token");
-
-  useEffect(() => {
-    FetchRow();
-  }, []);
-
-  const FetchRow = async () => {
-    await axios({
-      method: "get", //you can set what request you want to be
-      url: `${URL}/teacher/fetch`,
-      headers: {
-        Authorization: "Bearer " + TOKEN,
-      },
-    }).then(({ data }) => {
-      console.log(data);
-      if (data.status == 200) {
-        return setData(data.data);
-      } else {
-        return toast.error("Something went wrong", {
-          position: "bottom-left",
-          autoClose: 3000,
-        });
-      }
-    });
-  };
+const ClassesTable = React.memo(({Data}) => {
+  
   const Row = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
         <td>
-          <Link style={{ width: "100%" }}   to={"/users/classes/class?class=6&section=b"}  >
+          <Link
+            style={{ width: "100%" }}
+            to={"/users/classes/class?class=6&section=b"}
+          >
             <div className="RowNameDiv" style={{ color: "#0076FE" }}>
-              {item.name}
+              {item.batch.class.label ? item.batch.class.label : " "}
+              {item.batch.section ? "-" + item.batch.section.label : " "}
             </div>
           </Link>
         </td>
-        <td> {item.contact}</td>
-        <td style={{ paddingRight: "30px" }}>
-          {item.class.length > 0
-            ? item.class.map((ele, i) =>
-                i == item.class.length - 1
-                  ? ele.section == null
-                    ? ele.class.label
-                    : ele.class.label + "-" + ele.section.label
-                  : ele.section == null
-                  ? ele.class.label + ", "
-                  : ele.class.label + "-" + ele.section.label + ", "
-              )
-            : "--"}
-        </td>
-        <td> {item.gender}</td>
+        <td>4</td>
+        <td style={{ paddingRight: "30px" }}>5</td>
+        <td> {item.createdAt}</td>
         <td
           style={{
             color: item.status == "active" ? "#56cd73" : "#f65e72",
@@ -128,6 +95,6 @@ const ClassesTable = () => {
       </table>
     </div>
   );
-};
+});
 
 export default ClassesTable;
