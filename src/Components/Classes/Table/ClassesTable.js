@@ -32,8 +32,8 @@ const ClassesTable = React.memo(({Data}) => {
             </div>
           </Link>
         </td>
-        <td>4</td>
-        <td style={{ paddingRight: "30px" }}>5</td>
+        <td>{item.totalteachers}</td>
+        <td style={{ paddingRight: "30px" }}>{item.totalstudents}</td>
         <td> {item.createdAt}</td>
         <td
           style={{
