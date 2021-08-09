@@ -17,7 +17,6 @@ const Colors = [
 ];
 
 const ClassesTable = React.memo(({Data}) => {
-  
   const Row = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
@@ -34,7 +33,7 @@ const ClassesTable = React.memo(({Data}) => {
         </td>
         <td>{item.totalteachers}</td>
         <td style={{ paddingRight: "30px" }}>{item.totalstudents}</td>
-        <td> {item.createdAt}</td>
+        <td> {new Date(item.createdAt).toLocaleDateString()}</td>
         <td
           style={{
             color: item.status == "active" ? "#56cd73" : "#f65e72",
