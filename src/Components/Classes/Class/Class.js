@@ -7,8 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
 
-import Select from "react-select";
-import Chip from "@material-ui/core/Chip";
+import * as qs from "query-string";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +28,7 @@ const Loadercss = css`
   margin-top: 6px;
 `;
 
-const Class = () => {
+const Class = (props) => {
   const [ModalShow, setModalShow] = useState(false);
   const [ClassInput, setClassInput] = useState(null);
   const [section, setsection] = useState(null);
@@ -40,9 +39,14 @@ const Class = () => {
   const [openstudentsidebar, setopenstudentsidebar] = useState(false);
   const [openteachersidebar, setopenteachersidebar] = useState(false);
 
+  const parsedQuery = qs.parse(props.location.search);
+// console.log(parsedQuery.classlabel);
   return (
     <div className="Class">
-      <ClassHeader classname={"X"} section={"B"} />
+      <ClassHeader
+        classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
+        section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
+      />
       <div className="Main-Div">
         <div className="Container-Div">
           <NavHeader
@@ -53,24 +57,34 @@ const Class = () => {
           {Tab == "students" && (
             <>
               <StudentsUtilityHeader
-                ShowSideBar={() => {openstudentsidebar ? setopenstudentsidebar(false) : setopenstudentsidebar(true)}}
+                ShowSideBar={() => {
+                  openstudentsidebar
+                    ? setopenstudentsidebar(false)
+                    : setopenstudentsidebar(true);
+                }}
                 ShowModal={() => setModalShow(true)}
               />
               <StudentsTable
                 openSideBar={openstudentsidebar}
                 closeSideBar={() => setopenstudentsidebar(false)}
+                parsedQuery={parsedQuery}
               />
             </>
           )}
           {Tab == "teachers" && (
             <>
               <TeachersUtilityHeader
-                ShowSideBar={() => {openteachersidebar ? setopenteachersidebar(false) : setopenteachersidebar(true)}}
+                ShowSideBar={() => {
+                  openteachersidebar
+                    ? setopenteachersidebar(false)
+                    : setopenteachersidebar(true);
+                }}
                 ShowModal={() => setModalShow(true)}
               />
               <TeachersTable
                 openSideBar={openteachersidebar}
                 closeSideBar={() => setopenteachersidebar(false)}
+                parsedQuery={parsedQuery}
               />
             </>
           )}

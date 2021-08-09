@@ -16,14 +16,26 @@ const Colors = [
   "#FF4080",
 ];
 
-const ClassesTable = React.memo(({Data}) => {
+const ClassesTable = React.memo(({ Data }) => {
   const Row = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
         <td>
           <Link
             style={{ width: "100%" }}
-            to={"/users/classes/class?class=6&section=b"}
+            to={{
+              pathname: `/users/classes/class`,
+              search: `class=${
+                item.batch.class.value ? item.batch.class.value : null
+              }&section=${
+                item.batch.section ?  item.batch.section.value : null
+              }&classlabel=${
+                item.batch.class.value ? item.batch.class.label : null
+              }&sectionlabel=${
+                item.batch.section ?  item.batch.section.label : null
+              }&batchId=${item.batchId}
+              &schId=${item.schId}`,
+            }}
           >
             <div className="RowNameDiv" style={{ color: "#0076FE" }}>
               {item.batch.class.label ? item.batch.class.label : " "}

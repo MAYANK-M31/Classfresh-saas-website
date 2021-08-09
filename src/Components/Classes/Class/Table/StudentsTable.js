@@ -22,14 +22,13 @@ const options = [
   { value: "female", label: "Female" },
 ];
 
-const StudentsTable = ({ openSideBar,closeSideBar }) => {
+const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
   const [Data, setData] = useState([]);
 
   const [name, setname] = useState(null);
   const [contact, setcontact] = useState(null);
   const [gender, setgender] = useState(null);
-  const [Class, setClass] = useState(null);
-  const [section, setsection] = useState(null);
+
   const [ClassSectionList, setClassSectionList] = useState([]);
   const [Loader, setLoader] = useState(false);
   const [RenderList, setRenderList] = useState(false);
@@ -50,12 +49,19 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
       gender: gender.value,
       class: ClassSectionList,
       status: "active",
+      batch: {
+        class: { value: parsedQuery.class, label: parsedQuery.classlabel },
+        section: {
+          value: parsedQuery.section,
+          label: parsedQuery.sectionlabel,
+        },
+      },
     };
     setLoader(true);
 
     await axios({
       method: "post", //you can set what request you want to be
-      url: `${URL}/teacher/add`,
+      url: `${URL}/student/add`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
@@ -67,8 +73,6 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
           setname("");
           setcontact("");
           setgender(null);
-          setClass(null);
-          setsection(null);
 
           toast.success("New Teacher added ", {
             position: "bottom-left",
@@ -76,7 +80,7 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
           });
           FetchRow();
         } else {
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "bottom-left",
             autoClose: 3000,
           });
@@ -99,14 +103,16 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
   const FetchRow = async () => {
     await axios({
       method: "get", //you can set what request you want to be
-      url: `${URL}/teacher/fetch`,
+      url: `${URL}/student/bybatch/fetch`,
+      params:{ batchId: parsedQuery.batchId },
+
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
     }).then(({ data }) => {
-      console.log(data);
+      console.log(data.payload.data);
       if (data.status == 200) {
-        return setData(data.data);
+        return setData(data.payload.data);
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
@@ -135,7 +141,7 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
-          {item.class.length > 0
+          {/* {item.class.length > 0
             ? item.class.map((ele, i) =>
                 i == item.class.length - 1
                   ? ele.section == null
@@ -145,7 +151,7 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
                   ? ele.class.label + ", "
                   : ele.class.label + "-" + ele.section.label + ", "
               )
-            : "--"}
+            : "--"} */}
         </td>
         <td> {item.gender}</td>
         <td
@@ -232,7 +238,7 @@ const StudentsTable = ({ openSideBar,closeSideBar }) => {
         </table>
       </div>
 
-      <div  className={!openSideBar ? "Right-Div" : "Right-Div-Open"}>
+      <div className={!openSideBar ? "Right-Div" : "Right-Div-Open"}>
         <div className="TitleDiv">
           <p>New Student</p>
           <svg

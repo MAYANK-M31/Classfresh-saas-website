@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../../../../css/Common/Header.css";
 
 const ClassHeader = ({ classname, section }) => {
+  
   return (
     <div className="header">
       <div className="TitleView">
@@ -22,7 +23,10 @@ const ClassHeader = ({ classname, section }) => {
             />
           </svg>
         </Link>
-        <span>{`Class > ${classname}-${section}`}</span>
+
+        <span>Class</span>
+        <span>{classname && (" > "+classname)}</span>
+        <span>{section == "null" ? " " : !section ? " ":  "-"+ section }</span>
       </div>
       <div className="SearchView"></div>
 

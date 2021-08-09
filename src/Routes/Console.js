@@ -38,7 +38,7 @@ function Console() {
         <Route exact path="/users/classes" component={Users} />
         <Route path="/users/classes/:class" component={Class} />
 
-        <Route path="/users/all" component={AllUsers} />
+        <Route path="/users/all" component={People} />
         <Route path="/settings" component={Setting} />
       </div>
     </div>
