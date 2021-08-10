@@ -30,7 +30,7 @@ const ClassesTable = React.memo(({ Data }) => {
               }&section=${
                 item.batch.section ?  item.batch.section.value : null
               }&classlabel=${
-                item.batch.class.value ? item.batch.class.label : null
+                item.batch.class ? item.batch.class.label : null
               }&sectionlabel=${
                 item.batch.section ?  item.batch.section.label : null
               }&batchId=${item.batchId}

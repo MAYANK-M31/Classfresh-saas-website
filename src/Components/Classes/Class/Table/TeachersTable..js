@@ -28,6 +28,7 @@ const TeachersTable = ({
   closeSideBar,
   ExistingTeacherModal,
   CloseExistingTeacherModal,
+  parsedQuery,
 }) => {
   const [Data, setData] = useState([]);
 
@@ -141,15 +142,12 @@ const TeachersTable = ({
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
-          {item.class.length > 0
-            ? item.class.map((ele, i) =>
-                i == item.class.length - 1
-                  ? ele.section == null
-                    ? ele.class.label
-                    : ele.class.label + "-" + ele.section.label
-                  : ele.section == null
-                  ? ele.class.label + ", "
-                  : ele.class.label + "-" + ele.section.label + ", "
+          {item.batches.length > 0
+            ? item.batches.map((element) => 
+                element.batchId == parsedQuery.batchId.trim()
+                  ? element.batch.class.label  + "-" + element.batch.section.label 
+                  
+                  : null
               )
             : "--"}
         </td>
@@ -393,21 +391,22 @@ function TeacherModal(props) {
               />
             </svg>
           </div>
-          <input className="SearchGroupInput" placeholder="Search name or contact" />
+          <input
+            className="SearchGroupInput"
+            placeholder="Search name or contact"
+          />
         </div>
       </div>
 
       <div className="ListDiv">
         <div className="RowDiv">
           <div className="NameDiv">
-            <p className="Name" >Mayank malhotra</p>
-            <p className="Contact" >8076705075</p>
+            <p className="Name">Mayank malhotra</p>
+            <p className="Contact">8076705075</p>
           </div>
           <div className="BatchDiv"></div>
           <div className="BtnDiv">
-          <div className="Btn">
-            Add
-            </div>
+            <div className="Btn">Add</div>
           </div>
         </div>
       </div>
