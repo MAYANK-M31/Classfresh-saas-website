@@ -52,8 +52,8 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
       batch: {
         class: { value: parsedQuery.class, label: parsedQuery.classlabel },
         section: {
-          value: parsedQuery.section,
-          label: parsedQuery.sectionlabel,
+          value: parsedQuery.section !== "null" ? parsedQuery.section : null  ,
+          label: parsedQuery.sectionlabel  !== "null" ? parsedQuery.sectionlabel : null ,
         },
       },
     };
@@ -141,17 +141,8 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
         </td>
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
-          {/* {item.class.length > 0
-            ? item.class.map((ele, i) =>
-                i == item.class.length - 1
-                  ? ele.section == null
-                    ? ele.class.label
-                    : ele.class.label + "-" + ele.section.label
-                  : ele.section == null
-                  ? ele.class.label + ", "
-                  : ele.class.label + "-" + ele.section.label + ", "
-              )
-            : "--"} */}
+          {item.batch.class ? item.batch.class.label ? item.batch.class.label : null : null  }
+          {item.batch.section ? item.batch.section.label ? "-" + item.batch.section.label : "" : ""  }
         </td>
         <td> {item.gender}</td>
         <td

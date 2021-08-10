@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 
-const TeachersUtilityHeader = ({ ShowModal, ShowSideBar }) => {
+const TeachersUtilityHeader = ({
+  ShowModal,
+  ShowSideBar,
+  ShowExistingTeacherModal,
+}) => {
   return (
     <div className="UtilityDiv">
       <div className="InputDivLeft">
@@ -31,9 +35,13 @@ const TeachersUtilityHeader = ({ ShowModal, ShowSideBar }) => {
           </button>
         </div>
         <div>
-          <button onClick={ShowModal} className="FilterBtnDiv">
-            <p style={{ cursor: "pointer" }}>Filter</p>
-            <svg
+          <button
+            onClick={ShowExistingTeacherModal}
+            style={{ width: "200px" }}
+            className="FilterBtnDiv"
+          >
+            <p style={{ cursor: "pointer" }}>Add Saved Teacher</p>
+            {/* <svg
               width="15"
               height="15"
               viewBox="0 0 15 15"
@@ -44,7 +52,7 @@ const TeachersUtilityHeader = ({ ShowModal, ShowSideBar }) => {
                 d="M5.64524 7.08807C5.80265 7.25937 5.88907 7.48314 5.88907 7.71463V14.5357C5.88907 14.9462 6.38445 15.1546 6.67767 14.866L8.58047 12.6854C8.8351 12.3798 8.97554 12.2286 8.97554 11.9261V7.71617C8.97554 7.48468 9.0635 7.26091 9.21937 7.0896L14.6793 1.16514C15.0883 0.72069 14.7735 0 14.1685 0H0.696082C0.0911348 0 -0.225228 0.719147 0.185272 1.16514L5.64524 7.08807Z"
                 fill="#64656A"
               />
-            </svg>
+            </svg> */}
           </button>
         </div>
       </div>

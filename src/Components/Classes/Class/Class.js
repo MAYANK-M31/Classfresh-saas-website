@@ -39,8 +39,10 @@ const Class = (props) => {
   const [openstudentsidebar, setopenstudentsidebar] = useState(false);
   const [openteachersidebar, setopenteachersidebar] = useState(false);
 
+  const [ExistingTeacherModal, setExistingTeacherModal] = useState(false);
+
   const parsedQuery = qs.parse(props.location.search);
-// console.log(parsedQuery.classlabel);
+  // console.log(parsedQuery.classlabel);
   return (
     <div className="Class">
       <ClassHeader
@@ -79,12 +81,19 @@ const Class = (props) => {
                     ? setopenteachersidebar(false)
                     : setopenteachersidebar(true);
                 }}
+                ShowExistingTeacherModal={() => {
+                  ExistingTeacherModal
+                    ? setExistingTeacherModal(false)
+                    : setExistingTeacherModal(true);
+                }}
                 ShowModal={() => setModalShow(true)}
               />
               <TeachersTable
                 openSideBar={openteachersidebar}
                 closeSideBar={() => setopenteachersidebar(false)}
                 parsedQuery={parsedQuery}
+                ExistingTeacherModal={ExistingTeacherModal}
+                CloseExistingTeacherModal={()=>setExistingTeacherModal(false)}
               />
             </>
           )}

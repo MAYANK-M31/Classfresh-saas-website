@@ -104,8 +104,12 @@ const ClassesTable = React.memo(({ Data }) => {
 
         <tbody className="TableRow">{Row()}</tbody>
       </table>
+      
     </div>
   );
 });
+
+
+
 
 export default ClassesTable;
