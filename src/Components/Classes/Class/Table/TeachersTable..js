@@ -28,6 +28,7 @@ const TeachersTable = ({
   closeSideBar,
   ExistingTeacherModal,
   CloseExistingTeacherModal,
+  ShowExistingTeacherModal,
   parsedQuery,
 }) => {
   const [Data, setData] = useState([]);
@@ -56,13 +57,13 @@ const TeachersTable = ({
       contact: contact,
       gender: gender.value,
       class: ClassSectionList,
-      status: "active",
+      batchId: parsedQuery.batchId,
     };
     setLoader(true);
 
     await axios({
       method: "post", //you can set what request you want to be
-      url: `${URL}/teacher/add`,
+      url: `${URL}/teacher/batch/batchId/assign/new`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
@@ -82,9 +83,17 @@ const TeachersTable = ({
             autoClose: 3000,
           });
           FetchRow();
+        } else if (res.data.code == "ADD_EXISTING") {
+          toast.error("Please select from saved Teachers.Teacher already present in other batch", {
+            style:{backgroundColor:"#f65e72"},
+            position: "top-right",
+            autoClose: 5000,
+          });
+          ShowExistingTeacherModal();
+          setLoader(false);
         } else {
-          toast.warning(res.data.message, {
-            position: "bottom-left",
+          toast.error(res.data.message, {
+            position: "top-center",
             autoClose: 3000,
           });
           setLoader(false);
@@ -92,7 +101,7 @@ const TeachersTable = ({
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "bottom-left",
+          position: "top-center",
           autoClose: 3000,
         });
         setLoader(false);
@@ -106,7 +115,7 @@ const TeachersTable = ({
   const FetchRow = async () => {
     await axios({
       method: "get", //you can set what request you want to be
-      url: `${URL}/teacher/fetch`,
+      url: `${URL}/teacher/bybatch/fetch?batchId=${parsedQuery.batchId}`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
@@ -143,10 +152,11 @@ const TeachersTable = ({
         <td> {item.contact}</td>
         <td style={{ paddingRight: "30px" }}>
           {item.batches.length > 0
-            ? item.batches.map((element) => 
+            ? item.batches.map((element) =>
                 element.batchId == parsedQuery.batchId.trim()
-                  ? element.batch.class.label  + "-" + element.batch.section.label 
-                  
+                  ? element.batch.class.label +
+                    "-" +
+                    element.batch.section.label
                   : null
               )
             : "--"}

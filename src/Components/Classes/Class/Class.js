@@ -92,6 +92,7 @@ const Class = (props) => {
                 openSideBar={openteachersidebar}
                 closeSideBar={() => setopenteachersidebar(false)}
                 parsedQuery={parsedQuery}
+                ShowExistingTeacherModal={()=>setExistingTeacherModal(true)}
                 ExistingTeacherModal={ExistingTeacherModal}
                 CloseExistingTeacherModal={()=>setExistingTeacherModal(false)}
               />
