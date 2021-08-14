@@ -102,8 +102,8 @@ const TeachersTable = ({
             }
           );
           ShowExistingTeacherModal();
-          setsearchSavedTeacher(contact)
-          SearchExistingTeacher(contact)
+          setsearchSavedTeacher(contact);
+          SearchExistingTeacher(contact);
           setLoader(false);
         } else {
           toast.error(res.data.message, {
@@ -186,6 +186,44 @@ const TeachersTable = ({
 
     setsearchSavedTeacher(value);
     debounceSearch(value);
+  }, []);
+
+  const AssignBatch = useCallback(async (data) => {
+    const Payload = {
+      teacherId:data.uuid,
+      batchId:parsedQuery.batchId
+    }
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/teacher/batch/assign/existing`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Payload,
+    }).then((res)=>{
+      if (res.data.status == 200) {
+        setname("");
+        setcontact("");
+        setgender(null);
+        setClass(null);
+        setsection(null);
+        SearchExistingTeacher("")
+        setsearchSavedTeacher("")
+       
+        toast.success("Teacher Assigned Successfully ", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        FetchRow();
+     
+      } else {
+        toast.error(res.data.message, {
+          position: "top-center",
+          autoClose: 3000,
+        });
+
+      }
+    })
   }, []);
 
   const Row = () => {
@@ -417,6 +455,7 @@ const TeachersTable = ({
         value={searchSavedTeacher}
         onChange={SearchSavedTeacher}
         Loader={ModalLoader}
+        AssignBatch={(data) => AssignBatch(data)}
       />
     </div>
   );
@@ -492,7 +531,7 @@ function TeacherModal(props) {
           </div>
         ) : props.data.length == 0 ? (
           <div className="ModalNotFoundDiv">
-          <p className="ModalNoTeacherFound">No Saved Teacher Found</p>
+            <p className="ModalNoTeacherFound">No Saved Teacher Found</p>
           </div>
         ) : (
           props.data.map((item) => (
@@ -503,7 +542,9 @@ function TeacherModal(props) {
               </div>
               <div className="BatchDiv"></div>
               <div className="BtnDiv">
-                <div className="Btn">Add</div>
+                <div onClick={()=>props.AssignBatch(item)} className="Btn">
+                  Add
+                </div>
               </div>
             </div>
           ))
