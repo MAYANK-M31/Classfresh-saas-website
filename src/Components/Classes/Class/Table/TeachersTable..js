@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { URL } from "../../../../URL/URL";
 import "../../../../css/Classes/Class/Table/StudentsTable.css";
 
@@ -8,9 +8,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 
+import { debounce } from "lodash";
+
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
+import Lottie from "react-lottie";
+
 import { Modal } from "react-bootstrap";
+
+import animationData from "../../../../Assets/Lottie/9916-spinner-only.json";
 
 const Loadercss = css`
   display: block;
@@ -40,6 +46,9 @@ const TeachersTable = ({
   const [section, setsection] = useState(null);
   const [ClassSectionList, setClassSectionList] = useState([]);
   const [Loader, setLoader] = useState(false);
+  const [SavedTeacherData, setSavedTeacherData] = useState([]);
+  const [searchSavedTeacher, setsearchSavedTeacher] = useState("");
+  const [ModalLoader, setModalLoader] = useState(false);
 
   let TOKEN = localStorage.getItem("access_token");
 
@@ -84,12 +93,17 @@ const TeachersTable = ({
           });
           FetchRow();
         } else if (res.data.code == "ADD_EXISTING") {
-          toast.error("Please select from saved Teachers.Teacher already present in other batch", {
-            style:{backgroundColor:"#f65e72"},
-            position: "top-right",
-            autoClose: 5000,
-          });
+          toast.error(
+            "Please select from saved Teachers.Teacher already present in other batch",
+            {
+              style: { backgroundColor: "#f65e72" },
+              position: "top-right",
+              autoClose: 5000,
+            }
+          );
           ShowExistingTeacherModal();
+          setsearchSavedTeacher(contact)
+          SearchExistingTeacher(contact)
           setLoader(false);
         } else {
           toast.error(res.data.message, {
@@ -120,9 +134,9 @@ const TeachersTable = ({
         Authorization: "Bearer " + TOKEN,
       },
     }).then(({ data }) => {
-      console.log(data);
       if (data.status == 200) {
-        return setData(data.data);
+        // console.log(data);
+        return setData(data.payload);
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
@@ -131,6 +145,49 @@ const TeachersTable = ({
       }
     });
   };
+
+  const SearchExistingTeacher = useCallback(async (search) => {
+    setModalLoader(true);
+    await axios({
+      method: "get", //you can set what request you want to be
+      url: `${URL}/teacher/fetchtoadd?name=${search.trim()}&contact=${search.trim()}&batchId=${parsedQuery.batchId.trim()}`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+    }).then(({ data }) => {
+      if (data.status == 200) {
+        setModalLoader(false);
+        return setSavedTeacherData(data.payload);
+      } else {
+        setModalLoader(false);
+        return toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 3000,
+        });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    SearchExistingTeacher("");
+  }, [ExistingTeacherModal]);
+
+  const debounceSearch = debounce((val) => {
+    SearchExistingTeacher(val);
+  }, 1000);
+
+  const SearchSavedTeacher = useCallback(async (event) => {
+    const {
+      target: { value },
+    } = event;
+    if (ModalLoader == false) {
+      setModalLoader(true);
+    }
+
+    setsearchSavedTeacher(value);
+    debounceSearch(value);
+  }, []);
+
   const Row = () => {
     return Data.map((item, i) => (
       <tr key={item.uuid}>
@@ -356,6 +413,10 @@ const TeachersTable = ({
       <TeacherModal
         show={ExistingTeacherModal}
         onHide={CloseExistingTeacherModal}
+        data={SavedTeacherData}
+        value={searchSavedTeacher}
+        onChange={SearchSavedTeacher}
+        Loader={ModalLoader}
       />
     </div>
   );
@@ -379,7 +440,7 @@ function TeacherModal(props) {
         </svg>
       </div>
       <div className="TitleBar">
-        <div>Add Teacher</div>
+        <div>Saved Teachers</div>
       </div>
       <div className="SearchBarView">
         <div className="SearchGroupInputView">
@@ -404,21 +465,49 @@ function TeacherModal(props) {
           <input
             className="SearchGroupInput"
             placeholder="Search name or contact"
+            value={props.value}
+            onChange={(e) => props.onChange(e)}
           />
         </div>
       </div>
 
       <div className="ListDiv">
-        <div className="RowDiv">
-          <div className="NameDiv">
-            <p className="Name">Mayank malhotra</p>
-            <p className="Contact">8076705075</p>
+        {props.Loader ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <PulseLoader
+              color={"#0d71eb"}
+              loading={true}
+              css={Loadercss}
+              size={10}
+              margin={3}
+            />
           </div>
-          <div className="BatchDiv"></div>
-          <div className="BtnDiv">
-            <div className="Btn">Add</div>
+        ) : props.data.length == 0 ? (
+          <div className="ModalNotFoundDiv">
+          <p className="ModalNoTeacherFound">No Saved Teacher Found</p>
           </div>
-        </div>
+        ) : (
+          props.data.map((item) => (
+            <div className="RowDiv">
+              <div className="NameDiv">
+                <p className="Name">{item.name}</p>
+                <p className="Contact">{item.contact}</p>
+              </div>
+              <div className="BatchDiv"></div>
+              <div className="BtnDiv">
+                <div className="Btn">Add</div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </Modal>
   );
