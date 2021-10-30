@@ -15,6 +15,11 @@ import Class from "../Components/Classes/Class/Class";
 import Users from "../Components/Classes/Classes";
 import AllUsers from "../Components/AllUsers/AllUsers"
 
+import ResultClasses from "../Components/Result/Classes/Classes";
+import ResultClass from "../Components/Result/Classes/Class/Class";
+
+
+
 
 function Console() {
 
@@ -34,11 +39,20 @@ function Console() {
         <Route path="/connect/students" component={Students} />
         <Route path="/connect/teachers" component={Teachers} />
         <Route path="/feecollection" component={FeeCollection} />
-        <Route path="/result" component={Result} />
+
+
         <Route exact path="/users/classes" component={Users} />
         <Route path="/users/classes/:class" component={Class} />
-
         <Route path="/users/all" component={People} />
+        
+        <Route exact path="/result" component={ResultClasses} />
+        <Route path="/result/classes/:class" component={ResultClass} />
+        
+        <Route exact path="/result/sheet" component={Result} />
+
+
+
+        
         <Route path="/settings" component={Setting} />
       </div>
     </div>

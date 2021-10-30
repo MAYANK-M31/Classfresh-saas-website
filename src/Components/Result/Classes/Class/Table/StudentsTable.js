@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { URL } from "../../../../URL/URL";
-import "../../../../css/Classes/Class/Table/StudentsTable.css";
+import { URL } from "../../../../../URL/URL";
+import "../../../../../css/Classes/Class/Table/StudentsTable.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

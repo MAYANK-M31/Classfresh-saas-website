@@ -6,7 +6,7 @@ import ResultTable from "./TableView/ResultTable";
 import Split from "react-split";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Logo from "../../Assets/Logos/Classfresh(logo).png";
+
 import { motion } from "framer-motion";
 import Lottie from "react-lottie";
 import animationData from "../../Assets/Lottie/folderbox.json";

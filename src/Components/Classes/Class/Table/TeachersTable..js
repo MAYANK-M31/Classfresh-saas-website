@@ -235,8 +235,7 @@ const TeachersTable = ({
             paddingTop: "8px",
             textAlign: "center",
           }}
-        >
-          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
+        >          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
         </td>
         <td>
           <div className="RowNameDiv">
