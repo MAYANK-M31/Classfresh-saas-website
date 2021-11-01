@@ -19,7 +19,7 @@ const Colors = [
 const SubjectsTable = React.memo(({ Data }) => {
   const Row = () => {
     return Data.map((item, i) => (
-      <tr key={item.uuid}>
+      <tr key={i}>
         <td>
         <Link
             style={{ width: "100%" }}
@@ -38,8 +38,7 @@ const SubjectsTable = React.memo(({ Data }) => {
             }}
           >
             <div className="RowNameDiv" style={{ color: "#0076FE" }}>
-              {item.batch.class.label ? item.batch.class.label : " "}
-              {item.batch.section ? "-" + item.batch.section.label : " "}
+              {item.subject}
             </div>
           </Link>
         </td>

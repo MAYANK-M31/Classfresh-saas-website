@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
 import "../../../../css/Classes/Class/Class.css";
 import ClassHeader from "./Header/ClassHeader";
 
@@ -15,7 +15,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
 import TeachersTable from "../Class/Table/TeachersTable.";
-
 
 import NavHeader from "./Header/NavHeader";
 import TeachersUtilityHeader from "./Header/TeachersUtilityHeader";
@@ -35,13 +34,12 @@ const Loadercss = css`
 
 const Class = (props) => {
   const [ModalShow, setModalShow] = useState(false);
-  const [ClassInput, setClassInput] = useState(null);
-  const [section, setsection] = useState(null);
+  const [Subject, setSubject] = useState("");
+  const [Description, setDescription] = useState("");
 
   const [Loader, setLoader] = useState(false);
   const [Tab, setTab] = useState("subjects");
 
-  const [openstudentsidebar, setopenstudentsidebar] = useState(false);
   const [openteachersidebar, setopenteachersidebar] = useState(false);
 
   const [ExistingTeacherModal, setExistingTeacherModal] = useState(false);
@@ -50,14 +48,8 @@ const Class = (props) => {
   // console.log(parsedQuery.classlabel);
   let TOKEN = localStorage.getItem("access_token");
 
-
-
-
-
-
   const [Data, setData] = useState([]);
   const [Loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     FetchRow();
@@ -65,8 +57,8 @@ const Class = (props) => {
 
   const FetchRow = async () => {
     await axios({
-      method: "post", //you can set what request you want to be
-      url: `${URL}/result/batches/fetch`,
+      method: "get", //you can set what request you want to be
+      url: `${URL}/result/batch/subject?batchId=${parsedQuery?.batchId}`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
@@ -85,13 +77,62 @@ const Class = (props) => {
     });
   };
 
+  const HandleCreateSubject = useCallback(async (e) => {
+    e.preventDefault();
+    if (Subject.length == 0)
+      return toast.error("Please Select Class", {
+        position: "top-right",
+        autoClose: 3000,
+      });
 
+    setLoader(true);
 
+    const Body = {
+      subject: Subject,
+      description: Description,
+      batchId: parsedQuery?.batchId,
+    };
 
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/batch/subject`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          setLoader(false);
+          setModalShow(false);
+          setSubject("");
+          setDescription("");
+          FetchRow();
+          toast.success("New Subject Created Successfully ", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+        setLoader(false);
+      });
+  });
 
-  
   return (
     <div className="Class">
+      <ToastContainer />
       <ClassHeader
         classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
         section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
@@ -109,7 +150,7 @@ const Class = (props) => {
               <SubjectsTable Data={Data} />
             </>
           )}
-          {Tab == "teachers" && (
+          {Tab == "reports" && (
             <>
               <TeachersUtilityHeader
                 ShowSideBar={() => {
@@ -124,7 +165,7 @@ const Class = (props) => {
                 }}
                 ShowModal={() => setModalShow(true)}
               />
-              <TeachersTable
+              <SubjectsTable
                 openSideBar={openteachersidebar}
                 closeSideBar={() => setopenteachersidebar(false)}
                 parsedQuery={parsedQuery}
@@ -139,45 +180,20 @@ const Class = (props) => {
       <MyVerticallyCenteredModal
         show={ModalShow}
         onHide={() => setModalShow(false)}
-        ClassOptions={ClassOptions}
-        ClassInput={ClassInput}
-        setSection={(e) => {
-          setsection(e);
+        Value_1={Subject}
+        setValue_1={(e) => {
+          setSubject(e.target.value);
         }}
-        setClass={(e) => {
-          setClassInput(e);
+        Value_2={Description}
+        setValue_2={(e) => {
+          setDescription(e.target.value);
         }}
-        SectionOptions={SectionOptions}
+        HandleSubmitForm={(e) => HandleCreateSubject(e)}
         Loader={Loader}
       />
     </div>
   );
 };
-
-const ClassOptions = [
-  { value: "1", label: "I" },
-  { value: "2", label: "II" },
-  { value: "3", label: "III" },
-  { value: "4", label: "IV" },
-  { value: "5", label: "V" },
-  { value: "6", label: "VI" },
-  { value: "7", label: "VII" },
-  { value: "8", label: "VIII" },
-  { value: "9", label: "IX" },
-  { value: "10", label: "X" },
-  { value: "11", label: "XI" },
-  { value: "12", label: "XII" },
-  { value: "ukg", label: "UKG" },
-  { value: "lkg", label: "LKG" },
-];
-const SectionOptions = [
-  { value: "a", label: "A" },
-  { value: "b", label: "B" },
-  { value: "c", label: "C" },
-  { value: "d", label: "D" },
-  { value: "e", label: "E" },
-  { value: "f", label: "F" },
-];
 
 function MyVerticallyCenteredModal(props) {
   return (
@@ -197,50 +213,39 @@ function MyVerticallyCenteredModal(props) {
         </svg>
       </div>
       <div className="TitleBar">
-        <div>CREATE CLASS</div>
+        <div>CREATE SUBJECT</div>
       </div>
 
-      <Form className="FormView">
+      <Form onSubmit={(e) => props.HandleSubmitForm(e)} className="FormView">
         <Form.Group className="mb-3 " controlId="ModalInputFormView">
-          <Form.Label>Class</Form.Label>
+          <Form.Label>Subject</Form.Label>
           <div style={{ width: "100%" }}>
-            <Creatable
-              name="class"
+            <Form.Control
+              name="text"
               type="text"
-              isClearable="true"
               autoComplete="off"
-              classNamePrefix="Input"
-              placeholder="Class"
-              options={props.ClassOptions}
-              components={{
-                DropdownIndicator: () => null,
-                IndicatorSeparator: () => null,
-              }}
-              value={props.ClassInput}
+              className="Input"
+              placeholder="Enter subject name"
+              value={props.Value_1}
               onChange={(e) => {
-                props.setClass(e);
+                props.setValue_1(e);
               }}
+              required
             />
           </div>
         </Form.Group>
         <Form.Group className="mb-3 " controlId="ModalInputFormView">
-          <Form.Label>Section</Form.Label>
+          <Form.Label>Description (optional)</Form.Label>
           <div style={{ width: "100%" }}>
-            <Creatable
-              name="section"
+            <Form.Control
+              name="text"
               type="text"
-              isClearable="true"
+              className="Input"
               autoComplete="off"
-              classNamePrefix="Input"
-              placeholder="Section"
-              options={props.SectionOptions}
-              components={{
-                DropdownIndicator: () => null,
-                IndicatorSeparator: () => null,
-              }}
-              value={props.section}
+              placeholder="Eg. This contain marks of english subject"
+              value={props.Value_2}
               onChange={(e) => {
-                props.setSection(e);
+                props.setValue_2(e);
               }}
             />
           </div>
@@ -261,7 +266,7 @@ function MyVerticallyCenteredModal(props) {
                 margin={3}
               />
             ) : (
-              <p>CREATE CLASS</p>
+              <p>CREATE SUBJECT</p>
             )}
           </button>
         </div>

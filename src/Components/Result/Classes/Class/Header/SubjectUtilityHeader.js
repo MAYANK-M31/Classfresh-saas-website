@@ -26,7 +26,7 @@ const SubjectUtilityHeader = ({ ShowModal, ShowSideBar }) => {
           <input className="SearchGroupInput" placeholder="Search" />
         </div>
         <div>
-          <button onClick={ShowSideBar} className="CreateClassBtnDiv">
+          <button onClick={ShowModal} className="CreateClassBtnDiv">
             <p style={{ cursor: "pointer" }}>Add Subject</p>
           </button>
         </div>
