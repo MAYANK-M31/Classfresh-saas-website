@@ -1,6 +1,9 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../css/Result/Result.css";
-import ResultHeader from "./Header/ResultHeader";
+
+import * as qs from "query-string";
+
+
 import ResultSidebar from "./Sidebar/ResultSideBar";
 import ResultTable from "./TableView/ResultTable";
 import Split from "react-split";
@@ -10,11 +13,15 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { motion } from "framer-motion";
 import Lottie from "react-lottie";
 import animationData from "../../Assets/Lottie/folderbox.json";
+import ClassHeader from "../Classes/Class/Header/ClassHeader";
+import ResultHeaders from "./Header/ResultHeader";
 
-const Result = () => {
+const Result = (props) => {
   const [minimize, setminimize] = useState(false);
   const [Show, setShow] = useState(false);
   const [DomLoader, setDomLoader] = useState(true);
+  const parsedQuery = qs.parse(props.location.search);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,6 +41,7 @@ const Result = () => {
 
   if (DomLoader == true) {
     return (
+      
       <div
         style={{
           width: "100%",
@@ -44,6 +52,10 @@ const Result = () => {
           backgroundColor: "white",
         }}
       >
+         <ResultHeaders
+          classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
+          section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
+        />
         <LinearProgress color="primary" />
         <div
           style={{
@@ -77,7 +89,11 @@ const Result = () => {
   } else {
     return (
       <div className="Main-Div">
-        <ResultHeader />
+       
+       <ResultHeaders
+          classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
+          section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
+        />
         <div className="Inside-Div">
           <Split
             sizes={[minimize ? 0 : 15.5, minimize ? 100 : 84.5]}
@@ -279,7 +295,6 @@ const Result = () => {
             </div>
           </Split>
         </div>
-
         <React.Fragment>
           <SwipeableDrawer
             anchor={"right"}

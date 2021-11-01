@@ -1,14 +1,37 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+
 import "../../../css/Common/Header.css";
 
-const ResultHeader = () => {
+const ResultHeaders = ({ classname, section }) => {
+  const history = useHistory();
+
   return (
     <div className="header">
       <div className="TitleView">
+        <div onClick={() => history.goBack()} className="BackBtn">
+          <svg
+            width="14"
+            height="13"
+            viewBox="0 0 14 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.207 0.29329C7.3945 0.48081 7.4998 0.73512 7.4998 1.00029C7.4998 1.26545 7.3945 1.51976 7.207 1.70729L3.414 5.5003H13C13.2652 5.5003 13.5196 5.6056 13.7071 5.7932C13.8946 5.9807 14 6.2351 14 6.5003C14 6.7655 13.8946 7.0199 13.7071 7.2074C13.5196 7.3949 13.2652 7.5003 13 7.5003H3.414L7.207 11.2933C7.2998 11.3862 7.3735 11.4965 7.4237 11.6179C7.4739 11.7392 7.4997 11.8693 7.4997 12.0006C7.4997 12.132 7.4737 12.262 7.4234 12.3834C7.3731 12.5047 7.2994 12.6149 7.2065 12.7078C7.1136 12.8006 7.0033 12.8743 6.8819 12.9245C6.7606 12.9747 6.6305 13.0005 6.4991 13.0005C6.3678 13.0004 6.2377 12.9745 6.1164 12.9242C5.9951 12.8739 5.8848 12.8002 5.792 12.7073L0.293 7.2073C0.1119 7.0269 0.00701 6.7838 0 6.5283V6.4713C0.00716 6.2161 0.11205 5.9734 0.293 5.7933L5.792 0.29329C5.8849 0.20031 5.9952 0.12655 6.1166 0.07623C6.238 0.0259 6.3681 0 6.4995 0C6.6309 0 6.761 0.0259 6.8824 0.07623C7.0038 0.12655 7.1141 0.20031 7.207 0.29329Z"
+              fill="#2C385C"
+            />
+          </svg>
+        </div>
+
         <span>Result</span>
+        <span>{classname && (" > "+classname)}</span>
+        <span>{section == "null" ? " " : !section ? " ":  "-"+ section }</span>
       </div>
-      <div className="SearchView">
-      </div>
+      <div className="SearchView"></div>
 
       <div className="RightView">
         <div className="alert">
@@ -86,4 +109,4 @@ const ResultHeader = () => {
   );
 };
 
-export default ResultHeader;
+export default ResultHeaders;
