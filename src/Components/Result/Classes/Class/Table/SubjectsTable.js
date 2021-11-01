@@ -42,8 +42,8 @@ const SubjectsTable = React.memo(({ Data }) => {
             </div>
           </Link>
         </td>
-        <td>{item.totalteachers}</td>
-        <td style={{ paddingRight: "30px" }}>{item.totalstudents}</td>
+        <td>{item.subfolder}</td>
+        <td style={{ paddingRight: "30px" }}>{item.totalteachers}</td>
         <td> {new Date(item.createdAt).toLocaleDateString()}</td>
         <td
           style={{
