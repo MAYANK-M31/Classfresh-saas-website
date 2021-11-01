@@ -66,7 +66,7 @@ const Class = (props) => {
   const FetchRow = async () => {
     await axios({
       method: "post", //you can set what request you want to be
-      url: `${URL}/batch/fetch`,
+      url: `${URL}/result/batches/fetch`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },

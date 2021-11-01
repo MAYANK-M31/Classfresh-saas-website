@@ -17,7 +17,7 @@ function App() {
     // if (TOKEN == undefined) {
     //   setaccess(false);
     // } else {
-      VerifyToken();
+    VerifyToken();
     // }
   }, []);
 
@@ -34,7 +34,7 @@ function App() {
         // localStorage.setItem("access_token",data.payload.access_token)
         return setaccess(true);
       } else {
-        setaccess(false)
+        setaccess(false);
         return localStorage.removeItem("access_token"), setaccess(false);
       }
     });
@@ -42,8 +42,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />} */}
-      <Route to={"/"} render={() => (access ? <Console /> : <Verify />)} />
+      {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />}
+      <Route to={ "/"} render={() => (access ? <Console /> : <Verify />)} />
     </BrowserRouter>
   );
 }
