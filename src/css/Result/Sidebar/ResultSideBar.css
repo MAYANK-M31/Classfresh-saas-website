@@ -2,7 +2,6 @@
   /* background-color: red; */
   width: 286px;
   height: 100%;
- 
   overflow: hidden;
 }
 
@@ -26,12 +25,14 @@
   cursor: default;
 }
 
+
 .ResultSidebar .SearchGroupView {
   min-width: 206px;
   max-width: 286px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
   padding-inline: 15px;
 }
 
@@ -105,6 +106,10 @@
 .ResultSidebar .GroupParentViewInside:hover {
   background-color: #0076fe1a;
 }
+
+
+
+
 
 .ResultSidebar .GroupChildView {
   width: 100%;
