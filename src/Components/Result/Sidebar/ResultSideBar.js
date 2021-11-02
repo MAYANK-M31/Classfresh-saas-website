@@ -292,7 +292,7 @@ export default function ResultSideBar() {
         style={{
           width: "100%",
           height: "calc(100% - 120px)",
-          overflow: "scroll",
+          overflowY: "scroll",
           paddingBottom: "20%",
         }}
       >

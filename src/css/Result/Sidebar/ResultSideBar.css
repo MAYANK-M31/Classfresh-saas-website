@@ -3,6 +3,7 @@
   width: 286px;
   height: 100%;
   overflow: hidden;
+  text-transform: capitalize;
 }
 
 .ResultSidebar .GroupView {

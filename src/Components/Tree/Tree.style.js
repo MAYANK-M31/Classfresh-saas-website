@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 export const StyledTree = styled.div`
   line-height: 1.75;
   z-index: 1;
- 
+  // overflow:hidden;
 
   .tree__input {
     width: auto;
