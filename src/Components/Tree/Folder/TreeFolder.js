@@ -11,8 +11,6 @@ import {
 import { ReactComponent as FolderClose } from "../../../Assets/Logos/Folder.svg";
 import { ReactComponent as FolderOpen } from "../../../Assets/Logos/FolderOpen.svg";
 
-
-
 import {
   ActionsWrapper,
   Collapse,
@@ -101,7 +99,12 @@ const Folder = ({ id, name, children, node }) => {
   };
 
   return (
-    <StyledFolder id={id} onClick={handleNodeClick} className="tree__folder">
+    <StyledFolder
+      id={id}
+      onDoubleClick={handleFolderRename}
+      onClick={handleNodeClick}
+      className="tree__folder"
+    >
       <VerticalLine>
         <ActionsWrapper>
           {isEditing ? (

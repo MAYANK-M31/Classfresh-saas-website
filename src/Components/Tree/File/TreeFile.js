@@ -39,7 +39,7 @@ const File = ({ name, id, node }) => {
   };
 
   return (
-    <StyledFile onClick={handleNodeClick} className="tree__file">
+    <StyledFile onDoubleClick={toggleEditing} onClick={handleNodeClick} className="tree__file">
       {isEditing ? (
         <PlaceholderInput
           type="file"
