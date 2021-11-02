@@ -77,12 +77,13 @@ export const VerticalLine = styled.section`
     content: "";
     display: block;
     position: absolute;
-    top: -2px; /* just to hide 1px peek */
+    top: 25px; /* just to hide 1px peek */
     left: 1px;
     width: 0;
-    height: 100%;
+    height: calc(100% - 30px);
     border: 1px solid #dbdbdd;
     z-index: -1;
+    
     
   }
 `;

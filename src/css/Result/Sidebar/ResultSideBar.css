@@ -7,7 +7,7 @@
 }
 
 .ResultSidebar .GroupView {
-  min-width: 206px;
+  min-width: 286px;
   max-width: 286px;
   height: 69px;
   display: flex;
@@ -28,7 +28,7 @@
 
 
 .ResultSidebar .SearchGroupView {
-  min-width: 206px;
+  min-width: 286px;
   max-width: 286px;
   display: flex;
   justify-content: center;
