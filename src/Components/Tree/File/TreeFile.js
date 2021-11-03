@@ -44,14 +44,8 @@ const File = ({ name, id, node }) => {
       className="tree__file"
     >
       {isEditing ? (
-        <div
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-            display: "flex",
-          }}
-        >
+     
+     
           <PlaceholderInput
             type="file"
             style={{ paddingLeft: 0 }}
@@ -59,23 +53,17 @@ const File = ({ name, id, node }) => {
             onSubmit={commitEditing}
             onCancel={handleCancel}
           />
-        </div>
-      ) : (
-        <ActionsWrapper>
-          
-          <StyledName
 
-onDoubleClick={toggleEditing}
-          >
+          ) : (
+        <ActionsWrapper>
+          <StyledName onDoubleClick={toggleEditing}>
             {FILE_ICONS[ext.current] ? (
               <ExcelSheet width={18} height={18} />
             ) : (
               <ExcelSheet width={18} height={18} />
             )}
             &nbsp;&nbsp;
-           
-              <p>{name}</p>
-
+            <p>{name}</p>
           </StyledName>
           {isImparative && (
             <div className="actions">

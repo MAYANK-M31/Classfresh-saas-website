@@ -5,8 +5,8 @@ export const StyledTree = styled.div`
   z-index: 1;
   overflow:hidden;
 
-  min-width:250px;
 
+  
   .tree__input {
     width: auto;
     
