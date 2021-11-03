@@ -32,6 +32,7 @@ const FileEdit = ({ ext, inputRef, updateExt, defaultValue, style }) => {
           borderColor: "transparent",
           color: "#0d71eb",
           height: 20,
+          outline:"none"
         }}
       />
     </StyledFile>

@@ -13,7 +13,7 @@ display: flex;
 
   
   :hover {
-    // background-color: #0076fe1a;
+    // background-color: #0076fe1a !important;
   }
   
 `;
