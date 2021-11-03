@@ -44,17 +44,14 @@ const File = ({ name, id, node }) => {
       className="tree__file"
     >
       {isEditing ? (
-     
-     
-          <PlaceholderInput
-            type="file"
-            style={{ paddingLeft: 0 }}
-            defaultValue={name}
-            onSubmit={commitEditing}
-            onCancel={handleCancel}
-          />
-
-          ) : (
+        <PlaceholderInput
+          type="file"
+          style={{ paddingLeft: 0 }}
+          defaultValue={name}
+          onSubmit={commitEditing}
+          onCancel={handleCancel}
+        />
+      ) : (
         <ActionsWrapper>
           <StyledName onDoubleClick={toggleEditing}>
             {FILE_ICONS[ext.current] ? (

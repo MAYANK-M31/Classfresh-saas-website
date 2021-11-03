@@ -20,23 +20,22 @@ const FileEdit = ({ ext, inputRef, updateExt, defaultValue, style }) => {
   );
 
   return (
-    <StyledFile className="tree__file" style={style}>
-      <div  >{extension}</div>
-      {/* &nbsp;&nbsp; */}
+    <StyledFile style={style}>
+      {extension}
 
       <input
         ref={inputRef}
         onChange={updateExt}
         defaultValue={defaultValue}
         style={{
+          width:"80%",
           borderColor: "transparent",
-          backgroundColor: "transparent",
           color: "#0d71eb",
           height: 20,
         }}
       />
-      
     </StyledFile>
+    
   );
 };
 
@@ -52,10 +51,11 @@ const FolderEdit = ({ name, inputRef, defaultValue, style }) => {
             className="tree__input"
             defaultValue={defaultValue}
             style={{
+              width:"80%",
               borderColor: "transparent",
-              backgroundColor: "transparent",
               color: "#0d71eb",
               height: 20,
+              fontWeight:"bold"
             }}
           />
         }

@@ -6,7 +6,6 @@ export const StyledTree = styled.div`
   overflow:hidden;
 
 
-  
   .tree__input {
     width: auto;
     
