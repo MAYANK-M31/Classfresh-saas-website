@@ -1,9 +1,10 @@
 import styled from "styled-components/macro";
 
 export const StyledFile = styled.div`
-  flex-wrap: nowrap;
-  display: flex;
+
+display: flex;
   align-items: center;
+  flex-direction:row;
   font-weight: normal;
   padding-left: ${(p) => p.theme.indent}px;
   white-space: nowrap;
@@ -12,7 +13,7 @@ export const StyledFile = styled.div`
 
   
   :hover {
-    background-color: #0076fe1a;
+    // background-color: #0076fe1a;
   }
   
 `;

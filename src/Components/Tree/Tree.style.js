@@ -3,7 +3,9 @@ import styled from "styled-components/macro";
 export const StyledTree = styled.div`
   line-height: 1.75;
   z-index: 1;
-  // overflow:hidden;
+  overflow:hidden;
+
+  min-width:250px;
 
   .tree__input {
     width: auto;
@@ -20,6 +22,7 @@ export const ActionsWrapper = styled.div`
   flex-wrap: nowrap;
   justify-content: space-between;
   padding-right: 10px;
+  overflow:hidden;
 
   
 

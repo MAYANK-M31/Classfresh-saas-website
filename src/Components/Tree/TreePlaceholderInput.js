@@ -9,17 +9,33 @@ import { StyledFolder } from "../Tree/Folder/TreeFolder.style";
 import { ReactComponent as ExcelSheet } from "../../Assets/Logos/xlsx.svg";
 
 const FileEdit = ({ ext, inputRef, updateExt, defaultValue, style }) => {
-  const extension = FILE_ICONS[ext] ? <ExcelSheet width={18} height={18} /> : <ExcelSheet width={18} height={18} />;
+  const extension = (
+    <div style={{ width: 20 }}>
+      {FILE_ICONS[ext] ? (
+        <ExcelSheet width={18} height={18} />
+      ) : (
+        <ExcelSheet width={18} height={18} />
+      )}
+    </div>
+  );
 
   return (
     <StyledFile className="tree__file" style={style}>
-      {extension}
-      &nbsp;&nbsp;
+      <div  >{extension}</div>
+      {/* &nbsp;&nbsp; */}
+
       <input
         ref={inputRef}
         onChange={updateExt}
         defaultValue={defaultValue}
-        style={{borderColor:"transparent",backgroundColor:"transparent",height:20}}      />
+        style={{
+          borderColor: "transparent",
+          backgroundColor: "transparent",
+          color: "#0d71eb",
+          height: 20,
+        }}
+      />
+      
     </StyledFile>
   );
 };
@@ -35,7 +51,12 @@ const FolderEdit = ({ name, inputRef, defaultValue, style }) => {
             ref={inputRef}
             className="tree__input"
             defaultValue={defaultValue}
-            style={{borderColor:"transparent",backgroundColor:"transparent",height:20}}
+            style={{
+              borderColor: "transparent",
+              backgroundColor: "transparent",
+              color: "#0d71eb",
+              height: 20,
+            }}
           />
         }
       />

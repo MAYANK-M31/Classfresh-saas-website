@@ -23,10 +23,11 @@ import { FILE, FOLDER } from "../../Tree/state/constants";
 import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 
-const FolderName = ({ isOpen, name, handleClick }) => (
-  <StyledName onClick={handleClick}>
-    {isOpen ? <FolderOpen /> : <FolderClose />}
-    &nbsp;&nbsp;{name}
+const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
+  <StyledName onClick={handleClick} onDoubleClick={handleRename}>
+    <div style={{ width: 20 }}>  {isOpen ? <FolderOpen /> : <FolderClose />} </div>
+    &nbsp;&nbsp;
+    <div style={{ width: "100%", overflow: "hidden" }}>{name}</div>
   </StyledName>
 );
 
@@ -99,14 +100,11 @@ const Folder = ({ id, name, children, node }) => {
   };
 
   return (
-    <StyledFolder
-      id={id}
-      onDoubleClick={handleFolderRename}
-      onClick={handleNodeClick}
-      className="tree__folder"
-    >
+    <StyledFolder id={id} onClick={handleNodeClick} className="tree__folder">
       <VerticalLine>
-        <ActionsWrapper>
+        <ActionsWrapper
+          style={{ backgroundColor: isEditing ? "#0076fe1a" : "transparent" }}
+        >
           {isEditing ? (
             <PlaceholderInput
               type="folder"
@@ -117,13 +115,14 @@ const Folder = ({ id, name, children, node }) => {
             />
           ) : (
             <FolderName
+              handleRename={handleFolderRename}
               name={name}
               isOpen={isOpen}
               handleClick={() => setIsOpen(!isOpen)}
             />
           )}
 
-          {isImparative && (
+          {!isEditing && isImparative && (
             <div className="actions">
               <AiOutlineEdit onClick={handleFolderRename} />
               <AiOutlineFileAdd onClick={handleFileCreation} />
