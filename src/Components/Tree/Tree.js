@@ -38,7 +38,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate }) => {
         <StyledTree>
             {isImparative ? (
               <TreeRecusive data={state} parentNode={state} />
-            ) : (
+              ) : (
               children
             )}
         </StyledTree>
@@ -50,6 +50,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate }) => {
 };
 
 const TreeRecusive = ({ data, parentNode }) => {
+  
   return data.map((item) => {
     item.parentNode = parentNode;
     if (!parentNode) {

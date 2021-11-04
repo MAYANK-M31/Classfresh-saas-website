@@ -154,15 +154,31 @@ import React, { useState, useLayoutEffect } from "react";
 import "../../../css/Result/Sidebar/ResultSideBar.css";
 
 import Tree from "../../Tree/Tree";
+import {
+  AiOutlineFolderAdd,
+  AiOutlineFileAdd,
+  AiOutlineFolder,
+  AiOutlineFolderOpen,
+  AiOutlineDelete,
+  AiOutlineEdit,
+} from "react-icons/ai";
+import { ActionsWrapper } from "../../Tree/Tree.style";
+
+import { FILE, FOLDER } from "../../Tree/state/constants";
+import { useTreeContext } from "../../Tree/state/TreeContext";
+import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
+
 
 const structure = [
   {
     type: "folder",
-    name: "client",
+    name: "SCIENCE",
+    subjectId: "FUCJU",
     files: [
       {
         type: "folder",
         name: "ui",
+        subjectId: "FUCJU",
         files: [
           { type: "file", name: "Toggle.js" },
           { type: "file", name: "Button.js" },
@@ -181,26 +197,33 @@ const structure = [
       { type: "file", name: "setupTests.js" },
     ],
   },
-  {
-    type: "folder",
-    name: "packages",
-    files: [
-      {
-        type: "file",
-        name: "main.js",
-      },
-    ],
-  },
-  { type: "file", name: "index.js" },
+  // {
+  //   type: "folder",
+  //   name: "packages",
+  //   files: [
+  //     {
+  //       type: "file",
+  //       name: "main.js",
+  //     },
+  //   ],
+  // },
+
+  // { type: "file", name: "index.js" },
 ];
 
+
+
 export default function ResultSideBar() {
+
+  const { dispatch, isImparative, onNodeClick } = useTreeContext();
+  
   let [data, setData] = useState(structure);
 
   const handleClick = (node) => {
     console.log(node);
   };
   const handleUpdate = (state) => {
+    console.log("HI", state);
     localStorage.setItem(
       "tree",
       JSON.stringify(state, function (key, value) {
@@ -214,54 +237,41 @@ export default function ResultSideBar() {
 
   useLayoutEffect(() => {
     try {
-      let savedStructure = JSON.parse(localStorage.getItem("tree"));
-      if (savedStructure) {
-        console.log(savedStructure);
+      // let savedStructure = JSON.parse(localStorage.getItem("tree"));
+      // if (savedStructure) {
+      //   console.log(savedStructure);
 
-        setData(savedStructure);
-      }
+      // }
+      setData(structure);
+
     } catch (err) {
       console.log(err);
     }
   }, []);
 
+  const commitFolderCreation = () => {
+   
+    dispatch({ type: FOLDER.CREATE, payload: { id:"l", name:"yes" } });
+
+  };
   return (
     <div className="ResultSidebar">
       <div className="GroupView">
-        <p>All Lists</p>
-        <svg
-          width="25"
-          height="25"
-          viewBox="0 0 25 25"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="1"
-            y="1"
-            width="23"
-            height="23"
-            rx="5"
-            stroke="#506D85"
-            stroke-width="2"
-          />
-          <g clip-path="url(#clip0)">
-            <path
-              d="M18.9772 11.1364H13.8636V6.02273C13.8636 5.45818 13.4054 5 12.8409 5H12.1591C11.5945 5 11.1364 5.45818 11.1364 6.02273V11.1364H6.02273C5.45818 11.1364 5 11.5945 5 12.1591V12.8409C5 13.4054 5.45818 13.8636 6.02273 13.8636H11.1364V18.9772C11.1364 19.5418 11.5945 20 12.1591 20H12.8409C13.4054 20 13.8636 19.5418 13.8636 18.9772V13.8636H18.9772C19.5418 13.8636 20 13.4054 20 12.8409V12.1591C20 11.5945 19.5418 11.1364 18.9772 11.1364Z"
-              fill="#506D85"
+        <ActionsWrapper>
+          <p>All Lists</p>
+          <div className="actions" style={{ opacity: 1 }}>
+            <AiOutlineFileAdd
+              size={18}
+              //  onClick={handleFileCreation}
             />
-          </g>
-          <defs>
-            <clipPath id="clip0">
-              <rect
-                width="15"
-                height="15"
-                fill="white"
-                transform="translate(5 5)"
-              />
-            </clipPath>
-          </defs>
-        </svg>
+            <AiOutlineFolderAdd
+              onClick={commitFolderCreation}
+              size={20}
+
+              // onClick={handleFolderCreation}
+            />
+          </div>
+        </ActionsWrapper>
       </div>
 
       <div className="SearchGroupView">

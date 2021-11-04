@@ -56,7 +56,8 @@ const FolderEdit = ({ name, inputRef, defaultValue, style }) => {
               borderColor: "transparent",
               color: "#0d71eb",
               height: 20,
-              fontWeight:"bold"
+              fontWeight:"bold",
+              outline:"none"
             }}
           />
         }

@@ -88,6 +88,7 @@ const Result = (props) => {
     );
   } else {
     return (
+      
       <div className="Main-Div">
        
        <ResultHeaders
@@ -105,6 +106,7 @@ const Result = (props) => {
             className="split-flex" // You'll need to define this. check styles.css
           >
             {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
+            
             <ResultSidebar />
             {/* </div> */}
             <div

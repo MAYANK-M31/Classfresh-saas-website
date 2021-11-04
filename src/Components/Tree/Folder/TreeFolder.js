@@ -25,7 +25,10 @@ import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 
 const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   <StyledName onClick={handleClick} onDoubleClick={handleRename}>
-    <div style={{ width: 20 }}>  {isOpen ? <FolderOpen /> : <FolderClose />} </div>
+    <div style={{ width: 20 }}>
+      {" "}
+      {isOpen ? <FolderOpen /> : <FolderClose />}{" "}
+    </div>
     &nbsp;&nbsp;
     <div style={{ width: "100%", overflow: "hidden" }}>{name}</div>
   </StyledName>
@@ -42,6 +45,7 @@ const Folder = ({ id, name, children, node }) => {
   }, [children]);
 
   const commitFolderCreation = (name) => {
+    console.log("HEY", name, id);
     dispatch({ type: FOLDER.CREATE, payload: { id, name } });
   };
   const commitFileCreation = (name) => {
