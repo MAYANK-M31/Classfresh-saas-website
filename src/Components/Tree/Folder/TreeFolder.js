@@ -45,7 +45,10 @@ const Folder = ({ id, name, children, node }) => {
   }, [children]);
 
   const commitFolderCreation = (name) => {
-    console.log("HEY", name, id);
+
+    if(name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY")
+    console.log("PARENT NODE",  node);
+
     dispatch({ type: FOLDER.CREATE, payload: { id, name } });
   };
   const commitFileCreation = (name) => {
@@ -67,7 +70,6 @@ const Folder = ({ id, name, children, node }) => {
   const handleNodeClick = React.useCallback(
     (event) => {
       event.stopPropagation();
-      onNodeClick({ node });
     },
     [node]
   );

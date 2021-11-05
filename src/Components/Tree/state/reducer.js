@@ -26,7 +26,7 @@ const reducer = (state, action) => {
       return newState;
 
     case FOLDER.CREATE:
-      node.files.push(createFolder({ name: action.payload.name }));
+      node.files.push(createFolder({ name: action.payload.name,parent:parent }));
       return newState;
 
     case FOLDER.EDIT:
