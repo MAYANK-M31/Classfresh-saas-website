@@ -167,7 +167,10 @@ import { ActionsWrapper } from "../../Tree/Tree.style";
 import { FILE, FOLDER } from "../../Tree/state/constants";
 import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
+import axios from "axios";
+import {URL} from "../../../URL/URL"
 
+import { ToastContainer, toast } from "react-toastify";
 
 const structure = [
   {
@@ -211,19 +214,49 @@ const structure = [
   // { type: "file", name: "index.js" },
 ];
 
+const DATA = [
+  {
+    _id: "618a6b5675994aa8b2516a2e",
+    id: "ac9352cd-2f99-47f3-93cc-e754bf328f5b",
+    parentId: "0",
+    subjectId: "1a08bf9b-06b0-4531-aae5-315736fd5347",
+    schId: "60746fc3-0178-4090-8923-e30bca13e2e5",
+    type: "folder",
+    name: "FOLDER 2",
+    createdAt: "2021-11-09T12:36:38.602Z",
+    __v: 0,
+    files: []
+},
+{
+    _id: "618a6b6d75994aa8b2516a2f",
+    id: "e5d2c098-7eba-4232-ba33-330a18d8b262",
+    parentId: "0",
+    subjectId: "1a08bf9b-06b0-4531-aae5-315736fd5347",
+    schId: "60746fc3-0178-4090-8923-e30bca13e2e5",
+    type: "file",
+    name: "FOLDER 2",
+    createdAt: "2021-11-09T12:37:01.188Z",
+    __v: 0,
+    files: []
+}
+]
 
+export default function ResultSideBar({urlData}) {
 
-export default function ResultSideBar() {
+  const parsedQuery = JSON.parse(urlData)
+
+  let TOKEN = localStorage.getItem("access_token");
 
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
-  
-  let [data, setData] = useState(structure);
+
+  let [data, setData] = useState([]);
+  let [Loading, setLoading] = useState(true);
+
 
   const handleClick = (node) => {
     console.log(node);
   };
   const handleUpdate = (state) => {
-    console.log("HI", state);
     localStorage.setItem(
       "tree",
       JSON.stringify(state, function (key, value) {
@@ -242,20 +275,49 @@ export default function ResultSideBar() {
       //   console.log(savedStructure);
 
       // }
-      setData(structure);
-
+      FetchRow();
+      // setData(data);
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  const commitFolderCreation = () => {
-   
-    dispatch({ type: FOLDER.CREATE, payload: { id:"l", name:"yes" } });
+  const FetchRow = async () => {
+    await axios({
+      method: "get", //you can set what request you want to be
+      url: `${URL}/result/files/folders?subjectId=${parsedQuery?.subjectId}&nested=true`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+    }).then(({ data }) => {
+      console.log(data.payload);
+      if (data.status == 200) {
+        
 
+        setLoading(false);
+         setData([data.payload.data]);
+      } else {
+        setLoading(false);
+        return toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 3000,
+        });
+      }
+    }).catch((error)=>{
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      console.log(error);
+    })
+  };
+
+  const commitFolderCreation = () => {
+    dispatch({ type: FOLDER.CREATE, payload: { id: "l", name: "yes" } });
   };
   return (
     <div className="ResultSidebar">
+         <ToastContainer />
       <div className="GroupView">
         <ActionsWrapper>
           <p>All Lists</p>
@@ -306,7 +368,7 @@ export default function ResultSideBar() {
           paddingBottom: "20%",
         }}
       >
-        <Tree data={data} onUpdate={handleUpdate} onNodeClick={handleClick} />
+        <Tree data={data} onUpdate={handleUpdate} onNodeClick={handleClick} urlData={urlData}/>
       </div>
     </div>
   );

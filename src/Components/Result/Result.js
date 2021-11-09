@@ -107,7 +107,7 @@ const Result = (props) => {
           >
             {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
             
-            <ResultSidebar />
+            <ResultSidebar urlData={JSON.stringify(parsedQuery)} />
             {/* </div> */}
             <div
               style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}

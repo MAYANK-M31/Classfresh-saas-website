@@ -17,6 +17,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate }) => {
   }, [data]);
 
   useDidMountEffect(() => {
+
     onUpdate && onUpdate(state);
   }, [state]);
 

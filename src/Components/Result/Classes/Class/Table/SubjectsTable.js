@@ -34,7 +34,8 @@ const SubjectsTable = React.memo(({ Data }) => {
               }&sectionlabel=${
                 item.batch.section ?  item.batch.section.label : null
               }&batchId=${item.batchId}
-              &schId=${item.schId}`,
+              &schId=${item.schId}
+              &subjectId=${item.subjectId}`,
             }}
           >
             <div className="RowNameDiv" style={{ color: "#0076FE" }}>
@@ -96,6 +97,7 @@ const SubjectsTable = React.memo(({ Data }) => {
 
   return (
     <div className="TableDiv">
+         <ToastContainer />
       <table class="Table">
         <thead class="TableHeader">
           <tr>

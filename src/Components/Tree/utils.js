@@ -79,7 +79,7 @@ export const createFile = ({ name, parent }) => {
   console.log(parent);
   return { name, type: "file" };
 };
-export const createFolder =({ name, parent }) => {
+export const createFolder =({ name, parent ,id}) => {
     console.log(parent);
-    return { name, type: "folder", files: [] };
+    return { name, type: "folder", files: [],id };
   };
