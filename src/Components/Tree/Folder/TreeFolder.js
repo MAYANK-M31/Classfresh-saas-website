@@ -22,11 +22,12 @@ import { StyledFolder } from "./TreeFolder.style";
 import { FILE, FOLDER } from "../../Tree/state/constants";
 import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   <StyledName onClick={handleClick} onDoubleClick={handleRename}>
     <div style={{ width: 20 }}>
-      {" "}
       {isOpen ? <FolderOpen /> : <FolderClose />}{" "}
     </div>
     &nbsp;&nbsp;
@@ -34,20 +35,60 @@ const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   </StyledName>
 );
 
-const Folder = ({ id, name, children, node }) => {
+const Folder = ({ id, name, children, node, urlData }) => {
+  const parsedQuery = JSON.parse(urlData);
+  let TOKEN = localStorage.getItem("access_token");
+
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [childs, setChilds] = useState([]);
+
+  const CreateNew = async (name,type,subjectId,parentId) => {
+    const Body = {
+      name: "FOLDER 2",
+      filetype: "file",
+      subjectId: "1a08bf9b-06b0-4531-aae5-315736fd5347",
+      parentId: "b05ada97-e637-4de8-ad6e-850cb5bd3804",
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/batch/create`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          toast.success("New Batch Created Successfully ", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     setChilds([children]);
   }, [children]);
 
   const commitFolderCreation = (name) => {
-
-    if(name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY")
-    console.log("PARENT NODE",  node);
+    if (name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY");
+    console.log("PARENT NODE", node);
 
     dispatch({ type: FOLDER.CREATE, payload: { id, name } });
   };
@@ -69,6 +110,7 @@ const Folder = ({ id, name, children, node }) => {
 
   const handleNodeClick = React.useCallback(
     (event) => {
+      console.log(node);
       event.stopPropagation();
     },
     [node]
@@ -107,6 +149,8 @@ const Folder = ({ id, name, children, node }) => {
 
   return (
     <StyledFolder id={id} onClick={handleNodeClick} className="tree__folder">
+      <ToastContainer />
+
       <VerticalLine>
         <ActionsWrapper
           style={{ backgroundColor: isEditing ? "#0076fe1a" : "transparent" }}
