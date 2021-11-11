@@ -75,10 +75,9 @@ export const useDidMountEffect = (func, deps) => {
   }, deps);
 };
 
-export const createFile = ({ name, parent }) => {
-  console.log("PARENT PASSED",parent);
-  return { name, type: "file" };
+export const createFile =({ name, parentId ,id,subjectId})  => {
+  return { name, type: "file", files: [],id,parentId,subjectId };
 };
-export const createFolder =({ name, parentId ,id}) => {
-    return { name, type: "folder", files: [],id,parentId };
+export const createFolder =({ name, parentId ,id,subjectId}) => {
+    return { name, type: "folder", files: [],id,parentId,subjectId };
   };

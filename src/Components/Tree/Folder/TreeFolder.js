@@ -28,7 +28,7 @@ import {URL} from "../../../URL/URL"
 const { v4: uuidv4 } = require("uuid");
 
 
-const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
+const FolderName = ({ isOpen, name, handleClick, handleRename },props) => (
   <StyledName onClick={handleClick} onDoubleClick={handleRename}>
     <div style={{ width: 20 }}>
       {isOpen ? <FolderOpen /> : <FolderClose />}{" "}
@@ -38,21 +38,13 @@ const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   </StyledName>
 );
 
-const Folder = ({ id, name, children, node, urlData }) => {
+const Folder = ({ id, name, children, node, urlData },props) => {
   
-  // const parsedQuery = JSON.parse(urlData);
+  const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
 
-  const [UrlData,setUrlData] = useState(null)
 
-  useEffect(()=>{
-    if(urlData != undefined){
-      setUrlData(JSON.parse(urlData))
-    }
-
-    
-  },[urlData])
-
+  
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,7 +54,7 @@ const Folder = ({ id, name, children, node, urlData }) => {
     const Body = {
       name: name,
       filetype: type,
-      subjectId: "1a08bf9b-06b0-4531-aae5-315736fd5347",
+      subjectId: subjectId,
       parentId: parentId,
       id:id
     };
@@ -105,14 +97,17 @@ const Folder = ({ id, name, children, node, urlData }) => {
 
   const commitFolderCreation = (name) => {
     if (name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY");
-    console.log("PARENT NODE", node);
+    // console.log("PARENT NODE", node);
     
     const RandomId = uuidv4();
-    CreateNew({name,type:"folder",subjectId:null,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
-    dispatch({ type: FOLDER.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId } });
+    CreateNew({name,type:"folder",subjectId:parsedQuery.subjectId,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
+    dispatch({ type: FOLDER.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId ,subjectId:parsedQuery.subjectId} });
   };
   const commitFileCreation = (name) => {
-    dispatch({ type: FILE.CREATE, payload: { id, name } });
+    const RandomId = uuidv4();
+    CreateNew({name,type:"file",subjectId:parsedQuery.subjectId,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
+    dispatch({ type: FILE.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId ,subjectId:parsedQuery.subjectId} });
+    // dispatch({ type: FILE.CREATE, payload: { id, name } });
   };
   const commitDeleteFolder = () => {
     dispatch({ type: FOLDER.DELETE, payload: { id } });

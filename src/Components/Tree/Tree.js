@@ -64,8 +64,8 @@ const TreeRecusive = ({ data, parentNode,urlData }) => {
     }
     if (item.type === "folder") {
       return (
-        <Folder urlData={urlData} key={item.id} id={item.id} name={item.name} node={item}>
-          <TreeRecusive parentNode={item} data={item.files} />
+        <Folder urlData={urlData}  key={item.id} id={item.id} name={item.name} node={item}>
+          <TreeRecusive urlData={urlData}   parentNode={item} data={item.files} />
         </Folder>
       );
     }
