@@ -24,6 +24,9 @@ import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import {URL} from "../../../URL/URL"
+const { v4: uuidv4 } = require("uuid");
+
 
 const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   <StyledName onClick={handleClick} onDoubleClick={handleRename}>
@@ -36,25 +39,37 @@ const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
 );
 
 const Folder = ({ id, name, children, node, urlData }) => {
-  const parsedQuery = JSON.parse(urlData);
+  
+  // const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
+
+  const [UrlData,setUrlData] = useState(null)
+
+  useEffect(()=>{
+    if(urlData != undefined){
+      setUrlData(JSON.parse(urlData))
+    }
+
+    
+  },[urlData])
 
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [childs, setChilds] = useState([]);
 
-  const CreateNew = async (name,type,subjectId,parentId) => {
+  const CreateNew = async ({name,type,subjectId,parentId,id}) => {
     const Body = {
-      name: "FOLDER 2",
-      filetype: "file",
+      name: name,
+      filetype: type,
       subjectId: "1a08bf9b-06b0-4531-aae5-315736fd5347",
-      parentId: "b05ada97-e637-4de8-ad6e-850cb5bd3804",
+      parentId: parentId,
+      id:id
     };
 
     await axios({
       method: "post", //you can set what request you want to be
-      url: `${URL}/batch/create`,
+      url: `${URL}/result/file/create`,
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
@@ -62,11 +77,12 @@ const Folder = ({ id, name, children, node, urlData }) => {
     })
       .then((res) => {
         if (res.data.status == 200) {
-          toast.success("New Batch Created Successfully ", {
+          toast.success("New File Created Successfully ", {
             position: "top-right",
             autoClose: 3000,
           });
         } else {
+          alert(JSON.stringify(res.data))
           toast.warning(res.data.message, {
             position: "top-right",
             autoClose: 3000,
@@ -74,6 +90,7 @@ const Folder = ({ id, name, children, node, urlData }) => {
         }
       })
       .catch((err) => {
+        
         toast.error("Something went wrong", {
           position: "top-right",
           autoClose: 3000,
@@ -89,8 +106,10 @@ const Folder = ({ id, name, children, node, urlData }) => {
   const commitFolderCreation = (name) => {
     if (name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY");
     console.log("PARENT NODE", node);
-
-    dispatch({ type: FOLDER.CREATE, payload: { id, name } });
+    
+    const RandomId = uuidv4();
+    CreateNew({name,type:"folder",subjectId:null,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
+    dispatch({ type: FOLDER.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId } });
   };
   const commitFileCreation = (name) => {
     dispatch({ type: FILE.CREATE, payload: { id, name } });

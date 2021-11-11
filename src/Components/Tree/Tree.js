@@ -9,7 +9,7 @@ import { StyledTree } from "../Tree/Tree.style";
 import { Folder } from "../Tree/Folder/TreeFolder";
 import { File } from "../Tree/File/TreeFile";
 
-const Tree = ({ children, data, onNodeClick, onUpdate }) => {
+const Tree = ({ children, data, onNodeClick, onUpdate,urlData }) => {
   const [state, dispatch] = useReducer(reducer, data);
 
   useLayoutEffect(() => {
@@ -38,7 +38,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate }) => {
 
         <StyledTree>
             {isImparative ? (
-              <TreeRecusive data={state} parentNode={state} />
+              <TreeRecusive data={state} parentNode={state} urlData={urlData} />
               ) : (
               children
             )}
@@ -50,7 +50,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate }) => {
   );
 };
 
-const TreeRecusive = ({ data, parentNode }) => {
+const TreeRecusive = ({ data, parentNode,urlData }) => {
   
   return data.map((item) => {
     item.parentNode = parentNode;
@@ -60,11 +60,11 @@ const TreeRecusive = ({ data, parentNode }) => {
     if (!item.id) item.id = v4();
 
     if (item.type === "file") {
-      return <File key={item.id} id={item.id} name={item.name} node={item} /> ;
+      return <File urlData={urlData} key={item.id} id={item.id} name={item.name} node={item} /> ;
     }
     if (item.type === "folder") {
       return (
-        <Folder key={item.id} id={item.id} name={item.name} node={item}>
+        <Folder urlData={urlData} key={item.id} id={item.id} name={item.name} node={item}>
           <TreeRecusive parentNode={item} data={item.files} />
         </Folder>
       );
