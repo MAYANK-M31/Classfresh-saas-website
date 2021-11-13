@@ -10,10 +10,13 @@ display: flex;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  cursor: pointer;
   
   :hover {
+    cursor: pointer;
     // background-color: #0076fe1a !important;
   }
+
+
   
 `;

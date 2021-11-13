@@ -31,6 +31,7 @@ export const ActionsWrapper = styled.div`
     position:absolute;
     z-index:2;
     right:0;
+    margin-right:10px;
     flex-wrap: nowrap;
     justify-content: space-between;
     opacity: 0;
