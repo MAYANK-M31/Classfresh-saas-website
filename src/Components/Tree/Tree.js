@@ -40,7 +40,6 @@ const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
   const [DeleteId, setDeleteId] = useState(null);
   const [DeleteLoader, setDeleteLoader] = useState(false);
 
-
   useLayoutEffect(() => {
     dispatch({ type: "SET_DATA", payload: data });
   }, [data]);
@@ -70,7 +69,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
   const ConfirmDelete = useCallback(
     (e) => {
       e.preventDefault();
-      setDeleteLoader(true)
+      setDeleteLoader(true);
       setconfirmDelete({ id: DeleteId });
     },
     [
@@ -90,7 +89,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
     setconfirmDelete(null);
     setDeleteId(null);
     setModalVisible(false);
-    setDeleteLoader(false)
+    setDeleteLoader(false);
   }, [
     setDeleteValue,
     setDeleteLoader,
@@ -209,49 +208,55 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Header closeButton>
         <Modal.Title style={{ fontSize: 20 }}>Confirm Delete</Modal.Title>
       </Modal.Header>
-      <Form  onSubmit={(e)=>props.HandleSubmitForm(e)} >
-      <Modal.Body style={{ paddingTop: 5 }}>
-
-        <Form.Group  className="mb-0 mt-0 " controlId="ModalInputFormView">
-          <Form.Label className="font-weight-light">
-            <p style={{ fontWeight: 100, color: "#6c757d" }}>
-              To{" "}
-              <span style={{ fontWeight: "bold", color: "black" }}>
-                delete
-              </span>{" "}
-              file please type file name{" "}
-              <span style={{ fontWeight: "bold", color: "black" }}>
-                {props.ConfirmValue}
-              </span>
-            </p>
-          </Form.Label>
-          <div style={{ width: "100%" }}>
-            <Form.Control
-            autoFocus={true}
-              name="text"
-              type="text"
-              autoComplete="off"
-              className="Input"
-              placeholder={`Type ${props.ConfirmValue}`}
-              value={props.Value}
-              onChange={(e) => {
-                props.setValue(e);
-              }}
-              required
-            />
-          </div>
-        </Form.Group>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="light" onClick={props.onHide}>
-          Close
-        </Button>
-        <Button
-          variant="danger"
-          disabled={props.Value == props.ConfirmValue ? props.Loader : true}
-          style={{ opacity: props.Value == props.ConfirmValue ? props.Loader ? 0.5 : 1 : 0.5 }}
-          onClick={props.HandleSubmitForm}
-        >
+      <Form onSubmit={(e) => props.HandleSubmitForm(e)}>
+        <Modal.Body style={{ paddingTop: 5 }}>
+          <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
+            <Form.Label className="font-weight-light">
+              <p style={{ fontWeight: 100, color: "#6c757d" }}>
+                To{" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  delete
+                </span>{" "}
+                file please type file name{" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  {props.ConfirmValue}
+                </span>
+              </p>
+            </Form.Label>
+            <div style={{ width: "100%" }}>
+              <Form.Control
+                autoFocus={true}
+                name="text"
+                type="text"
+                autoComplete="off"
+                className="Input"
+                placeholder={`Type ${props.ConfirmValue}`}
+                value={props.Value}
+                onChange={(e) => {
+                  props.setValue(e);
+                }}
+                required
+              />
+            </div>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button
+            variant="danger"
+            disabled={props.Value == props.ConfirmValue ? props.Loader : true}
+            style={{
+              opacity:
+                props.Value == props.ConfirmValue
+                  ? props.Loader
+                    ? 0.5
+                    : 1
+                  : 0.5,
+            }}
+            onClick={props.HandleSubmitForm}
+          >
             {props.Loader ? (
               <PulseLoader
                 color={"white"}
@@ -263,14 +268,10 @@ function MyVerticallyCenteredModal(props) {
             ) : (
               <p>Confirm</p>
             )}
-        
-        </Button>
-      </Modal.Footer>
+          </Button>
+        </Modal.Footer>
       </Form>
     </Modal>
-
-   
-
   );
 }
 
