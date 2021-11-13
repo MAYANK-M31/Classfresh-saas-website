@@ -257,15 +257,15 @@ export default function ResultSideBar({urlData}) {
     console.log(node);
   };
   const handleUpdate = (state) => {
-    localStorage.setItem(
-      "tree",
-      JSON.stringify(state, function (key, value) {
-        if (key === "parentNode" || key === "id") {
-          return null;
-        }
-        return value;
-      })
-    );
+    // localStorage.setItem(
+    //   "tree",
+    //   JSON.stringify(state, function (key, value) {
+    //     if (key === "parentNode" || key === "id") {
+    //       return null;
+    //     }
+    //     return value;
+    //   })
+    // );
   };
 
   useLayoutEffect(() => {
