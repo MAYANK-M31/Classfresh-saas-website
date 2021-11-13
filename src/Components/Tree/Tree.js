@@ -9,7 +9,7 @@ import { StyledTree } from "../Tree/Tree.style";
 import { Folder } from "../Tree/Folder/TreeFolder";
 import { File } from "../Tree/File/TreeFile";
 
-const Tree = ({ children, data, onNodeClick, onUpdate,urlData }) => {
+const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
   const [state, dispatch] = useReducer(reducer, data);
 
   useLayoutEffect(() => {
@@ -17,7 +17,6 @@ const Tree = ({ children, data, onNodeClick, onUpdate,urlData }) => {
   }, [data]);
 
   useDidMountEffect(() => {
-
     onUpdate && onUpdate(state);
   }, [state]);
 
@@ -35,23 +34,19 @@ const Tree = ({ children, data, onNodeClick, onUpdate,urlData }) => {
           },
         }}
       >
-
         <StyledTree>
-            {isImparative ? (
-              <TreeRecusive data={state} parentNode={state} urlData={urlData} />
-              ) : (
-              children
-            )}
+          {isImparative ? (
+            <TreeRecusive data={state} parentNode={state} urlData={urlData} />
+          ) : (
+            children
+          )}
         </StyledTree>
-
-
       </TreeContext.Provider>
     </ThemeProvider>
   );
 };
 
-const TreeRecusive = ({ data, parentNode,urlData }) => {
-  
+const TreeRecusive = ({ data, parentNode, urlData }) => {
   return data.map((item) => {
     item.parentNode = parentNode;
     if (!parentNode) {
@@ -60,12 +55,26 @@ const TreeRecusive = ({ data, parentNode,urlData }) => {
     if (!item.id) item.id = v4();
 
     if (item.type === "file") {
-      return <File urlData={urlData} key={item.id} id={item.id} name={item.name} node={item} /> ;
+      return (
+        <File
+          urlData={urlData}
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          node={item}
+        />
+      );
     }
     if (item.type === "folder") {
       return (
-        <Folder urlData={urlData}  key={item.id} id={item.id} name={item.name} node={item}>
-          <TreeRecusive urlData={urlData}   parentNode={item} data={item.files} />
+        <Folder
+          urlData={urlData}
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          node={item}
+        >
+          <TreeRecusive urlData={urlData} parentNode={item} data={item.files} />
         </Folder>
       );
     }

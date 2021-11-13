@@ -9,8 +9,17 @@ import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import { FILE } from "../../Tree/state/constants";
 import FILE_ICONS from "../../Tree/FileIcons";
 import { ReactComponent as ExcelSheet } from "../../../Assets/Logos/xlsx.svg";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { URL } from "../../../URL/URL";
+const { v4: uuidv4 } = require("uuid");
 
-const File = ({ name, id, node }) => {
+const File = ({ name, id, node,urlData }) => {
+
+  const parsedQuery = JSON.parse(urlData);
+  let TOKEN = localStorage.getItem("access_token");
+
+
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
   const ext = useRef("");
@@ -18,14 +27,155 @@ const File = ({ name, id, node }) => {
   let splitted = name?.split(".");
   ext.current = splitted[splitted.length - 1];
 
+
+
+  const CreateNew = async ({ name, type, subjectId, parentId, id }) => {
+    const Body = {
+      name: name,
+      filetype: type,
+      subjectId: subjectId,
+      parentId: parentId,
+      id: id,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/file/create`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          toast.success("New File Created Successfully ", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          if (type == "folder") {
+            dispatch({ type: FILE.DELETE, payload: { id } });
+          } else {
+            dispatch({ type: FILE.DELETE, payload: { id } });
+          }
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong. Failed to create", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        if (type == "folder") {
+          dispatch({ type: FILE.DELETE, payload: { id } });
+        } else {
+          dispatch({ type: FILE.DELETE, payload: { id } });
+        }
+        console.log(err);
+      });
+  };
+
+  const EditName = async ({ name, subjectId, id }) => {
+    const Body = {
+      name: name,
+      subjectId: subjectId,
+      id: id,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/file/edit`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          dispatch({ type: FILE.EDIT, payload: { id, name } });
+          setEditing(false);
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+      });
+  };
+
+  const DeleteFolder = async ({ subjectId, id }) => {
+    const Body = {
+      subjectId: subjectId,
+      id: id,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/file/delete`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          dispatch({ type: FILE.DELETE, payload: { id } });
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+      });
+  };
+
+
+
   const toggleEditing = () => setEditing(!isEditing);
+
+
   const commitEditing = (name) => {
-    dispatch({ type: FILE.EDIT, payload: { id, name } });
-    setEditing(false);
+    EditName({
+      name,
+      subjectId: parsedQuery.subjectId,
+      id,
+    });
+    // dispatch({ type: FILE.EDIT, payload: { id, name } });
+    // setEditing(false);
   };
+
+
   const commitDelete = () => {
-    dispatch({ type: FILE.DELETE, payload: { id } });
+    DeleteFolder({ subjectId: parsedQuery.subjectId, id: id });
+
+    // dispatch({ type: FILE.DELETE, payload: { id } });
   };
+
   const handleNodeClick = React.useCallback(
     (e) => {
       e.stopPropagation();
@@ -33,6 +183,8 @@ const File = ({ name, id, node }) => {
     },
     [node]
   );
+
+
   const handleCancel = () => {
     setEditing(false);
   };

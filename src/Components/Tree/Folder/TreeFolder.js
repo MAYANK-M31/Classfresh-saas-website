@@ -24,12 +24,18 @@ import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import {URL} from "../../../URL/URL"
+import { URL } from "../../../URL/URL";
 const { v4: uuidv4 } = require("uuid");
 
+const TOP_PARENT_ID = "000000-0000-0000-0000-0000000000";
 
-const FolderName = ({ isOpen, name, handleClick, handleRename },props) => (
-  <StyledName onClick={handleClick} onDoubleClick={handleRename}>
+const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
+  <StyledName
+    onClick={handleClick}
+    // onDoubleClick={()=>
+    //   id !== TOP_PARENT_ID ? handleRename : null
+    // }
+  >
     <div style={{ width: 20 }}>
       {isOpen ? <FolderOpen /> : <FolderClose />}{" "}
     </div>
@@ -38,25 +44,22 @@ const FolderName = ({ isOpen, name, handleClick, handleRename },props) => (
   </StyledName>
 );
 
-const Folder = ({ id, name, children, node, urlData },props) => {
-  
+const Folder = ({ id, name, children, node, urlData }) => {
   const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
 
-
-  
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [childs, setChilds] = useState([]);
 
-  const CreateNew = async ({name,type,subjectId,parentId,id}) => {
+  const CreateNew = async ({ name, type, subjectId, parentId, id }) => {
     const Body = {
       name: name,
       filetype: type,
       subjectId: subjectId,
       parentId: parentId,
-      id:id
+      id: id,
     };
 
     await axios({
@@ -74,7 +77,11 @@ const Folder = ({ id, name, children, node, urlData },props) => {
             autoClose: 3000,
           });
         } else {
-          alert(JSON.stringify(res.data))
+          if (type == "folder") {
+            dispatch({ type: FOLDER.DELETE, payload: { id } });
+          } else {
+            dispatch({ type: FILE.DELETE, payload: { id } });
+          }
           toast.warning(res.data.message, {
             position: "top-right",
             autoClose: 3000,
@@ -82,7 +89,87 @@ const Folder = ({ id, name, children, node, urlData },props) => {
         }
       })
       .catch((err) => {
-        
+        toast.error("Something went wrong. Failed to create", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        if (type == "folder") {
+          dispatch({ type: FOLDER.DELETE, payload: { id } });
+        } else {
+          dispatch({ type: FILE.DELETE, payload: { id } });
+        }
+        console.log(err);
+      });
+  };
+
+  const EditName = async ({ name, subjectId, id }) => {
+    const Body = {
+      name: name,
+      subjectId: subjectId,
+      id: id,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/file/edit`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          dispatch({ type: FOLDER.EDIT, payload: { id, name } });
+          setEditing(false);
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        console.log(err);
+      });
+  };
+
+  const DeleteFolder = async ({ subjectId, id }) => {
+    const Body = {
+      subjectId: subjectId,
+      id: id,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/result/file/delete`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Body,
+    })
+      .then((res) => {
+        if (res.data.status == 200) {
+          dispatch({ type: FOLDER.DELETE, payload: { id } });
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((err) => {
         toast.error("Something went wrong", {
           position: "top-right",
           autoClose: 3000,
@@ -92,29 +179,68 @@ const Folder = ({ id, name, children, node, urlData },props) => {
   };
 
   useEffect(() => {
+    if (id == TOP_PARENT_ID) {
+      setIsOpen(true);
+    }
+
     setChilds([children]);
   }, [children]);
 
   const commitFolderCreation = (name) => {
     if (name.length == 0) return alert("FOLDER NAME CANNNOT BE EMPTY");
-    // console.log("PARENT NODE", node);
-    
     const RandomId = uuidv4();
-    CreateNew({name,type:"folder",subjectId:parsedQuery.subjectId,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
-    dispatch({ type: FOLDER.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId ,subjectId:parsedQuery.subjectId} });
+    CreateNew({
+      name,
+      type: "folder",
+      subjectId: parsedQuery.subjectId,
+      parentId: node.id == TOP_PARENT_ID ? "0" : node.id,
+      id: RandomId,
+    });
+    dispatch({
+      type: FOLDER.CREATE,
+      payload: {
+        id,
+        Customid: RandomId,
+        name,
+        parentId: node.parentId,
+        subjectId: parsedQuery.subjectId,
+      },
+    });
   };
+
   const commitFileCreation = (name) => {
     const RandomId = uuidv4();
-    CreateNew({name,type:"file",subjectId:parsedQuery.subjectId,parentId:node.id == "000000-0000-0000-0000-0000000000" ? "0" : node.id ,id:RandomId })
-    dispatch({ type: FILE.CREATE, payload: { id,Customid:RandomId, name,parentId:node.parentId ,subjectId:parsedQuery.subjectId} });
+    CreateNew({
+      name,
+      type: "file",
+      subjectId: parsedQuery.subjectId,
+      parentId: node.id == TOP_PARENT_ID ? "0" : node.id,
+      id: RandomId,
+    });
+    dispatch({
+      type: FILE.CREATE,
+      payload: {
+        id,
+        Customid: RandomId,
+        name,
+        parentId: node.parentId,
+        subjectId: parsedQuery.subjectId,
+      },
+    });
     // dispatch({ type: FILE.CREATE, payload: { id, name } });
   };
+
   const commitDeleteFolder = () => {
-    dispatch({ type: FOLDER.DELETE, payload: { id } });
+    DeleteFolder({ subjectId: parsedQuery.subjectId, id: id });
+    // dispatch({ type: FOLDER.DELETE, payload: { id } });
   };
+
   const commitFolderEdit = (name) => {
-    dispatch({ type: FOLDER.EDIT, payload: { id, name } });
-    setEditing(false);
+    EditName({
+      name,
+      subjectId: parsedQuery.subjectId,
+      id,
+    });
   };
 
   const handleCancel = () => {
@@ -163,7 +289,7 @@ const Folder = ({ id, name, children, node, urlData },props) => {
 
   return (
     <StyledFolder id={id} onClick={handleNodeClick} className="tree__folder">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       <VerticalLine>
         <ActionsWrapper
@@ -187,11 +313,20 @@ const Folder = ({ id, name, children, node, urlData },props) => {
           )}
 
           {!isEditing && isImparative && (
-            <div className="actions">
-              <AiOutlineEdit onClick={handleFolderRename} />
+            <div
+              style={{
+                opacity: id == TOP_PARENT_ID ? 1 : null,
+              }}
+              className="actions"
+            >
+              {id !== TOP_PARENT_ID && (
+                <AiOutlineEdit onClick={handleFolderRename} />
+              )}
               <AiOutlineFileAdd onClick={handleFileCreation} />
               <AiOutlineFolderAdd onClick={handleFolderCreation} />
-              <AiOutlineDelete onClick={commitDeleteFolder} />
+              {id !== TOP_PARENT_ID && (
+                <AiOutlineDelete onClick={commitDeleteFolder} />
+              )}
             </div>
           )}
         </ActionsWrapper>
