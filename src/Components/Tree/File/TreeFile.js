@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineFile, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 import { StyledFile } from "./TreeFile.style";
@@ -14,11 +14,17 @@ import { ToastContainer, toast } from "react-toastify";
 import { URL } from "../../../URL/URL";
 const { v4: uuidv4 } = require("uuid");
 
-const File = ({ name, id, node,urlData }) => {
-
+const File = ({
+  id,
+  name,
+  node,
+  urlData,
+  OpenDeleteModal,
+  ConfirmDelete,
+  ResetDelete,
+}) => {
   const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
-
 
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
   const [isEditing, setEditing] = useState(false);
@@ -29,54 +35,16 @@ const File = ({ name, id, node,urlData }) => {
 
 
 
-  const CreateNew = async ({ name, type, subjectId, parentId, id }) => {
-    const Body = {
-      name: name,
-      filetype: type,
-      subjectId: subjectId,
-      parentId: parentId,
-      id: id,
-    };
+  useEffect(() => {
+    if (ConfirmDelete?.id == id) {
+      DeleteFile({ subjectId: parsedQuery.subjectId, id: id });
+    }
+    console.log(ConfirmDelete?.id,"ID");
 
-    await axios({
-      method: "post", //you can set what request you want to be
-      url: `${URL}/result/file/create`,
-      headers: {
-        Authorization: "Bearer " + TOKEN,
-      },
-      data: Body,
-    })
-      .then((res) => {
-        if (res.data.status == 200) {
-          toast.success("New File Created Successfully ", {
-            position: "top-right",
-            autoClose: 3000,
-          });
-        } else {
-          if (type == "folder") {
-            dispatch({ type: FILE.DELETE, payload: { id } });
-          } else {
-            dispatch({ type: FILE.DELETE, payload: { id } });
-          }
-          toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong. Failed to create", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-        if (type == "folder") {
-          dispatch({ type: FILE.DELETE, payload: { id } });
-        } else {
-          dispatch({ type: FILE.DELETE, payload: { id } });
-        }
-        console.log(err);
-      });
-  };
+  }, [ConfirmDelete]);
+
+
+
 
   const EditName = async ({ name, subjectId, id }) => {
     const Body = {
@@ -117,7 +85,7 @@ const File = ({ name, id, node,urlData }) => {
       });
   };
 
-  const DeleteFolder = async ({ subjectId, id }) => {
+  const DeleteFile = async ({ subjectId, id }) => {
     const Body = {
       subjectId: subjectId,
       id: id,
@@ -138,11 +106,13 @@ const File = ({ name, id, node,urlData }) => {
             position: "top-right",
             autoClose: 3000,
           });
+          ResetDelete()
         } else {
           toast.warning(res.data.message, {
             position: "top-right",
             autoClose: 3000,
           });
+          ResetDelete()
         }
       })
       .catch((err) => {
@@ -150,14 +120,12 @@ const File = ({ name, id, node,urlData }) => {
           position: "top-right",
           autoClose: 3000,
         });
+        ResetDelete()
         console.log(err);
       });
   };
 
-
-
   const toggleEditing = () => setEditing(!isEditing);
-
 
   const commitEditing = (name) => {
     EditName({
@@ -169,9 +137,9 @@ const File = ({ name, id, node,urlData }) => {
     // setEditing(false);
   };
 
-
   const commitDelete = () => {
-    DeleteFolder({ subjectId: parsedQuery.subjectId, id: id });
+    OpenDeleteModal(name,id);
+    // DeleteFile({ subjectId: parsedQuery.subjectId, id: id });
 
     // dispatch({ type: FILE.DELETE, payload: { id } });
   };
@@ -183,7 +151,6 @@ const File = ({ name, id, node,urlData }) => {
     },
     [node]
   );
-
 
   const handleCancel = () => {
     setEditing(false);

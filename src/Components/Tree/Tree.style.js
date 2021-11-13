@@ -28,11 +28,15 @@ export const ActionsWrapper = styled.div`
   .actions {
     display: flex;
     align-items: center;
+    position:absolute;
+    z-index:2;
+    right:0;
     flex-wrap: nowrap;
     justify-content: space-between;
     opacity: 0;
     pointer-events: none;
     transition: 0.2s;
+    background-color: white;
     
 
     > svg {

@@ -99,7 +99,7 @@ const Result = (props) => {
           <Split
             sizes={[minimize ? 0 : 15.5, minimize ? 100 : 84.5]}
             minSize={0}
-            snapOffset={100}
+            snapOffset={150}
             gutterSize={5}
             direction="horizontal"
             cursor="col-resize"

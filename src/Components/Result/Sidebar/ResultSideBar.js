@@ -317,7 +317,7 @@ export default function ResultSideBar({urlData}) {
   };
   return (
     <div className="ResultSidebar">
-         <ToastContainer />
+         <ToastContainer   />
       <div className="GroupView">
         <ActionsWrapper>
           <p>All Lists</p>

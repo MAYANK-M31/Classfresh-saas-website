@@ -25,6 +25,7 @@ import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { URL } from "../../../URL/URL";
+import { Button, Modal } from "react-bootstrap";
 const { v4: uuidv4 } = require("uuid");
 
 const TOP_PARENT_ID = "000000-0000-0000-0000-0000000000";
@@ -44,7 +45,16 @@ const FolderName = ({ isOpen, name, handleClick, handleRename }) => (
   </StyledName>
 );
 
-const Folder = ({ id, name, children, node, urlData }) => {
+const Folder = ({
+  id,
+  name,
+  children,
+  node,
+  urlData,
+  OpenDeleteModal,
+  ConfirmDelete,
+  ResetDelete,
+}) => {
   const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
 
@@ -52,6 +62,13 @@ const Folder = ({ id, name, children, node, urlData }) => {
   const [isEditing, setEditing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [childs, setChilds] = useState([]);
+
+  useEffect(() => {
+    if (ConfirmDelete?.id == id) {
+      DeleteFolder({ subjectId: parsedQuery.subjectId, id: id });
+    }
+    console.log(ConfirmDelete?.id, "ID");
+  }, [ConfirmDelete]);
 
   const CreateNew = async ({ name, type, subjectId, parentId, id }) => {
     const Body = {
@@ -75,6 +92,7 @@ const Folder = ({ id, name, children, node, urlData }) => {
           toast.success("New File Created Successfully ", {
             position: "top-right",
             autoClose: 3000,
+            
           });
         } else {
           if (type == "folder") {
@@ -162,11 +180,13 @@ const Folder = ({ id, name, children, node, urlData }) => {
             position: "top-right",
             autoClose: 3000,
           });
+          ResetDelete();
         } else {
           toast.warning(res.data.message, {
             position: "top-right",
             autoClose: 3000,
           });
+          ResetDelete();
         }
       })
       .catch((err) => {
@@ -175,6 +195,7 @@ const Folder = ({ id, name, children, node, urlData }) => {
           autoClose: 3000,
         });
         console.log(err);
+        ResetDelete();
       });
   };
 
@@ -231,8 +252,7 @@ const Folder = ({ id, name, children, node, urlData }) => {
   };
 
   const commitDeleteFolder = () => {
-    DeleteFolder({ subjectId: parsedQuery.subjectId, id: id });
-    // dispatch({ type: FOLDER.DELETE, payload: { id } });
+    OpenDeleteModal(name, id);
   };
 
   const commitFolderEdit = (name) => {
