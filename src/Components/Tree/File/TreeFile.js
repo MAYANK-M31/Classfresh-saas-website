@@ -172,7 +172,7 @@ const File = ({
         />
       ) : (
         <ActionsWrapper>
-          <StyledName onDoubleClick={toggleEditing}>
+          <StyledName onDoubleClick={null}>
             {FILE_ICONS[ext.current] ? (
               <ExcelSheet width={18} height={18} />
             ) : (

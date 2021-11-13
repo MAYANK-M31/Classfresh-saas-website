@@ -26,7 +26,7 @@ const Result = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setDomLoader(false);
-    }, 2000);
+    }, 1500);
     // setDomLoader(false);
   }, []);
 
