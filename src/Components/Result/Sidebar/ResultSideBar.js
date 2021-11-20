@@ -168,7 +168,8 @@ import { FILE, FOLDER } from "../../Tree/state/constants";
 import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import axios from "axios";
-import {URL} from "../../../URL/URL"
+import { URL } from "../../../URL/URL";
+import { useHistory } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -225,9 +226,9 @@ const DATA = [
     name: "FOLDER 2",
     createdAt: "2021-11-09T12:36:38.602Z",
     __v: 0,
-    files: []
-},
-{
+    files: [],
+  },
+  {
     _id: "618a6b6d75994aa8b2516a2f",
     id: "e5d2c098-7eba-4232-ba33-330a18d8b262",
     parentId: "0",
@@ -237,24 +238,44 @@ const DATA = [
     name: "FOLDER 2",
     createdAt: "2021-11-09T12:37:01.188Z",
     __v: 0,
-    files: []
-}
-]
+    files: [],
+  },
+];
 
-export default function ResultSideBar({urlData}) {
-
-  const parsedQuery = JSON.parse(urlData)
+export default function ResultSideBar({ urlData }) {
+  const parsedQuery = JSON.parse(urlData);
 
   let TOKEN = localStorage.getItem("access_token");
+  const history = useHistory();
 
   const { dispatch, isImparative, onNodeClick } = useTreeContext();
 
   let [data, setData] = useState([]);
   let [Loading, setLoading] = useState(true);
+  let [OpenedFileId, setOpenedFileId] = useState(null);
 
 
-  const handleClick = (node) => {
-    console.log(node);
+  const handleClick = ({ node }) => {
+    if(node?.id && node.type == "file"){
+      console.log(node);
+
+    
+    history.push({
+      search:
+        "?" +
+        new URLSearchParams({
+          class: parsedQuery?.class,
+          section: parsedQuery?.section,
+          classlabel: parsedQuery?.classlabel,
+          sectionlabel: parsedQuery?.sectionlabel,
+          batchId: parsedQuery?.batchId,
+          subjectId: parsedQuery?.subjectId,
+          fileId:node.id
+        }).toString(),
+    });
+    setOpenedFileId(node.id)
+
+  }
   };
   const handleUpdate = (state) => {
     // localStorage.setItem(
@@ -289,27 +310,27 @@ export default function ResultSideBar({urlData}) {
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
-    }).then(({ data }) => {
-      console.log(data.payload);
-      if (data.status == 200) {
-        
-
-        setLoading(false);
-         setData([data.payload.data]);
-      } else {
-        setLoading(false);
-        return toast.error("Something went wrong", {
-          position: "bottom-left",
+    })
+      .then(({ data }) => {
+        console.log(data.payload);
+        if (data.status == 200) {
+          setLoading(false);
+          setData([data.payload.data]);
+        } else {
+          setLoading(false);
+          return toast.error("Something went wrong", {
+            position: "bottom-left",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong", {
+          position: "top-right",
           autoClose: 3000,
         });
-      }
-    }).catch((error)=>{
-      toast.error("Something went wrong", {
-        position: "top-right",
-        autoClose: 3000,
+        console.log(error);
       });
-      console.log(error);
-    })
   };
 
   const commitFolderCreation = () => {
@@ -317,7 +338,7 @@ export default function ResultSideBar({urlData}) {
   };
   return (
     <div className="ResultSidebar">
-         <ToastContainer   />
+      <ToastContainer />
       <div className="GroupView">
         <ActionsWrapper>
           <p>All Lists</p>
@@ -368,7 +389,13 @@ export default function ResultSideBar({urlData}) {
           paddingBottom: "20%",
         }}
       >
-        <Tree data={data} onUpdate={handleUpdate} onNodeClick={handleClick} urlData={urlData}/>
+        <Tree
+          data={data}
+          onUpdate={handleUpdate}
+          onNodeClick={handleClick}
+          urlData={urlData}
+          OpenedFileId={OpenedFileId}
+        />
       </div>
     </div>
   );

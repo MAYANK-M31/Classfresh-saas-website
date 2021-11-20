@@ -26,7 +26,6 @@
   cursor: default;
 }
 
-
 .ResultSidebar .SearchGroupView {
   min-width: 286px;
   max-width: 286px;
@@ -37,9 +36,6 @@
   padding-inline: 15px;
 }
 
-
-
-
 .ResultSidebar .SearchGroupInputView {
   width: 100%;
   height: 39px;
@@ -49,7 +45,7 @@
   /* justify-content: center; */
   align-items: center;
   padding: 5px;
-  background-color: #F2F3F5;
+  background-color: #f2f3f5;
 }
 
 .ResultSidebar .SearchGroupIcon {
@@ -110,10 +106,6 @@
 .ResultSidebar .GroupParentViewInside:hover {
   background-color: #0076fe1a;
 }
-
-
-
-
 
 .ResultSidebar .GroupChildView {
   width: 100%;
@@ -179,3 +171,6 @@
   justify-content: center;
   cursor: pointer;
 }
+
+
+

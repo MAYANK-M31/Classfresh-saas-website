@@ -16,7 +16,6 @@
   width: 100%;
   height: 100%;
   transition: all 5s ease-out;
-
 }
 
 .gutter.gutter-horizontal {
@@ -52,7 +51,6 @@
   border-width: 0px 0px 0px 0.5px;
   border-left-color: #8c97ac83;
   background-color: white;
-  
 }
 
 .Header_Top {
@@ -159,7 +157,6 @@ button {
   align-items: center;
   padding-inline: 10px;
 }
-
 
 .GroupView {
   width: 100%;
@@ -321,7 +318,7 @@ button {
   justify-content: flex-end;
 }
 
-.SideBarbtn{
+.SideBarbtn {
   height: 35px;
   width: 35px;
   display: flex;
@@ -331,18 +328,18 @@ button {
   transition: 0.1s ease-in-out;
 }
 
-.SideBarbtn:active{
+.SideBarbtn:active {
   box-shadow: 0px 0px 2px 2px #0475fc;
   transition: 0.1s ease-in-out;
 }
 
-.SideBarbtn:hover{
-  background-color: #E2E5EA44;
+.SideBarbtn:hover {
+  background-color: #e2e5ea44;
   transition: 0.1s ease-in-out;
 }
 
 .FilterRowBtn {
-  color: #66749F;
+  color: #66749f;
   height: 30px;
   width: 60px;
   display: flex;
@@ -359,19 +356,17 @@ button {
 }
 
 .FilterRowBtn:hover {
-  
-  background-color: #F0F1F3;
+  background-color: #f0f1f3;
   transition: 0.1s ease-in-out;
 }
 
 .FilterRowBtn:active {
-  
-  background-color: #E2E5EA;
+  background-color: #e2e5ea;
   transition: 0.1s ease-in-out;
 }
 
 .SortRowBtn {
-  color: #66749F;
+  color: #66749f;
   height: 30px;
   width: 65px;
   display: flex;
@@ -388,14 +383,12 @@ button {
 }
 
 .SortRowBtn:hover {
-  
-  background-color: #F0F1F3;
+  background-color: #f0f1f3;
   transition: 0.1s ease-in-out;
 }
 
 .SortRowBtn:active {
-  
-  background-color: #E2E5EA;
+  background-color: #e2e5ea;
   transition: 0.1s ease-in-out;
 }
 
@@ -406,7 +399,7 @@ button {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #19CA82;
+  background-color: #19ca82;
   border-radius: 4px;
   font-size: 12px;
   font-family: Poppins, sans-serif;
@@ -417,19 +410,17 @@ button {
 }
 
 .InsertRowBtn:hover {
-  
-  background-color: #06C377;
+  background-color: #06c377;
   transition: 0.1s ease-in-out;
 }
 
 .InsertRowBtn:active {
-  
-  background-color: #12BC77;
+  background-color: #12bc77;
   transition: 0.1s ease-in-out;
 }
 
 .InsertColumnBtn {
-  color: #66749F;
+  color: #66749f;
   height: 30px;
   width: 122px;
   display: flex;
@@ -445,21 +436,17 @@ button {
 }
 
 .InsertColumnBtn:hover {
-  
-  background-color: #F0F1F3;
+  background-color: #f0f1f3;
   transition: 0.1s ease-in-out;
 }
 
 .InsertColumnBtn:active {
-  
-  background-color: #E2E5EA;
+  background-color: #e2e5ea;
   transition: 0.1s ease-in-out;
 }
 
-
-
 .ShareMarksBtn {
-  color: #0069FF;
+  color: #0069ff;
   height: 38px;
   width: 107px;
   display: flex;
@@ -473,25 +460,23 @@ button {
   transition: 0.1s ease-in-out;
   cursor: pointer;
   background-color: #e0edfe;
- margin-right: 60px;
-
+  margin-right: 60px;
 }
 
 .ShareMarksBtn:hover {
-  
-  background-color: #0069FF;
-  color: white;  transition: 0.1s ease-in-out;
-}
-
-.ShareMarksBtn:active {
-  
-  background-color: #0069FFCC;
+  background-color: #0069ff;
   color: white;
   transition: 0.1s ease-in-out;
 }
 
-.InsertDrawer{
-  width: 500px;
+.ShareMarksBtn:active {
+  background-color: #0069ffcc;
+  color: white;
+  transition: 0.1s ease-in-out;
+}
+
+.InsertDrawer {
+  width: 450px;
   height: 100%;
   background-color: white;
 }
@@ -502,3 +487,280 @@ button {
   font-weight: bold;
   text-align: center;
 }
+
+.SideBarTitleView {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  padding-inline: 20px;
+  font-size: 19px;
+  color: #506d85;
+  font-weight: 100;
+  font-family: "Poppins";
+}
+
+.RowInsertDrawer{
+  width: 450px;
+  height: 100%;
+  background-color: white;
+}
+
+.RowInsertDrawer .SearchDiv {
+  width: 100%;
+  height: 65px;
+  /* background-color: #12bc77; */
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-inline: 20px;
+  font-size: 19px;
+  color: #506d85;
+  font-weight: 100;
+  font-family: "Poppins";
+}
+
+.RowInsertDrawer .ListDiv {
+  width: 100%;
+  height: calc(100% - 65px - 65px - 65px);
+  padding-inline: 20px;
+  font-size: 19px;
+  color: #506d85;
+  font-weight: 100;
+  font-family: "Poppins";
+  overflow-y: scroll;
+}
+
+
+.RowInsertDrawer .BottomDiv {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-inline: 20px;
+  font-size: 19px;
+  color: #506d85;
+  font-weight: 100;
+  font-family: "Poppins";
+}
+
+.RowInsertDrawer .SearchBarView {
+  width: 100%;
+  height: 60px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.RowInsertDrawer .SearchGroupInput {
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
+}
+
+.RowInsertDrawer .SearchGroupInputView {
+  width: 95%;
+  height: 39px;
+  background-color: white;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #dfe1e6;
+}
+
+.RowInsertDrawer .SearchGroupIcon {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.RowInsertDrawer .SearchGroupInput {
+  width: 90%;
+  height: 100%;
+  background-color: transparent;
+  border-width: 0;
+  outline: none;
+  font-weight: lighter;
+  font-family: "Poppins";
+  color: #506d85;
+}
+
+.RowInsertDrawer .ImportAllBtn {
+  width: 120px;
+  height: 39px;
+  background-color: #eaecf0;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.RowInsertDrawer .ImportAllBtn p {
+  color: #2C385C;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.RowInsertDrawer .CancelBtn {
+  color: #2C385C;
+  height: 37px;
+  width: 80px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #eaecf0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.RowInsertDrawer .CancelBtn:hover {
+  background-color: #d5d6d8;
+  transition: 0.1s ease-in-out;
+}
+
+.RowInsertDrawer .CancelBtn:active {
+  background-color: #eaecf0;
+  transition: 0.1s ease-in-out;
+}
+
+.RowInsertDrawer .DoneBtn {
+  color: white;
+  height: 37px;
+  width: 80px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #0069FF;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.RowInsertDrawer .DoneBtn:hover {
+  background-color: #0244a0;
+  transition: 0.1s ease-in-out;
+}
+
+.RowInsertDrawer .DoneBtn:active {
+  background-color: #0069FF;
+  transition: 0.1s ease-in-out;
+}
+
+
+.RowInsertDrawer .RowDiv {
+  width: 100%;
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding-inline: 5px;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+
+
+}
+
+.RowInsertDrawer .RowDiv:hover {
+ 
+  background-color: #656f7a13;
+  transition: all 0.2s ease;
+
+ 
+}
+
+.RowInsertDrawer .ModalNotFoundDiv{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  color: #333333;
+  font-weight: bold;
+  font-family: "Poppins";
+  text-transform: capitalize;
+}
+
+.RowInsertDrawer .NameDiv {
+  width: 40%;
+  min-height: 45px;
+  margin-left: 5px;
+  padding-top: 2px;
+}
+
+.RowInsertDrawer .Name {
+  font-size: 15px;
+  color: #0076fe;
+  font-weight: bold;
+  font-family: "Poppins";
+  text-transform: capitalize;
+}
+
+.RowInsertDrawer .Contact {
+  font-size: 12px;
+  color: #90939a;
+  font-weight: bold;
+  font-family: "Poppins";
+  text-transform: capitalize;
+}
+
+.RowInsertDrawer .BtnDiv {
+  width: 20%;
+  min-height: 40px;
+  /* background-color: #5fdd70; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.RowInsertDrawer .Btn {
+  width: 70px;
+  height: 35px;
+  color: #2f66fc;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "Poppins";
+  border-radius: 5px;
+  border: 2px solid #2f66fc;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.RowInsertDrawer .Btn:hover {
+  background-color: #2f66fc15;
+  transition: all 0.2s ease;
+}
+
+
+

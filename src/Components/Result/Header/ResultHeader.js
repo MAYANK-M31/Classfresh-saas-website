@@ -7,10 +7,12 @@ import "../../../css/Common/Header.css";
 const ResultHeaders = ({ classname, section }) => {
   const history = useHistory();
 
+  console.log(history.location);
+
   return (
     <div className="header">
       <div className="TitleView">
-        <div onClick={() => history.goBack()} className="BackBtn">
+        <Link to={`/result/classes/class${history.location.search}`} className="BackBtn">
           <svg
             width="14"
             height="13"
@@ -25,7 +27,7 @@ const ResultHeaders = ({ classname, section }) => {
               fill="#2C385C"
             />
           </svg>
-        </div>
+        </Link>
 
         <span>Result</span>
         <span>{classname && (" > "+classname)}</span>

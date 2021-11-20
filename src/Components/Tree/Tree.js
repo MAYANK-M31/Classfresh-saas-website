@@ -23,14 +23,17 @@ import axios from "axios";
 import { FOLDER } from "./state/constants";
 const { v4: uuidv4 } = require("uuid");
 
+
 const Loadercss = css`
   display: block;
   border-color: red;
 `;
 
-const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
+const Tree = ({ children, data, onNodeClick, onUpdate, urlData,OpenedFileId }) => {
   const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
+  
+
 
   const [state, dispatch] = useReducer(reducer, data);
   const [ModalVisible, setModalVisible] = useState(false);
@@ -120,6 +123,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
               ResetDelete={ResetDelete}
               parentNode={state}
               urlData={urlData}
+              OpenedFileId={OpenedFileId}
             />
           ) : (
             children
@@ -136,6 +140,7 @@ const Tree = ({ children, data, onNodeClick, onUpdate, urlData }) => {
           setDeleteValue(e.target.value);
         }}
         HandleSubmitForm={(e) => ConfirmDelete(e)}
+        OpenedFileId={OpenedFileId}
         Loader={DeleteLoader}
       />
     </ThemeProvider>
@@ -150,6 +155,7 @@ const TreeRecusive = React.memo(
     OpenDeleteModal,
     ConfirmDelete,
     ResetDelete,
+    OpenedFileId
   }) => {
     return data.map((item) => {
       item.parentNode = parentNode;
@@ -169,6 +175,7 @@ const TreeRecusive = React.memo(
             ConfirmDelete={ConfirmDelete}
             name={item.name}
             node={item}
+            OpenedFileId={OpenedFileId}
           />
         );
       }
@@ -183,6 +190,7 @@ const TreeRecusive = React.memo(
             ConfirmDelete={ConfirmDelete}
             OpenDeleteModal={OpenDeleteModal}
             node={item}
+            OpenedFileId={OpenedFileId}
           >
             <TreeRecusive
               urlData={urlData}
@@ -191,6 +199,7 @@ const TreeRecusive = React.memo(
               OpenDeleteModal={OpenDeleteModal}
               parentNode={item}
               data={item.files}
+              OpenedFileId={OpenedFileId}
             />
           </Folder>
         );
@@ -208,7 +217,7 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Header closeButton>
         <Modal.Title style={{ fontSize: 20 }}>Confirm Delete</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={(e) => props.HandleSubmitForm(e)}>
+      <Form onSubmit={(e) => props.Value == props.ConfirmValue ? props.HandleSubmitForm(e): e.preventDefault()}>
         <Modal.Body style={{ paddingTop: 5 }}>
           <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
             <Form.Label className="font-weight-light">

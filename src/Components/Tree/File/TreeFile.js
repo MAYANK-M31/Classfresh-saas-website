@@ -22,6 +22,7 @@ const File = ({
   OpenDeleteModal,
   ConfirmDelete,
   ResetDelete,
+  OpenedFileId,
 }) => {
   const parsedQuery = JSON.parse(urlData);
   let TOKEN = localStorage.getItem("access_token");
@@ -33,18 +34,12 @@ const File = ({
   let splitted = name?.split(".");
   ext.current = splitted[splitted.length - 1];
 
-
-
   useEffect(() => {
     if (ConfirmDelete?.id == id) {
       DeleteFile({ subjectId: parsedQuery.subjectId, id: id });
     }
-    console.log(ConfirmDelete?.id,"ID");
-
+    console.log(ConfirmDelete?.id, "ID");
   }, [ConfirmDelete]);
-
-
-
 
   const EditName = async ({ name, subjectId, id }) => {
     const Body = {
@@ -106,13 +101,13 @@ const File = ({
             position: "top-right",
             autoClose: 3000,
           });
-          ResetDelete()
+          ResetDelete();
         } else {
           toast.warning(res.data.message, {
             position: "top-right",
             autoClose: 3000,
           });
-          ResetDelete()
+          ResetDelete();
         }
       })
       .catch((err) => {
@@ -120,7 +115,7 @@ const File = ({
           position: "top-right",
           autoClose: 3000,
         });
-        ResetDelete()
+        ResetDelete();
         console.log(err);
       });
   };
@@ -138,7 +133,7 @@ const File = ({
   };
 
   const commitDelete = () => {
-    OpenDeleteModal(name,id);
+    OpenDeleteModal(name, id);
     // DeleteFile({ subjectId: parsedQuery.subjectId, id: id });
 
     // dispatch({ type: FILE.DELETE, payload: { id } });
@@ -172,6 +167,17 @@ const File = ({
         />
       ) : (
         <ActionsWrapper>
+          <div
+            style={{
+              width: "calc(100% + 20px)",
+              height: "28px",
+              backgroundColor: OpenedFileId == id ? "#0076fe1a" : "transparent",
+              position: "absolute",
+              left: -20,
+              zIndex: 1,
+            }}
+          />
+
           <StyledName onDoubleClick={null}>
             {FILE_ICONS[ext.current] ? (
               <ExcelSheet width={18} height={18} />
@@ -179,7 +185,14 @@ const File = ({
               <ExcelSheet width={18} height={18} />
             )}
             &nbsp;&nbsp;
-            <p>{name}</p>
+            <p
+              style={{
+                fontWeight: OpenedFileId == id ? "bold" : "normal",
+                cursor: "pointer",
+              }}
+            >
+              {name}
+            </p>
           </StyledName>
           {isImparative && (
             <div className="actions">

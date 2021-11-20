@@ -11,6 +11,9 @@ display: flex;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  // background-color: #0076fe1a !important;
+
+
   
   :hover {
     cursor: pointer;
