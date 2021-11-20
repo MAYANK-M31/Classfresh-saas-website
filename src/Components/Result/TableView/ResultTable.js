@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import * as qs from "query-string";
+
 import {
   useTable,
   useBlockLayout,
@@ -14,20 +16,22 @@ import {
   MenuItem,
   MenuButton,
   MenuDivider,
-  MenuHeader
-} from '@szhsin/react-menu';
-import '@szhsin/react-menu/dist/index.css';
+  MenuHeader,
+} from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
 
 import makeData from "./makeData";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { URL } from "../../../URL/URL";
+import { useHistory } from "react-router";
 
 const Styles = styled.div`
   .table {
     border-spacing: 0;
     border: 1px solid #e2e5ea;
     border-left-width: 0px;
-    margin-top:10px
-
-    .tr {
+    margin-top: 10px .tr {
       :last-child {
         .td {
           border-bottom: 0;
@@ -202,7 +206,7 @@ function Table({ columns, data, updateMyData }) {
                     </div>
                   </div>
                   {headerGroup.headers.map((column) => (
-                    <div {...column.getHeaderProps()}  className="th">
+                    <div {...column.getHeaderProps()} className="th">
                       <div
                         style={{
                           width: "100%",
@@ -211,13 +215,12 @@ function Table({ columns, data, updateMyData }) {
                           alignItems: "center",
                           flexDirection: "row",
                           justifyContent: "space-between",
-                          
                         }}
                       >
                         <div
                           style={{
                             overflow: "hidden",
-                          
+
                             // textOverflow: "clip",
                             // whiteSpace: "nowrap",
                             // backgroundColor:"red"
@@ -234,8 +237,7 @@ function Table({ columns, data, updateMyData }) {
                             alignItems: "center",
                           }}
                         >
-
-                            {/* <svg
+                          {/* <svg
                                   width="13"
                                   height="8"
                                   viewBox="0 0 13 8"
@@ -249,7 +251,9 @@ function Table({ columns, data, updateMyData }) {
                                 </svg> */}
                           <Menu
                             menuButton={
-                              <MenuButton style={{backgroundColor:"transparent"}} >
+                              <MenuButton
+                                style={{ backgroundColor: "transparent" }}
+                              >
                                 <svg
                                   width="13"
                                   height="8"
@@ -292,7 +296,7 @@ function Table({ columns, data, updateMyData }) {
               ))}
             </div>
 
-            <div style={{marginTop:"48px"}} {...getTableBodyProps()}>
+            <div style={{ marginTop: "48px" }} {...getTableBodyProps()}>
               {rows.map(
                 (row, index) =>
                   prepareRow(row) || (
@@ -402,9 +406,9 @@ const Row = ({ row, index, moveRow }) => {
           alignItems: "center",
           justifyContent: "space-between",
           position: "sticky",
-          top:0,
-          left:0,
-          zIndex:10,
+          top: 0,
+          left: 0,
+          zIndex: 10,
           backgroundColor: "white",
         }}
         className="td"
@@ -467,39 +471,90 @@ const Row = ({ row, index, moveRow }) => {
   );
 };
 
-function ResultTable() {
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "First Name",
-        accessor: "firstName",
-      },
-      {
-        Header: "Last Name",
-        accessor: "lastName",
-      },
+const ResultTable = ({ FileId, props }) => {
+  const [Column, setColumn] = useState([]);
 
-      {
-        Header: "Age",
-        accessor: "age",
-        width: 50,
+  const parsedQuery = props.location;
+
+  let TOKEN = localStorage.getItem("access_token");
+  const history = useHistory();
+
+  let columns = [];
+
+  const FetchData = useCallback(async (item) => {
+    await axios({
+      method: "get", //you can set what request you want to be
+      url: `${URL}/excel/fetch?fileId=${FileId}`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
       },
-      {
-        Header: "Visits",
-        accessor: "visits",
-        width: 60,
-      },
-      {
-        Header: "Status",
-        accessor: "status",
-      },
-      {
-        Header: "Profile Progress",
-        accessor: "progress",
-      },
-    ],
-    []
-  );
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+
+          data.payload.data.columns.forEach((e)=>{
+              columns.push({Header:e.columnName,accessor:e.columnId,sequence:e.sequence})
+          })
+
+          columns.sort((a,b)=> a.sequence - b.sequence)
+          console.log(columns);
+
+          setColumn(columns)
+          toast.success(data.message, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          toast.error(data.message, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      });
+  }, []);
+
+  useEffect(() => {
+    FetchData();
+  }, [FileId]);
+
+  // let columns = React.useMemo(
+  //   () => [
+  //     {
+  //       Header: "First Name",
+  //       accessor: "firstName",
+  //     },
+  //     {
+  //       Header: "Last Name",
+  //       accessor: "lastName",
+  //     },
+
+  //     {
+  //       Header: "Age",
+  //       accessor: "age",
+  //       width: 50,
+  //     },
+  //     {
+  //       Header: "Visits",
+  //       accessor: "visits",
+  //       width: 60,
+  //     },
+  //     {
+  //       Header: "Status",
+  //       accessor: "status",
+  //     },
+  //     {
+  //       Header: "Profile Progress",
+  //       accessor: "progress",
+  //     },
+  //   ],
+  //   []
+  // );
 
   const [data, setData] = React.useState(() => makeData(20));
 
@@ -520,9 +575,9 @@ function ResultTable() {
 
   return (
     <Styles>
-      <Table columns={columns} data={data} updateMyData={updateMyData} />
+      <Table columns={Column} data={data} updateMyData={updateMyData} />
     </Styles>
   );
-}
+};
 
 export default ResultTable;

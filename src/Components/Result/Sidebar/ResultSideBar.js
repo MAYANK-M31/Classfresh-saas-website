@@ -242,7 +242,7 @@ const DATA = [
   },
 ];
 
-export default function ResultSideBar({ urlData }) {
+export default function ResultSideBar({ urlData ,FileSelected}) {
   const parsedQuery = JSON.parse(urlData);
 
   let TOKEN = localStorage.getItem("access_token");
@@ -258,7 +258,7 @@ export default function ResultSideBar({ urlData }) {
   const handleClick = ({ node }) => {
     if(node?.id && node.type == "file"){
       console.log(node);
-
+    FileSelected(node)
     
     history.push({
       search:

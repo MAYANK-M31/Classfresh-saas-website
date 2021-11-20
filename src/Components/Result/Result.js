@@ -25,6 +25,7 @@ const Result = (props) => {
   const [DomLoader, setDomLoader] = useState(true);
   const [StudentData, setStudentData] = useState([]);
   const [StudentSavedData, setStudentSavedData] = useState([]);
+  const [FileId,setFileId] = useState(null);
 
   const parsedQuery = qs.parse(props.location.search);
 
@@ -32,11 +33,25 @@ const Result = (props) => {
   const history = useHistory();
 
   useEffect(() => {
+    
     setTimeout(() => {
       setDomLoader(false);
     }, 1500);
     // setDomLoader(false);
   }, []);
+
+  // useEffect(() => {
+  //   setDomLoader(true);
+
+  //   setTimeout(() => {
+  //     setDomLoader(false);
+  //   }, 1500);
+  //   // setDomLoader(false);
+  // }, []);
+
+  const FileSelected = (item)=>{
+    setFileId(item?.id)
+  }
 
   const FetchStudentToAdd = useCallback(async () => {
     await axios({
@@ -191,7 +206,7 @@ const Result = (props) => {
   } else {
     return (
       <div className="Main-Div">
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <ResultHeaders
           classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
           section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
@@ -208,7 +223,7 @@ const Result = (props) => {
           >
             {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
 
-            <ResultSidebar urlData={JSON.stringify(parsedQuery)} />
+            <ResultSidebar urlData={JSON.stringify(parsedQuery)} FileSelected={FileSelected} />
             {/* </div> */}
             <div
               style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}
@@ -395,7 +410,7 @@ const Result = (props) => {
                   <div className="ShareMarksBtn">Share Marks</div>
                 </div>
               </div>
-              <ResultTable />
+              <ResultTable props={props} FileId={FileId} />
             </div>
           </Split>
         </div>
