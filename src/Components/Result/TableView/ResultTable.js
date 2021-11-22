@@ -503,7 +503,7 @@ const ResultTable = ({ FileId, props,RerenderTable }) => {
               Header: e.columnName,
               accessor: e.columnId,
               sequence: e.sequence,
-              width: e.columnId == "STUDENT_NAME" ? 300 : e.columnId == "sequence" ? 50 :  200,
+              width: e.columnId == "STUDENT_NAME" ? 300 : 50,
             });
           });
 

@@ -174,6 +174,9 @@ const Result = (props) => {
           setShowColumnInserter(false);
           FetchStudentToAdd();
           setRerenderTable(!RerenderTable);
+          setColumnName("")
+          setColumnMaxMarks("")
+          setColumnType("MARKS")
           toast.success(data.message, {
             position: "top-center",
             autoClose: 3000,
