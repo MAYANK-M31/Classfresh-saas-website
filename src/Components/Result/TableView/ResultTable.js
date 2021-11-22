@@ -89,8 +89,12 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-function Table({ columns, data, updateMyData }) {
-  const [records, setRecords] = React.useState(data);
+const Table = React.memo(({ columns, data, updateMyData }) => {
+  const [records, setRecords] = useState(data);
+
+  useEffect(() => {
+    setRecords(data);
+  }, [data]);
 
   // Create an editable cell renderer
   const EditableCell = ({
@@ -133,7 +137,7 @@ function Table({ columns, data, updateMyData }) {
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 150,
-      width: 150,
+      // width: 150,
       //   maxWidth: 400,
       Cell: EditableCell,
     }),
@@ -204,6 +208,7 @@ function Table({ columns, data, updateMyData }) {
                         {...getToggleAllRowsSelectedProps()}
                       />
                     </div>
+                    {/* <p>Sno</p> */}
                   </div>
                   {headerGroup.headers.map((column) => (
                     <div {...column.getHeaderProps()} className="th">
@@ -329,7 +334,7 @@ function Table({ columns, data, updateMyData }) {
       </pre>
     </DndProvider>
   );
-}
+});
 
 const DND_ITEM_TYPE = "row";
 
@@ -394,7 +399,7 @@ const Row = ({ row, index, moveRow }) => {
 
   return (
     <tr
-      ref={dropRef}
+      // ref={dropRef}
       {...row.getRowProps()}
       className={opacity == 0 ? "tropacity" : "tr"}
     >
@@ -425,11 +430,11 @@ const Row = ({ row, index, moveRow }) => {
             justifyContent: "center",
             alignItems: "center",
 
-            cursor: "grabbing",
+            // cursor: "grabbing",
           }}
-          ref={dragRef}
-        >
-          <svg
+          // ref={dragRef}
+        ><p>{index+1}</p>
+          {/* <svg
             width="7"
             height="14"
             viewBox="0 0 7 14"
@@ -456,7 +461,7 @@ const Row = ({ row, index, moveRow }) => {
                 />
               </clipPath>
             </defs>
-          </svg>
+          </svg> */}
         </div>
       </div>
 
@@ -471,8 +476,9 @@ const Row = ({ row, index, moveRow }) => {
   );
 };
 
-const ResultTable = ({ FileId, props }) => {
+const ResultTable = ({ FileId, props,RerenderTable }) => {
   const [Column, setColumn] = useState([]);
+  const [Row, setRow] = useState([]);
 
   const parsedQuery = props.location;
 
@@ -481,7 +487,7 @@ const ResultTable = ({ FileId, props }) => {
 
   let columns = [];
 
-  const FetchData = useCallback(async (item) => {
+  const FetchData = useCallback(async () => {
     await axios({
       method: "get", //you can set what request you want to be
       url: `${URL}/excel/fetch?fileId=${FileId}`,
@@ -491,37 +497,45 @@ const ResultTable = ({ FileId, props }) => {
     })
       .then(({ data }) => {
         if (data.status == 200) {
-
-          data.payload.data.columns.forEach((e)=>{
-              columns.push({Header:e.columnName,accessor:e.columnId,sequence:e.sequence})
-          })
-
-          columns.sort((a,b)=> a.sequence - b.sequence)
-          console.log(columns);
-
-          setColumn(columns)
-          toast.success(data.message, {
-            position: "top-center",
-            autoClose: 3000,
+          data.payload.data.columns.forEach((e) => {
+            console.log(e.columnId);
+            columns.push({
+              Header: e.columnName,
+              accessor: e.columnId,
+              sequence: e.sequence,
+              width: e.columnId == "STUDENT_NAME" ? 300 : e.columnId == "sequence" ? 50 :  200,
+            });
           });
+
+          columns.sort((a, b) => a.sequence - b.sequence);
+
+          setColumn(columns);
+          setRow(data.payload.data.rows);
+
+          // toast.success(data.message, {
+          //   position: "top-right",
+          //   autoClose: 3000,
+          // });
         } else {
           toast.error(data.message, {
-            position: "top-center",
+            position: "top-right",
             autoClose: 3000,
           });
         }
       })
       .catch((e) => {
         toast.error("Something went wrong", {
-          position: "top-center",
+          position: "top-right",
           autoClose: 3000,
         });
       });
-  }, []);
+  }, [FileId, setColumn, setRow, Row, Column,RerenderTable]);
 
   useEffect(() => {
-    FetchData();
-  }, [FileId]);
+    if (FileId != null) {
+      FetchData();
+    }
+  }, [FileId,RerenderTable]);
 
   // let columns = React.useMemo(
   //   () => [
@@ -560,7 +574,7 @@ const ResultTable = ({ FileId, props }) => {
 
   const updateMyData = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
-    setData((old) =>
+    setRow((old) =>
       old.map((row, index) => {
         if (index === rowIndex) {
           return {
@@ -573,9 +587,13 @@ const ResultTable = ({ FileId, props }) => {
     );
   };
 
+  // alert(JSON.stringify(Row))
+
   return (
     <Styles>
-      <Table columns={Column} data={data} updateMyData={updateMyData} />
+      {FileId != null && (
+        <Table columns={Column} data={Row} updateMyData={updateMyData}  />
+      )}
     </Styles>
   );
 };

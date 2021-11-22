@@ -18,14 +18,22 @@ import { URL } from "../../URL/URL";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { Form } from "react-bootstrap";
 
 const Result = (props) => {
   const [minimize, setminimize] = useState(false);
   const [ShowRowInserter, setShowRowInserter] = useState(false);
+  const [ShowColumnInserter, setShowColumnInserter] = useState(false);
+
   const [DomLoader, setDomLoader] = useState(true);
   const [StudentData, setStudentData] = useState([]);
   const [StudentSavedData, setStudentSavedData] = useState([]);
-  const [FileId,setFileId] = useState(null);
+  const [FileId, setFileId] = useState(null);
+  const [RerenderTable, setRerenderTable] = useState(false);
+
+  const [ColumnName, setColumnName] = useState("");
+  const [ColumnType, setColumnType] = useState("MARKS");
+  const [ColumnMaxMarks, setColumnMaxMarks] = useState("");
 
   const parsedQuery = qs.parse(props.location.search);
 
@@ -33,7 +41,6 @@ const Result = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    
     setTimeout(() => {
       setDomLoader(false);
     }, 1500);
@@ -49,9 +56,9 @@ const Result = (props) => {
   //   // setDomLoader(false);
   // }, []);
 
-  const FileSelected = (item)=>{
-    setFileId(item?.id)
-  }
+  const FileSelected = (item) => {
+    setFileId(item?.id);
+  };
 
   const FetchStudentToAdd = useCallback(async () => {
     await axios({
@@ -63,9 +70,9 @@ const Result = (props) => {
     })
       .then(({ data }) => {
         if (data.status == 200) {
-          console.log(data.payload.data);
+
           setStudentData(data.payload.data);
-          setStudentSavedData(data.payload.data)
+          setStudentSavedData(data.payload.data);
         } else {
           toast.error(data.message, {
             position: "top-center",
@@ -79,7 +86,14 @@ const Result = (props) => {
           autoClose: 3000,
         });
       });
-  }, [setShowRowInserter, ShowRowInserter, history, parsedQuery]);
+  }, [
+    setShowRowInserter,
+    ShowRowInserter,
+    history,
+    parsedQuery,
+    setStudentData,
+    setStudentSavedData,
+  ]);
 
   const AddRow = useCallback(
     async (item) => {
@@ -109,6 +123,7 @@ const Result = (props) => {
                 (e) => e.uuid != element.uuid
               );
             });
+            setRerenderTable(!RerenderTable);
             setStudentData(FilteredArray);
             toast.success(data.message, {
               position: "top-center",
@@ -138,15 +153,59 @@ const Result = (props) => {
     ]
   );
 
+  const AddColumn = useCallback(async () => {
+    const Data = {
+      fileId: parsedQuery.fileId,
+      name: ColumnName,
+      valueType: ColumnType,
+      maxmarks: ColumnMaxMarks,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/excel/column`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Data,
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          setShowColumnInserter(false);
+          FetchStudentToAdd();
+          setRerenderTable(!RerenderTable);
+          toast.success(data.message, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          toast.error(data.message, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      });
+  }, [setShowColumnInserter, ShowColumnInserter, history, parsedQuery]);
+
   const Search = useCallback((search) => {
     var condition = new RegExp(search.trim());
 
     var result = StudentSavedData.filter(function (el) {
-      return condition.test(el?.name) || condition.test(el?.contact) || condition.test(el?.rollnumber) 
+      return (
+        condition.test(el?.name) ||
+        condition.test(el?.contact) ||
+        condition.test(el?.rollnumber)
+      );
     });
-    
-    setStudentData(result)
-  },[]);
+
+    setStudentData(result);
+  }, []);
 
   const defaultOptions = {
     loop: true,
@@ -223,7 +282,10 @@ const Result = (props) => {
           >
             {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
 
-            <ResultSidebar urlData={JSON.stringify(parsedQuery)} FileSelected={FileSelected} />
+            <ResultSidebar
+              urlData={JSON.stringify(parsedQuery)}
+              FileSelected={FileSelected}
+            />
             {/* </div> */}
             <div
               style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}
@@ -354,7 +416,12 @@ const Result = (props) => {
                     }}
                   />
 
-                  <div onClick={() => {}} className="InsertColumnBtn">
+                  <div
+                    onClick={() => {
+                      setShowColumnInserter(true);
+                    }}
+                    className="InsertColumnBtn"
+                  >
                     <svg
                       width="12"
                       height="12"
@@ -410,11 +477,16 @@ const Result = (props) => {
                   <div className="ShareMarksBtn">Share Marks</div>
                 </div>
               </div>
-              <ResultTable props={props} FileId={FileId} />
+              <ResultTable
+                props={props}
+                FileId={FileId}
+                RerenderTable={RerenderTable}
+              />
             </div>
           </Split>
         </div>
 
+        {/* ROW INSERDER MODAL */}
         <React.Fragment>
           <SwipeableDrawer
             anchor={"right"}
@@ -476,7 +548,7 @@ const Result = (props) => {
                       className="SearchGroupInput"
                       placeholder="Search student"
                       // value={props.value}
-                      onChange={(e)=>Search(e.target.value)}
+                      onChange={(e) => Search(e.target.value)}
                       // onChange={(e) => props.onChange(e)}
                     />
                   </div>
@@ -502,18 +574,24 @@ const Result = (props) => {
                 </div>
               </div>
               <div className="ListDiv">
-                {StudentData.map((item) => (
-                  <div className="RowDiv">
-                    <div className="NameDiv">
-                      <p className="Name">{item?.name}</p>
-                      <p className="Contact">{item?.contact}</p>
+                {StudentData.length > 0 ? (
+                  StudentData.map((item) => (
+                    <div className="RowDiv">
+                      <div className="NameDiv">
+                        <p className="Name">{item?.name}</p>
+                        <p className="Contact">{item?.contact}</p>
+                      </div>
+                      <div className="BatchDiv"></div>
+                      <div onClick={() => AddRow([item])} className="BtnDiv">
+                        <div className="Btn">Add</div>
+                      </div>
                     </div>
-                    <div className="BatchDiv"></div>
-                    <div onClick={() => AddRow([item])} className="BtnDiv">
-                      <div className="Btn">Add</div>
-                    </div>
+                  ))
+                ) : (
+                  <div className="ModalNotFoundDiv">
+                    <p className="ModalNoTeacherFound">No More Student Found</p>
                   </div>
-                ))}
+                )}
               </div>
               <div className="BottomDiv">
                 <div
@@ -532,6 +610,152 @@ const Result = (props) => {
                   className="DoneBtn"
                 >
                   Done
+                </div>
+              </div>
+            </div>
+          </SwipeableDrawer>
+        </React.Fragment>
+
+        {/* COLUMN INSERDER MODAL */}
+        <React.Fragment>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={ShowColumnInserter}
+            onClose={() => {
+              setShowColumnInserter(false);
+            }}
+            onOpen={() => {
+              setShowColumnInserter(false);
+            }}
+          >
+            <div className="RowInsertDrawer">
+              <div className="SideBarTitleView">
+                <div
+                  onClick={() => setShowColumnInserter(false)}
+                  className="BackBtn"
+                >
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.207 0.29329C7.3945 0.48081 7.4998 0.73512 7.4998 1.00029C7.4998 1.26545 7.3945 1.51976 7.207 1.70729L3.414 5.5003H13C13.2652 5.5003 13.5196 5.6056 13.7071 5.7932C13.8946 5.9807 14 6.2351 14 6.5003C14 6.7655 13.8946 7.0199 13.7071 7.2074C13.5196 7.3949 13.2652 7.5003 13 7.5003H3.414L7.207 11.2933C7.2998 11.3862 7.3735 11.4965 7.4237 11.6179C7.4739 11.7392 7.4997 11.8693 7.4997 12.0006C7.4997 12.132 7.4737 12.262 7.4234 12.3834C7.3731 12.5047 7.2994 12.6149 7.2065 12.7078C7.1136 12.8006 7.0033 12.8743 6.8819 12.9245C6.7606 12.9747 6.6305 13.0005 6.4991 13.0005C6.3678 13.0004 6.2377 12.9745 6.1164 12.9242C5.9951 12.8739 5.8848 12.8002 5.792 12.7073L0.293 7.2073C0.1119 7.0269 0.00701 6.7838 0 6.5283V6.4713C0.00716 6.2161 0.11205 5.9734 0.293 5.7933L5.792 0.29329C5.8849 0.20031 5.9952 0.12655 6.1166 0.07623C6.238 0.0259 6.3681 0 6.4995 0C6.6309 0 6.761 0.0259 6.8824 0.07623C7.0038 0.12655 7.1141 0.20031 7.207 0.29329Z"
+                      fill="#2C385C"
+                    />
+                  </svg>
+                </div>
+
+                <span>Insert Column</span>
+              </div>
+
+              <Form
+                // onSubmit={(e) => props.HandleSubmitForm(e)}
+                className="FormView"
+              >
+                <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                  <Form.Label>Column name</Form.Label>
+                  <div style={{ width: "100%" }}>
+                    <Form.Control
+                      name="text"
+                      type="text"
+                      aria-required={true}
+                      autoComplete="off"
+                      className="Input"
+                      placeholder="Enter Column name"
+                      value={ColumnName}
+                      onChange={(e) => {
+                        setColumnName(e.target.value);
+                      }}
+                      required
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Group
+                  key={`inline-radio`}
+                  className="mb-3 "
+                  controlId="ModalInputFormView"
+                >
+                  <Form.Label>Column Type</Form.Label>
+
+                  <div>
+                    <Form.Check
+                      onChange={() => setColumnType("MARKS")}
+                      defaultChecked={true}
+                      inline
+                      label="Marks"
+                      name="group1"
+                      type={"radio"}
+                      id={`inline-radio-1`}
+                    />
+                    <Form.Check
+                      onChange={() => setColumnType("GRADE")}
+                      inline
+                      label="Grade"
+                      name="group1"
+                      type={"radio"}
+                      id={`inline-radio-2`}
+                    />
+
+                    <Form.Check
+                      onChange={() => setColumnType("PERCENTAGE")}
+                      inline
+                      label="percentage"
+                      name="group1"
+                      type={"radio"}
+                      id={`inline-radio-3`}
+                    />
+                  </div>
+                </Form.Group>
+
+                {ColumnType == "MARKS" && (
+                  <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                    <Form.Label>Max marks</Form.Label>
+                    <div style={{ width: "100%" }}>
+                      <Form.Control
+                        name="text"
+                        required
+                        type="number"
+                        className="Input"
+                        autoComplete="off"
+                        placeholder="Enter Max Marks"
+                        value={ColumnMaxMarks}
+                        onChange={(e) => {
+                          setColumnMaxMarks(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+                )}
+              </Form>
+
+              <div
+                style={{ position: "absolute", bottom: 0 }}
+                className="BottomDiv"
+              >
+                <div
+                  onClick={() => {
+                    setShowColumnInserter(
+                      (ShowColumnInserter) => !ShowColumnInserter
+                    );
+                  }}
+                  className="CancelBtn"
+                >
+                  Cancel
+                </div>
+
+                <div
+                  onClick={() => {
+                   if( !/[^\s]/.test(ColumnMaxMarks) == false ||  !/[^\s]/.test(ColumnName) == false ) AddColumn()
+                  }}
+                  className="DoneBtn"
+                >
+                  Create
                 </div>
               </div>
             </div>
