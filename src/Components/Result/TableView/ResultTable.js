@@ -156,6 +156,7 @@ console.log(data);
       <input
         value={value}
         className="CellInput"
+        style={{cursor:"default"}}
         onChange={onChange}
         onBlur={onBlur}
       />
