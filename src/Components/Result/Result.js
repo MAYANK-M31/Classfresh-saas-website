@@ -51,7 +51,7 @@ const Result = (props) => {
   //   setDomLoader(true);
 
   //   setTimeout(() => {
-  //     setDomLoader(false);
+      // setDomLoader(false);
   //   }, 1500);
   //   // setDomLoader(false);
   // }, []);
