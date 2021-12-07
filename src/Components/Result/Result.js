@@ -47,26 +47,23 @@ const Result = (props) => {
     // setDomLoader(false);
   }, []);
 
-  
-
-
-// useEffect(()=>{
-//   setRerenderTable(!RerenderTable)
-// },[parsedQuery])
+  // useEffect(()=>{
+  //   setRerenderTable(!RerenderTable)
+  // },[parsedQuery])
 
   // useEffect(() => {
   //   setDomLoader(true);
 
   //   setTimeout(() => {
-      // setDomLoader(false);
+  // setDomLoader(false);
   //   }, 1500);
   //   // setDomLoader(false);
   // }, []);
 
-  const FileSelected = (item) => {
+  const FileSelected = useCallback((item) => {
     setFileId(item?.id);
-    setRerenderTable(!RerenderTable)
-  };
+    setRerenderTable(!RerenderTable);
+  },[FileId,RerenderTable])
 
   const FetchStudentToAdd = useCallback(async () => {
     await axios({
@@ -78,7 +75,6 @@ const Result = (props) => {
     })
       .then(({ data }) => {
         if (data.status == 200) {
-
           setStudentData(data.payload.data);
           setStudentSavedData(data.payload.data);
         } else {
@@ -182,9 +178,9 @@ const Result = (props) => {
           setShowColumnInserter(false);
           FetchStudentToAdd();
           setRerenderTable(!RerenderTable);
-          setColumnName("")
-          setColumnMaxMarks("")
-          setColumnType("MARKS")
+          setColumnName("");
+          setColumnMaxMarks("");
+          setColumnType("MARKS");
           toast.success(data.message, {
             position: "top-center",
             autoClose: 3000,
@@ -226,6 +222,13 @@ const Result = (props) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  const ColumnNameChange = useCallback(
+    (e) => {
+      setColumnName(e.target.value);
+    },
+    [setColumnName, ColumnName]
+  );
 
   if (DomLoader == true) {
     return (
@@ -679,9 +682,7 @@ const Result = (props) => {
                       className="Input"
                       placeholder="Enter Column name"
                       value={ColumnName}
-                      onChange={(e) => {
-                        setColumnName(e.target.value);
-                      }}
+                      onChange={ColumnNameChange}
                       required
                     />
                   </div>
@@ -762,7 +763,11 @@ const Result = (props) => {
 
                 <div
                   onClick={() => {
-                   if( !/[^\s]/.test(ColumnMaxMarks) == false ||  !/[^\s]/.test(ColumnName) == false ) AddColumn()
+                    if (
+                      !/[^\s]/.test(ColumnMaxMarks) == false ||
+                      !/[^\s]/.test(ColumnName) == false
+                    )
+                      AddColumn();
                   }}
                   className="DoneBtn"
                 >

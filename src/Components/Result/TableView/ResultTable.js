@@ -380,7 +380,7 @@ const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
 
 const DND_ITEM_TYPE = "row";
 
-const Row = ({ row, index, moveRow }) => {
+const Row = React.memo(({ row, index, moveRow }) => {
   const dropRef = React.useRef(null);
   const dragRef = React.useRef(null);
 
@@ -517,18 +517,21 @@ const Row = ({ row, index, moveRow }) => {
       })}
     </tr>
   );
-};
+})
 
-const ResultTable = ({ FileId, parsedQuery, RerenderTable }) => {
+const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
   const [Column, setColumn] = useState([]);
   const [Row, setRow] = useState([]);
 
   let TOKEN = localStorage.getItem("access_token");
   const history = useHistory();
-
   let columns = [];
 
+  console.log("RERENDER");
+
+
   const FetchData = useCallback(async () => {
+
     await axios({
       method: "get", //you can set what request you want to be
       url: `${URL}/excel/fetch?fileId=${FileId}`,
@@ -576,7 +579,7 @@ const ResultTable = ({ FileId, parsedQuery, RerenderTable }) => {
     if (FileId != null) {
       FetchData();
     }
-  }, [FileId, RerenderTable, parsedQuery]);
+  }, [FileId]);
 
   // let columns = React.useMemo(
   //   () => [
@@ -642,6 +645,6 @@ const ResultTable = ({ FileId, parsedQuery, RerenderTable }) => {
       )}
     </Styles>
   );
-};
+})
 
 export default ResultTable;

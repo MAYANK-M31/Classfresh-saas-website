@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 
 import "../../../css/Common/Header.css";
 
-const ResultHeaders = ({ classname, section }) => {
+const ResultHeaders = React.memo(({ classname, section }) => {
   const history = useHistory();
 
   console.log(history.location);
@@ -109,6 +109,6 @@ const ResultHeaders = ({ classname, section }) => {
       </div>
     </div>
   );
-};
+})
 
 export default ResultHeaders;
