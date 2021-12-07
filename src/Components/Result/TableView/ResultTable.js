@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import * as qs from "query-string";
 
@@ -27,7 +27,6 @@ import { useHistory } from "react-router";
 import { debounce } from "lodash-es";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 const Styles = styled.div`
   .table {
@@ -95,12 +94,16 @@ const IndeterminateCheckbox = React.forwardRef(
 let TOKEN = localStorage.getItem("access_token");
 
 const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
-  const [records, setRecords] = useState(data);
+  // const [records, setRecords] = useState(data);
 
-  useEffect(() => {
-    var SortedData = data.sort((a, b) => a.sequence - b.sequence);
+  // useEffect(() => {
+  //   // var SortedData = data.sort((a, b) => a.sequence - b.sequence);
+  //   // setRecords(SortedData);
+  //   records()
+  // }, [data]);
 
-    setRecords(SortedData);
+  const records = useMemo(() => {
+    return data.sort((a, b) => a.sequence - b.sequence);
   }, [data]);
 
   // Create an editable cell renderer
@@ -123,7 +126,6 @@ const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
 
     // console.log(data[index].id);
 
-
     const debounceUpdate = debounce((val, fileId) => {
       UpdateCell(val, fileId);
     }, 1000);
@@ -136,7 +138,6 @@ const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
         docId: fileId,
       };
 
-
       await axios({
         method: "post", //you can set what request you want to be
         url: `${URL}/excel/cell`,
@@ -145,7 +146,7 @@ const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
         },
         data: Payload,
       }).then(({ data }) => {
-        if (data.status != 200) return toast.warn(data.message)
+        if (data.status != 200) return toast.warn(data.message);
         console.log(data);
       });
     };
@@ -210,14 +211,14 @@ const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
 
   const moveRow = (dragIndex, hoverIndex) => {
     const dragRecord = records[dragIndex];
-    setRecords(
-      update(records, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragRecord],
-        ],
-      })
-    );
+    // setRecords(
+    //   update(records, {
+    //     $splice: [
+    //       [dragIndex, 1],
+    //       [hoverIndex, 0, dragRecord],
+    //     ],
+    //   })
+    // );
   };
 
   return (
@@ -383,7 +384,6 @@ const DND_ITEM_TYPE = "row";
 const Row = React.memo(({ row, index, moveRow }) => {
   const dropRef = React.useRef(null);
   const dragRef = React.useRef(null);
-
   const [, drop] = useDrop({
     accept: DND_ITEM_TYPE,
     hover(item, monitor) {
@@ -517,7 +517,7 @@ const Row = React.memo(({ row, index, moveRow }) => {
       })}
     </tr>
   );
-})
+});
 
 const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
   const [Column, setColumn] = useState([]);
@@ -529,9 +529,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
 
   console.log("RERENDER");
 
-
   const FetchData = useCallback(async () => {
-
     await axios({
       method: "get", //you can set what request you want to be
       url: `${URL}/excel/fetch?fileId=${FileId}`,
@@ -579,7 +577,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
     if (FileId != null) {
       FetchData();
     }
-  }, [FileId]);
+  }, [FileId, RerenderTable]);
 
   // let columns = React.useMemo(
   //   () => [
@@ -645,6 +643,6 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
       )}
     </Styles>
   );
-})
+});
 
 export default ResultTable;
