@@ -47,6 +47,13 @@ const Result = (props) => {
     // setDomLoader(false);
   }, []);
 
+  
+
+
+// useEffect(()=>{
+//   setRerenderTable(!RerenderTable)
+// },[parsedQuery])
+
   // useEffect(() => {
   //   setDomLoader(true);
 
@@ -58,6 +65,7 @@ const Result = (props) => {
 
   const FileSelected = (item) => {
     setFileId(item?.id);
+    setRerenderTable(!RerenderTable)
   };
 
   const FetchStudentToAdd = useCallback(async () => {
@@ -481,9 +489,9 @@ const Result = (props) => {
                 </div>
               </div>
               <ResultTable
-                props={props}
                 FileId={FileId}
                 RerenderTable={RerenderTable}
+                parsedQuery={parsedQuery}
               />
             </div>
           </Split>

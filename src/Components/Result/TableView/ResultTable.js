@@ -22,10 +22,12 @@ import "@szhsin/react-menu/dist/index.css";
 
 import makeData from "./makeData";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { URL } from "../../../URL/URL";
 import { useHistory } from "react-router";
 import { debounce } from "lodash-es";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Styles = styled.div`
   .table {
@@ -92,13 +94,12 @@ const IndeterminateCheckbox = React.forwardRef(
 
 let TOKEN = localStorage.getItem("access_token");
 
-
 const Table = React.memo(({ columns, data, updateMyData, parsedQuery }) => {
   const [records, setRecords] = useState(data);
 
   useEffect(() => {
-   var SortedData = data.sort((a, b) => a.sequence - b.sequence);
-console.log(data);
+    var SortedData = data.sort((a, b) => a.sequence - b.sequence);
+
     setRecords(SortedData);
   }, [data]);
 
@@ -112,23 +113,30 @@ console.log(data);
   }) => {
     // We need to keep and update the state of the cell normally
     const [value, setValue] = React.useState(initialValue);
-    const onChange = useCallback((e) => {
-      setValue(e.target.value);
-      debounceUpdate(e.target.value)
-      console.log(parsedQuery.fileId);
-    },[])
+    const onChange = useCallback(
+      (e, fileId) => {
+        setValue(e.target.value);
+        debounceUpdate(e.target.value, fileId);
+      },
+      [parsedQuery, columns, data, updateMyData]
+    );
 
-    const debounceUpdate = debounce((val) => {
-      UpdateCell(val);
+    // console.log(data[index].id);
+
+
+    const debounceUpdate = debounce((val, fileId) => {
+      UpdateCell(val, fileId);
     }, 1000);
 
-    const UpdateCell = async (value) => {
+    const UpdateCell = async (value, fileId) => {
       const Payload = {
-        index: index+1,
+        rowId: data[index].id,
         columnId: id,
         cellValue: value,
-        docId: parsedQuery.fileId,
+        docId: fileId,
       };
+
+
       await axios({
         method: "post", //you can set what request you want to be
         url: `${URL}/excel/cell`,
@@ -136,10 +144,11 @@ console.log(data);
           Authorization: "Bearer " + TOKEN,
         },
         data: Payload,
-      }).then(({data})=>{
+      }).then(({ data }) => {
+        if (data.status != 200) return toast.warn(data.message)
         console.log(data);
-      })
-    }
+      });
+    };
 
     // We'll only update the external data when the input is blurred
     const onBlur = () => {
@@ -156,8 +165,8 @@ console.log(data);
       <input
         value={value}
         className="CellInput"
-        style={{cursor:"default"}}
-        onChange={onChange}
+        style={{ cursor: "default" }}
+        onChange={(e) => onChange(e, parsedQuery?.fileId)}
         onBlur={onBlur}
       />
     );
@@ -174,7 +183,7 @@ console.log(data);
       //   maxWidth: 400,
       Cell: EditableCell,
     }),
-    []
+    [parsedQuery]
   );
 
   const {
@@ -510,11 +519,9 @@ const Row = ({ row, index, moveRow }) => {
   );
 };
 
-const ResultTable = ({ FileId, props, RerenderTable }) => {
+const ResultTable = ({ FileId, parsedQuery, RerenderTable }) => {
   const [Column, setColumn] = useState([]);
   const [Row, setRow] = useState([]);
-
-  const parsedQuery = qs.parse(props.location.search);
 
   let TOKEN = localStorage.getItem("access_token");
   const history = useHistory();
@@ -563,13 +570,13 @@ const ResultTable = ({ FileId, props, RerenderTable }) => {
           autoClose: 3000,
         });
       });
-  }, [FileId, setColumn, setRow, Row, Column, RerenderTable]);
+  }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
 
   useEffect(() => {
     if (FileId != null) {
       FetchData();
     }
-  }, [FileId, RerenderTable]);
+  }, [FileId, RerenderTable, parsedQuery]);
 
   // let columns = React.useMemo(
   //   () => [
