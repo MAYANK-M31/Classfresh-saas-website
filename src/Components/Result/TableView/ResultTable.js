@@ -438,9 +438,10 @@ const Row = React.memo(({ row, index, moveRow }) => {
 
   preview(drop(dropRef));
   drag(dragRef);
-
+console.log("RE RENDERED");
   return (
     <tr
+    key={row.id}
       // ref={dropRef}
       {...row.getRowProps()}
       className={opacity == 0 ? "tropacity" : "tr"}
@@ -614,7 +615,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
 
   const [data, setData] = React.useState(() => makeData(20));
 
-  const updateMyData = (rowIndex, columnId, value) => {
+  const updateMyData = useCallback((rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
     setRow((old) =>
       old.map((row, index) => {
@@ -627,7 +628,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
         return row;
       })
     );
-  };
+  },[])
 
   // alert(JSON.stringify(Row))
 
