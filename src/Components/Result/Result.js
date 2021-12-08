@@ -1,4 +1,4 @@
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, { Component, useCallback, useEffect, useMemo, useState } from "react";
 import "../../css/Result/Result.css";
 
 import * as qs from "query-string";
@@ -35,7 +35,9 @@ const Result = (props) => {
   const [ColumnType, setColumnType] = useState("MARKS");
   const [ColumnMaxMarks, setColumnMaxMarks] = useState("");
 
-  const parsedQuery = qs.parse(props.location.search);
+  const parsedQuery = useMemo(()=>{
+    return qs.parse(props.location.search)
+  },[FileId]);
 
   let TOKEN = localStorage.getItem("access_token");
   const history = useHistory();
