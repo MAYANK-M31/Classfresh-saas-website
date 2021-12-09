@@ -170,6 +170,8 @@ const Result = (props) => {
       maxmarks: ColumnMaxMarks,
     };
 
+    console.log(Data)
+
     await axios({
       method: "post", //you can set what request you want to be
       url: `${URL}/excel/column`,
@@ -203,7 +205,7 @@ const Result = (props) => {
           autoClose: 3000,
         });
       });
-  }, [setShowColumnInserter, ShowColumnInserter, history, parsedQuery]);
+  }, [setShowColumnInserter, ShowColumnInserter,ColumnName,ColumnMaxMarks,ColumnType,setColumnName,setColumnMaxMarks,setColumnType, history, parsedQuery]);
 
   const Search = useCallback((search) => {
     var condition = new RegExp(search.trim());
@@ -217,7 +219,7 @@ const Result = (props) => {
     });
 
     setStudentData(result);
-  }, []);
+  }, [StudentData,setStudentData]);
 
   const defaultOptions = {
     loop: true,
@@ -228,12 +230,7 @@ const Result = (props) => {
     },
   };
 
-  const ColumnNameChange = useCallback(
-    (e) => {
-      setColumnName(e.target.value);
-    },
-    [setColumnName, ColumnName]
-  );
+
 
   const onHandleColumnInserter = useCallback(() => {
     setShowColumnInserter(true);
@@ -246,19 +243,18 @@ const Result = (props) => {
   const RenderRowInserter = useCallback(() => {
     FetchStudentToAdd();
     setShowRowInserter((ShowRowInserter) => !ShowRowInserter);
-  }, []);
+  }, [setShowRowInserter,ShowRowInserter]);
 
   const ToogleRowInserter = useCallback(() => {
     setShowRowInserter(false);
-  }, []);
+  }, [setShowRowInserter,ShowRowInserter]);
 
   const ToogleColumnInserter = useCallback(() => {
     setShowColumnInserter(false);
-  }, []);
+  }, [setShowColumnInserter,ShowColumnInserter]);
 
-  const handleColumnMarks = useCallback((value) => {
-    setColumnMaxMarks(value);
-  }, []);
+
+  
 
   const handleColumnType = useCallback((value) => setColumnType(value), []);
 
@@ -483,7 +479,7 @@ const Result = (props) => {
                     Insert Column
                   </div>
 
-                  <div onClick={RenderRowInserter} className="InsertRowBtn">
+                  <div onClick={()=>RenderRowInserter()} className="InsertRowBtn">
                     <svg
                       width="12"
                       height="12"
@@ -677,7 +673,7 @@ const Result = (props) => {
                       className="Input"
                       placeholder="Enter Column name"
                       value={ColumnName}
-                      onChange={ColumnNameChange}
+                      onChange={(e)=>  setColumnName(e.target.value)}
                       required
                     />
                   </div>
@@ -733,7 +729,7 @@ const Result = (props) => {
                         placeholder="Enter Max Marks"
                         value={ColumnMaxMarks}
                         onChange={(e) => {
-                          handleColumnMarks(e.target.value);
+                          setColumnMaxMarks(e.target.value);
                         }}
                       />
                     </div>
@@ -745,7 +741,7 @@ const Result = (props) => {
                 style={{ position: "absolute", bottom: 0 }}
                 className="BottomDiv"
               >
-                <div onClick={ToogleColumnInserter} className="CancelBtn">
+                <div onClick={()=>ToogleColumnInserter()} className="CancelBtn">
                   Cancel
                 </div>
 
