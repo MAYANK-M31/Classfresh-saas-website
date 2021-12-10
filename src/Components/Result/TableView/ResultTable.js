@@ -304,87 +304,87 @@
 // const Column = React.memo(({ column }) => {
 //   console.log("RENDERED COLUMN");
 //   return (
-//     <div {...column.getHeaderProps()} className="th">
-//       <div
-//         style={{
-//           width: "100%",
-//           height: "100%",
-//           display: "flex",
-//           alignItems: "center",
-//           flexDirection: "row",
-//           justifyContent: "space-between",
-//         }}
-//       >
-//         <div
-//           style={{
-//             overflow: "hidden",
+// <div {...column.getHeaderProps()} className="th">
+//   <div
+//     style={{
+//       width: "100%",
+//       height: "100%",
+//       display: "flex",
+//       alignItems: "center",
+//       flexDirection: "row",
+//       justifyContent: "space-between",
+//     }}
+//   >
+//     <div
+//       style={{
+//         overflow: "hidden",
 
-//             // textOverflow: "clip",
-//             // whiteSpace: "nowrap",
-//             // backgroundColor:"red"
-//           }}
-//         >
-//           {column.render("Header")}
-//         </div>
-//         <div
-//           style={{
-//             width: "20px",
-//             height: "100%",
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: "center",
-//           }}
-//         >
-//           {/* <svg
-//                                   width="13"
-//                                   height="8"
-//                                   viewBox="0 0 13 8"
-//                                   fill="none"
-//                                   xmlns="http://www.w3.org/2000/svg"
-//                                 >
-//                                   <path
-//                                     d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
-//                                     fill="#E2E5EA"
-//                                   />
-//                                 </svg> */}
-//           <Menu
-//             menuButton={
-//               <MenuButton style={{ backgroundColor: "transparent" }}>
-//                 <svg
-//                   width="13"
-//                   height="8"
-//                   viewBox="0 0 13 8"
-//                   fill="none"
-//                   xmlns="http://www.w3.org/2000/svg"
-//                 >
-//                   <path
-//                     d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
-//                     fill="#E2E5EA"
-//                   />
-//                 </svg>
-//               </MenuButton>
-//             }
-//           >
-//             <MenuItem>New File</MenuItem>
-//             <MenuItem>Save</MenuItem>
-//             <MenuItem>Close Window</MenuItem>
-//             <MenuDivider />
-//             <MenuHeader>Edit</MenuHeader>
-//             <MenuItem>Cut</MenuItem>
-//             <MenuItem>Copy</MenuItem>
-//             <MenuItem>Paste</MenuItem>
-//             <MenuDivider />
-//             <MenuItem>Print</MenuItem>
-//           </Menu>
-//         </div>
-//       </div>
-
-//       {/* Use column.getResizerProps to hook up the events correctly */}
-//       <div
-//         {...column.getResizerProps()}
-//         className={`resizer ${column.isResizing ? "isResizing" : ""}`}
-//       />
+//         // textOverflow: "clip",
+//         // whiteSpace: "nowrap",
+//         // backgroundColor:"red"
+//       }}
+//     >
+//       {column.render("Header")}
 //     </div>
+//     <div
+//       style={{
+//         width: "20px",
+//         height: "100%",
+//         display: "flex",
+//         justifyContent: "center",
+//         alignItems: "center",
+//       }}
+//     >
+//       {/* <svg
+//                               width="13"
+//                               height="8"
+//                               viewBox="0 0 13 8"
+//                               fill="none"
+//                               xmlns="http://www.w3.org/2000/svg"
+//                             >
+//                               <path
+//                                 d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+//                                 fill="#E2E5EA"
+//                               />
+//                             </svg> */}
+//       <Menu
+//         menuButton={
+//           <MenuButton style={{ backgroundColor: "transparent" }}>
+//             <svg
+//               width="13"
+//               height="8"
+//               viewBox="0 0 13 8"
+//               fill="none"
+//               xmlns="http://www.w3.org/2000/svg"
+//             >
+//               <path
+//                 d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+//                 fill="#E2E5EA"
+//               />
+//             </svg>
+//           </MenuButton>
+//         }
+//       >
+//         <MenuItem>New File</MenuItem>
+//         <MenuItem>Save</MenuItem>
+//         <MenuItem>Close Window</MenuItem>
+//         <MenuDivider />
+//         <MenuHeader>Edit</MenuHeader>
+//         <MenuItem>Cut</MenuItem>
+//         <MenuItem>Copy</MenuItem>
+//         <MenuItem>Paste</MenuItem>
+//         <MenuDivider />
+//         <MenuItem>Print</MenuItem>
+//       </Menu>
+//     </div>
+//   </div>
+
+//   {/* Use column.getResizerProps to hook up the events correctly */}
+//   <div
+//     {...column.getResizerProps()}
+//     className={`resizer ${column.isResizing ? "isResizing" : ""}`}
+//   />
+// </div>
 //   );
 // });
 
@@ -663,7 +663,247 @@
 
 // export default ResultTable;
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+// import React, { useCallback, useEffect, useMemo, useState } from "react";
+// import styled from "styled-components";
+// import * as qs from "query-string";
+
+// import makeData from "./makeData";
+// import axios from "axios";
+// import { URL } from "../../../URL/URL";
+// import { useHistory } from "react-router";
+// import { debounce } from "lodash-es";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { Button } from "react-bootstrap";
+// import DataGrid, { TextEditor } from "react-data-grid";
+
+// import {
+//   Menu,
+//   MenuItem,
+//   MenuButton,
+//   MenuDivider,
+//   MenuHeader,
+// } from "@szhsin/react-menu";
+// import "@szhsin/react-menu/dist/index.css";
+
+// let TOKEN = localStorage.getItem("access_token");
+
+// const Styles = styled.div`
+// .th{
+//   // background-color:red;
+
+// }
+
+// `;
+
+// const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
+//   const [Column, setColumn] = useState([]);
+//   const [Row, setRow] = useState([]);
+
+//   let TOKEN = localStorage.getItem("access_token");
+//   const history = useHistory();
+//   let columns = [];
+
+//   console.log("RERENDER");
+
+//   function CustomHeader(item) {
+//     return (
+//       <Styles>
+//         <div className="th">
+//           <div
+//             style={{
+//               width: "100%",
+//               height: "100%",
+//               display: "flex",
+//               alignItems: "center",
+//               flexDirection: "row",
+//               justifyContent: "space-between",
+//             }}
+//           >
+//             <div
+//               style={
+//                 {
+//                   // overflow: "hidden",
+//                   // backgroundColor:"red"
+//                 }
+//               }
+//             >
+//               {item.column.name}
+//             </div>
+
+//             <div
+//               style={{
+//                 width: "20px",
+//                 height: "100%",
+//                 display: "flex",
+//                 // backgroundColor:"yellow",
+//                 justifyContent: "center",
+//                 alignItems: "center",
+//               }}
+//             >
+//               <Menu
+
+// menuButton={
+//                   <MenuButton style={{ backgroundColor: "transparent" }}>
+//                     <svg
+//                       width="13"
+//                       height="8"
+//                       viewBox="0 0 13 8"
+//                       fill="none"
+//                       xmlns="http://www.w3.org/2000/svg"
+//                     >
+//                       <path
+//                         d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+//                         fill="#E2E5EA"
+//                       />
+//                     </svg>
+//                   </MenuButton>
+//                 }
+//               >
+//                 <MenuItem>New File</MenuItem>
+//                 <MenuItem>Save</MenuItem>
+//                 <MenuItem>Close Window</MenuItem>
+//                 <MenuDivider />
+//                 <MenuHeader>Edit</MenuHeader>
+//                 <MenuItem>Cut</MenuItem>
+//                 <MenuItem>Copy</MenuItem>
+//                 <MenuItem>Paste</MenuItem>
+//                 <MenuDivider />
+//                 <MenuItem>Print</MenuItem>
+//               </Menu>
+//             </div>
+//           </div>
+
+//           {/* Use column.getResizerProps to hook up the events correctly */}
+//         </div>
+//       </Styles>
+//     );
+//   }
+
+// const FetchData = useCallback(async () => {
+//   await axios({
+//     method: "get", //you can set what request you want to be
+//     url: `${URL}/excel/fetch?fileId=${FileId}`,
+//     headers: {
+//       Authorization: "Bearer " + TOKEN,
+//     },
+//   })
+//     .then(({ data }) => {
+//       if (data.status == 200) {
+//         data.payload.data.columns.forEach((e) => {
+//           console.log(e.columnId);
+//           columns.push({
+//             name: e.columnName,
+//             key: e.columnId,
+//             editor: TextEditor,
+//             headerRenderer: CustomHeader,
+//             editable: true,
+//             sortable: true,
+//             sequence: e.sequence,
+//             width: e.columnId == "STUDENT_NAME" ? 300 : 150,
+//           });
+//         });
+
+//         columns.sort((a, b) => a.sequence - b.sequence);
+//         console.log(columns);
+//         setColumn(columns);
+//         var SORTED = data.payload.data.rows.sort(
+//           (a, b) => a.sequence - b.sequence
+//         );
+//         setRow(SORTED);
+
+//         // toast.success(data.message, {
+//         //   position: "top-right",
+//         //   autoClose: 3000,
+//         // });
+//       } else {
+//         toast.error(data.message, {
+//           position: "top-right",
+//           autoClose: 3000,
+//         });
+//       }
+//     })
+//     .catch((e) => {
+//       toast.error("Something went wrong", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//     });
+// }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
+
+//   useEffect(() => {
+//     if (FileId != null) {
+//       FetchData();
+//     }
+//   }, [FileId, RerenderTable]);
+
+//   const updateMyData = useCallback((rowIndex, columnId, value) => {
+//     // We also turn on the flag to not reset the page
+//     setRow((old) =>
+//       old.map((row, index) => {
+//         if (index === rowIndex) {
+//           return {
+//             ...old[rowIndex],
+//             [columnId]: value,
+//           };
+//         }
+//         return row;
+//       })
+//     );
+//   }, []);
+
+//   const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+//     setRow((state) => {
+//       const rows = state.slice();
+//       for (let i = fromRow; i <= toRow; i++) {
+//         rows[i] = { ...rows[i], ...updated };
+//       }
+//       return { rows };
+//     });
+//   };
+
+//   const onChangeData = (e) => {
+//     setRow(e);
+//   };
+
+//   function rowKeyGetter(row) {
+//     return row.id;
+//   }
+
+//   return (
+//     <div
+//       style={{
+//         width: "100%",
+//         height: "100%",
+//         paddingTop: "49px",
+//       }}
+//     >
+//       {FileId != null && (
+//         <DataGrid
+//           className="rdg-light"
+//           style={{ height: "100%" }}
+//           columns={Column}
+//           rows={Row}
+//           onGridRowsUpdated={onGridRowsUpdated}
+//           onRowsChange={onChangeData}
+//           rowKeyGetter={rowKeyGetter}
+//           enableCellSelect={true}
+//           enableRowSelect={true}
+//           rowsCount={Row.length}
+//           rowHeight={46}
+
+//           />
+//       )}
+//     </div>
+//   );
+// });
+
+import React, { useState, useCallback, useEffect } from "react";
+import { render } from "react-dom";
+import { AgGridReact, AgGridColumn } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
 import styled from "styled-components";
 import * as qs from "query-string";
 
@@ -675,11 +915,11 @@ import { debounce } from "lodash-es";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "react-bootstrap";
-import DataGrid, { TextEditor } from "react-data-grid";
-
-let TOKEN = localStorage.getItem("access_token");
 
 const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+  const [rowData, setRowData] = useState(null);
   const [Column, setColumn] = useState([]);
   const [Row, setRow] = useState([]);
 
@@ -687,9 +927,24 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
   const history = useHistory();
   let columns = [];
 
-  console.log("RERENDER");
+  const onGridReady = useCallback(
+    (params) => {
+      setGridApi(params.api);
+      setGridColumnApi(params.columnApi);
+
+      // fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      //   .then((resp) => resp.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     updateData(data);
+      //   });
+    },
+    [gridApi]
+  );
 
   const FetchData = useCallback(async () => {
+    const updateData = (data) => gridApi.setRowData(data);
+
     await axios({
       method: "get", //you can set what request you want to be
       url: `${URL}/excel/fetch?fileId=${FileId}`,
@@ -704,10 +959,8 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
             columns.push({
               name: e.columnName,
               key: e.columnId,
-              editor: TextEditor,
-              editable: true,
               sequence: e.sequence,
-              width: e.columnId == "STUDENT_NAME" ? 300 : 50,
+              width: e.columnId == "STUDENT_NAME" ? 300 : 150,
             });
           });
 
@@ -717,8 +970,8 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
           var SORTED = data.payload.data.rows.sort(
             (a, b) => a.sequence - b.sequence
           );
-          setRow(SORTED);
-
+          // setRow(SORTED);
+          updateData(SORTED);
           // toast.success(data.message, {
           //   position: "top-right",
           //   autoClose: 3000,
@@ -744,63 +997,85 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
     }
   }, [FileId, RerenderTable]);
 
-  const updateMyData = useCallback((rowIndex, columnId, value) => {
-    // We also turn on the flag to not reset the page
-    setRow((old) =>
-      old.map((row, index) => {
-        if (index === rowIndex) {
-          return {
-            ...old[rowIndex],
-            [columnId]: value,
-          };
-        }
-        return row;
-      })
-    );
-  }, []);
+  const onQuickFilterChanged = useCallback(() => {
+    gridApi.setQuickFilter(document.getElementById("quickFilter").value);
+  }, [gridApi]);
 
-  const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    
-    setRow((state) => {
-      const rows = state.slice();
-      for (let i = fromRow; i <= toRow; i++) {
-        rows[i] = { ...rows[i], ...updated };
-      }
-      return {rows};
-    });
+  const CellStyle = (params, index) => {
+    console.log(params);
+    if (index === Column.length - 1) {
+      return {
+        borderLeft: "0.5px solid #d9dce0",
+        borderRight: "0.5px solid #d9dce0",
+      };
+    }
+    return { borderLeft: "0.5px solid #d9dce0" };
   };
 
-  const onChangeData = (e)=>{
-    alert(JSON.stringify(e))
-  }
-
-  function rowKeyGetter(row) {
-    return row.id;
-  }
+  const cellClicked = (params) => {
+    console.log(params);
+   
+  };
 
   return (
     <div
-      style={{
-        width: "100%",
-        height: "100%",
-        paddingTop: "49px",
-      }}
+      style={{ width: "100%", height: "calc(100% - 49px)", marginTop: "49px" }}
     >
-      {FileId != null && (
-        <DataGrid
-          className="rdg-light"
-          style={{ height: "100%" }}
-          columns={Column}
-          rows={Row}
+      <div className="example-wrapper">
+        {/* <div style={{ marginBottom: "5px" }}>
+          <input
+            type="text"
+            onInput={() => onQuickFilterChanged()}
+            id="quickFilter"
+            placeholder="quick filter..."
+          />
+        </div> */}
+        <div
+          id="myGrid"
+          className="ag-theme-alpine"
+          style={{
+            height: "100%",
+            width: "100%",
+            border: "none",
+            backgroundColor: "red",
+          }}
+        >
+          <AgGridReact
+            defaultColDef={{
+              flex: 1,
+              minWidth: 100,
+              resizable: true,
+            }}
+            suppressRowHoverHighlight={true}
+            suppressRowClickSelection={true}
+            suppressDragLeaveHidesColumns={true}
+            onCellClicked={cellClicked}
+            // debounceVerticalScrollbar={true}
 
-          onGridRowsUpdated={onGridRowsUpdated}
-          onRowsChange={onChangeData}
-          rowKeyGetter={rowKeyGetter}
-          enableCellSelect={true}
-          enableRowSelect={true}
-          rowsCount={Row.length}
-        />
-      )}
+            rowSelection={"multiple"}
+            onGridReady={onGridReady}
+            rowData={rowData}
+          >
+            <AgGridColumn
+              field="Sno"
+              width={50}
+              headerCheckboxSelection={true}
+              cellStyle={{ borderLeft: "0px" }}
+              headerCheckboxSelectionFilteredOnly={true}
+              checkboxSelection={true}
+            />
+            {Column.map((item, index) => (
+              <AgGridColumn
+                key={item.id}
+                headerName={item.name}
+                field={item.key}
+                width={item.width}
+                cellStyle={(e) => CellStyle(e, index)}
+              />
+            ))}
+          </AgGridReact>
+        </div>
+      </div>
     </div>
   );
 });

@@ -131,20 +131,3 @@
   margin: 0;
 }
 
-/* width */
-::-webkit-scrollbar {
-  display: none;
-  width: 0px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f2f2f2;
-  margin-left: 0px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #cccccc;
-  border-radius: 0px;
-}
