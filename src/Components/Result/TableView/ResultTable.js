@@ -906,8 +906,10 @@ import { useHistory } from "react-router";
 import { debounce } from "lodash-es";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import RadixMenu from "./RadixMenu";
+import { PulseLoader } from "react-spinners";
+import { css } from "@emotion/react";
 
 
 const ResultTable = React.memo(
@@ -917,7 +919,8 @@ const ResultTable = React.memo(
     const [rowData, setRowData] = useState(null);
     const [Column, setColumn] = useState([]);
     const [Row, setRow] = useState([]);
-
+    const [showDeleteColumn,setshowDeleteColumn] = useState(false)
+    
     let TOKEN = localStorage.getItem("access_token");
     const history = useHistory();
     let columns = [];
@@ -1069,7 +1072,7 @@ const ResultTable = React.memo(
 
 
     const DeleteColumn =()=>{
-      alert("DEL")
+      setshowDeleteColumn(true)    
     }
 
 
@@ -1147,6 +1150,7 @@ const ResultTable = React.memo(
           marginTop: "49px",
         }}
       >
+        
         <div className="example-wrapper">
           {/* <div style={{ marginBottom: "5px" }}>
           <input
@@ -1216,9 +1220,74 @@ const ResultTable = React.memo(
             </AgGridReact>
           </div>
         </div>
+<MyVerticallyCenteredModal show={showDeleteColumn} onHide={()=>setshowDeleteColumn(false)} />
       </div>
     );
   }
 );
+
+
+
+
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal {...props}  centered onHide={props.onHide}>
+      <Modal.Header style={{border:0}} >
+        <Modal.Title style={{ fontSize: 20 }}>Delete Column</Modal.Title>
+      </Modal.Header>
+
+        <Modal.Body style={{ paddingTop: 5 }}>
+          <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
+            <Form.Label className="font-weight-light">
+              <p style={{ fontWeight: 100,fontSize:18, color: "#6c757d" }}>
+                Are you sure want to {" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  delete
+                </span>{" "}
+                 column
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  {props.ConfirmValue}
+                </span>
+              </p>
+            </Form.Label>
+            <div style={{ width: "100%" }}>
+             
+            </div>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer style={{border:0}}>
+          <Button variant="light" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button
+            variant="danger"
+            disabled={props.Value == props.ConfirmValue ? props.Loader : true}
+            onClick={props.HandleSubmitForm}
+          >
+            {props.Loader ? (
+              <PulseLoader
+                color={"white"}
+                loading={true}
+                css={Loadercss}
+                size={8}
+                margin={1}
+              />
+            ) : (
+              <p>Delete</p>
+            )}
+          </Button>
+        </Modal.Footer>
+
+    </Modal>
+  );
+}
+
+const Loadercss = css`
+  display: block;
+  border-color: red;
+`;
+
+
+
 
 export default ResultTable;

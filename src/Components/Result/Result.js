@@ -18,8 +18,9 @@ import { URL } from "../../URL/URL";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import RadixMenu from "./TableView/RadixMenu.js";
+import { css } from "@emotion/react";
 
 const Result = (props) => {
   const [minimize, setminimize] = useState(false);
@@ -321,6 +322,7 @@ const Result = (props) => {
   } else {
     return (
       <div className="Main-Div">
+
         {/* <ToastContainer /> */}
         <ResultHeaders
           classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
@@ -781,9 +783,71 @@ const Result = (props) => {
             </div>
           </SwipeableDrawer>
         </React.Fragment>
+        <MyVerticallyCenteredModal/>
       </div>
     );
   }
 };
+
+
+
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal {...props} onHide={props.onHide}>
+      <Modal.Header closeButton>
+        <Modal.Title style={{ fontSize: 20 }}>Confirm Delete</Modal.Title>
+      </Modal.Header>
+      <Form onSubmit={(e) => props.Value == props.ConfirmValue ? props.HandleSubmitForm(e): e.preventDefault()}>
+        <Modal.Body style={{ paddingTop: 5 }}>
+          <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
+            <Form.Label className="font-weight-light">
+              <p style={{ fontWeight: 100, color: "#6c757d" }}>
+                To{" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  delete
+                </span>{" "}
+                file please type file name{" "}
+                <span style={{ fontWeight: "bold", color: "black" }}>
+                  {props.ConfirmValue}
+                </span>
+              </p>
+            </Form.Label>
+            <div style={{ width: "100%" }}>
+             
+            </div>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button
+            variant="danger"
+            disabled={props.Value == props.ConfirmValue ? props.Loader : true}
+            onClick={props.HandleSubmitForm}
+          >
+            {/* {props.Loader ? (
+              <PulseLoader
+                color={"white"}
+                loading={true}
+                css={Loadercss}
+                size={8}
+                margin={1}
+              />
+            ) : (
+              <p>Confirm</p>
+            )} */}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+}
+
+const Loadercss = css`
+  display: block;
+  border-color: red;
+`;
+
 
 export default Result;
