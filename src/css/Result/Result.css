@@ -133,32 +133,8 @@ button {
   border: 0;
 }
 
-.ResultUtilityTopBar {
-  width: inherit;
-  height: 49px;
-  z-index: 100;
-  position: fixed;
-  background-color: white;
-  float: inline-start;
-  top: 69px;
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #e2e5ea;
-  border-top-width: 0;
-  border-right-width: 0;
-  border-left-width: 0;
-  /* justify-content: space-between; */
-}
 
-.LeftDiv {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  background-color: white;
-  flex-direction: row;
-  align-items: center;
-  padding-inline: 10px;
-}
+
 
 .GroupView {
   width: 100%;
@@ -309,15 +285,48 @@ button {
   color: #506d85;
 }
 
+
+
+
+.ResultUtilityTopBar {
+  width: inherit;
+  height: 49px;
+  z-index: 100;
+  position: fixed;
+  background-color: white;
+  float: inline-start;
+  top: 69px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid #e2e5ea;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  /* justify-content: space-between; */
+}
+
+
+
+.LeftDiv {
+  width: 50%;
+  min-width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 10px;
+}
+
 .RightDiv {
   width: 50%;
   height: 100%;
   display: flex;
-  /* background-color: yellowgreen; */
   flex-direction: row;
   align-items: center;
-  padding-inline: 10px;
+  padding-left: 10px;
   justify-content: flex-end;
+  padding-right: 70px;
 }
 
 .SideBarbtn {
@@ -462,7 +471,32 @@ button {
   transition: 0.1s ease-in-out;
   cursor: pointer;
   background-color: #e0edfe;
-  margin-right: 60px;
+  margin-left: 10px;
+}
+
+.SaveDiv {
+  height: 38px;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: bold;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.SAVED{
+  width: 10px;
+  height: 10px;
+  background-color: #12bc77;
+  border-radius: 100px;
+  margin-left: 5px;
 }
 
 .ShareMarksBtn:hover {

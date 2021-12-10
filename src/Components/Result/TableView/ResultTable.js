@@ -12,7 +12,6 @@
 // import { HTML5Backend } from "react-dnd-html5-backend";
 // import update from "immutability-helper";
 
-
 // import makeData from "./makeData";
 // import axios from "axios";
 // import { URL } from "../../../URL/URL";
@@ -340,35 +339,35 @@
 //                                 fill="#E2E5EA"
 //                               />
 //                             </svg> */}
-      // <Menu
-      //   menuButton={
-      //     <MenuButton style={{ backgroundColor: "transparent" }}>
-      //       <svg
-      //         width="13"
-      //         height="8"
-      //         viewBox="0 0 13 8"
-      //         fill="none"
-      //         xmlns="http://www.w3.org/2000/svg"
-      //       >
-      //         <path
-      //           d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
-      //           fill="#E2E5EA"
-      //         />
-      //       </svg>
-      //     </MenuButton>
-      //   }
-      // >
-      //   <MenuItem>New File</MenuItem>
-      //   <MenuItem>Save</MenuItem>
-      //   <MenuItem>Close Window</MenuItem>
-      //   <MenuDivider />
-      //   <MenuHeader>Edit</MenuHeader>
-      //   <MenuItem>Cut</MenuItem>
-      //   <MenuItem>Copy</MenuItem>
-      //   <MenuItem>Paste</MenuItem>
-      //   <MenuDivider />
-      //   <MenuItem>Print</MenuItem>
-      // </Menu>
+// <Menu
+//   menuButton={
+//     <MenuButton style={{ backgroundColor: "transparent" }}>
+//       <svg
+//         width="13"
+//         height="8"
+//         viewBox="0 0 13 8"
+//         fill="none"
+//         xmlns="http://www.w3.org/2000/svg"
+//       >
+//         <path
+//           d="M6.49998 8C6.26699 8 6.03403 7.90396 5.8564 7.71229L0.266684 1.67776C-0.0888948 1.29388 -0.0888948 0.671503 0.266684 0.287787C0.62212 -0.095929 1.19852 -0.095929 1.55412 0.287787L6.49998 5.62748L11.4459 0.287974C11.8014 -0.0957425 12.3778 -0.0957425 12.7332 0.287974C13.0889 0.67169 13.0889 1.29407 12.7332 1.67794L7.14355 7.71248C6.96584 7.90418 6.73288 8 6.49998 8Z"
+//           fill="#E2E5EA"
+//         />
+//       </svg>
+//     </MenuButton>
+//   }
+// >
+//   <MenuItem>New File</MenuItem>
+//   <MenuItem>Save</MenuItem>
+//   <MenuItem>Close Window</MenuItem>
+//   <MenuDivider />
+//   <MenuHeader>Edit</MenuHeader>
+//   <MenuItem>Cut</MenuItem>
+//   <MenuItem>Copy</MenuItem>
+//   <MenuItem>Paste</MenuItem>
+//   <MenuDivider />
+//   <MenuItem>Print</MenuItem>
+// </Menu>
 //     </div>
 //   </div>
 
@@ -908,297 +907,248 @@ import { debounce } from "lodash-es";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "react-bootstrap";
-import CustomHeader from './customHeader.jsx';
+import RadixMenu from "./RadixMenu";
 
 
-const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
-  const [gridApi, setGridApi] = useState(null);
-  const [gridColumnApi, setGridColumnApi] = useState(null);
-  const [rowData, setRowData] = useState(null);
-  const [Column, setColumn] = useState([]);
-  const [Row, setRow] = useState([]);
+const ResultTable = React.memo(
+  ({ FileId, parsedQuery, RerenderTable, Saving }) => {
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
+    const [rowData, setRowData] = useState(null);
+    const [Column, setColumn] = useState([]);
+    const [Row, setRow] = useState([]);
 
-  let TOKEN = localStorage.getItem("access_token");
-  const history = useHistory();
-  let columns = [];
+    let TOKEN = localStorage.getItem("access_token");
+    const history = useHistory();
+    let columns = [];
 
-  const onGridReady = useCallback(
-    (params) => {
-      setGridApi(params.api);
-      setGridColumnApi(params.columnApi);
+    const onGridReady = useCallback(
+      (params) => {
+        setGridApi(params.api);
+        setGridColumnApi(params.columnApi);
 
-      // fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      //   .then((resp) => resp.json())
-      //   .then((data) => {
-      //     console.log(data);
-      //     updateData(data);
-      //   });
-    },
-    [gridApi]
-  );
-
-  const FetchData = useCallback(async () => {
-    const updateData = (data) => gridApi.setRowData(data);
-
-    await axios({
-      method: "get", //you can set what request you want to be
-      url: `${URL}/excel/fetch?fileId=${FileId}`,
-      headers: {
-        Authorization: "Bearer " + TOKEN,
+        // fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+        //   .then((resp) => resp.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //     updateData(data);
+        //   });
       },
-    })
-      .then(({ data }) => {
-        if (data.status == 200) {
-         
-          data.payload.data.columns.forEach((e) => {
-            console.log(e.columnId);
-            columns.push({
-              name: e.columnName,
-              key: e.columnId,
-              sequence: e.sequence,
-              editable: e.columnId == "STUDENT_NAME" ? false : true,
-              width: e.columnId == "STUDENT_NAME" ? 300 : 150,
-            });
-          });
+      [gridApi]
+    );
 
-          columns.sort((a, b) => a.sequence - b.sequence);
-          console.log(columns);
-          setColumn(columns);
-          var SORTED = data.payload.data.rows.sort(
-            (a, b) => a.sequence - b.sequence
-          );
-          // setRow(SORTED);
-          updateData(SORTED);
-          // toast.success(data.message, {
-          //   position: "top-right",
-          //   autoClose: 3000,
-          // });
-        } else {
-          toast.error(data.message, {
-            position: "top-right",
-            autoClose: 3000,
-          });
-        }
-      })
-      .catch((e) => {
-        toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-      });
-  }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
 
-  useEffect(() => {
-    if (FileId != null) {
-      FetchData();
-    }
-  }, [FileId, RerenderTable]);
 
-  const onQuickFilterChanged = useCallback(() => {
-    gridApi.setQuickFilter(document.getElementById("quickFilter").value);
-  }, [gridApi]);
-
-  const CellStyle = (params, index) => {
-    // console.log(params);
-
-    if(index == 0) return { borderRight: "0px solid #d9dce0" };
-
-    if (index === Column.length - 1) {
-      return {
-        borderLeft: "0.5px solid #d9dce0",
-        borderRight: "0.5px solid #d9dce0",
-      };
-    }
-    return { borderLeft: "0.5px solid #d9dce0" };
-  };
-
-  const cellClicked = (params) => {
-    // console.log(params);
-  };
-
-  const UpdateCell = useCallback(
-    async ({ rowId, columnId, value, fileId }) => {
-      const Payload = {
-        rowId: rowId,
-        columnId: columnId,
-        cellValue: value,
-        docId: fileId,
-      };
+    const FetchData = useCallback(async () => {
+      const updateData = (data) => gridApi.setRowData(data);
 
       await axios({
-        method: "post", //you can set what request you want to be
-        url: `${URL}/excel/cell`,
+        method: "get", //you can set what request you want to be
+        url: `${URL}/excel/fetch?fileId=${FileId}`,
         headers: {
           Authorization: "Bearer " + TOKEN,
         },
-        data: Payload,
-      }).then(({ data }) => {
-        if (data.status != 200) return toast.warn(data.message);
-        console.log(data);
-      });
-    },
-    [FileId]
-  );
+      })
+        .then(({ data }) => {
+          if (data.status == 200) {
+            data.payload.data.columns.forEach((e) => {
+              console.log(e.columnId);
+              columns.push({
+                name: e.columnName,
+                key: e.columnId,
+                sequence: e.sequence,
+                editable: e.columnId == "STUDENT_NAME" ? false : true,
+                width: e.columnId == "STUDENT_NAME" ? 300 : 150,
+              });
+            });
 
-  const onCellValueChanged = useCallback(
-    (param) => {
-      console.log(param);
-      UpdateCell({
-        rowId: param?.data?.id,
-        columnId: param?.column?.colId,
-        value: param?.value,
-        fileId: FileId,
-      });
-    },
-    [FileId]
-  );
+            columns.sort((a, b) => a.sequence - b.sequence);
+            console.log(columns);
+            setColumn(columns);
+            var SORTED = data.payload.data.rows.sort(
+              (a, b) => a.sequence - b.sequence
+            );
+            // setRow(SORTED);
+            updateData(SORTED);
+            // toast.success(data.message, {
+            //   position: "top-right",
+            //   autoClose: 3000,
+            // });
+          } else {
+            toast.error(data.message, {
+              position: "top-right",
+              autoClose: 3000,
+            });
+          }
+        })
+        .catch((e) => {
+          toast.error("Something went wrong", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        });
+    }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
 
-  function createFlagImg(flag) {
-    return (
-      '<img border="0" width="15" height="10" src="https://flags.fmcdn.net/data/flags/mini/' +
-      flag +
-      '.png"/>'
+    useEffect(() => {
+      if (FileId != null) {
+        FetchData();
+      }
+    }, [FileId, RerenderTable]);
+
+    const onQuickFilterChanged = useCallback(() => {
+      gridApi.setQuickFilter(document.getElementById("quickFilter").value);
+    }, [gridApi]);
+
+    const CellStyle = (params, index) => {
+      // console.log(params);
+
+      if (index == 0) return { borderRight: "0px solid #d9dce0" };
+
+      if (index === Column.length - 1) {
+        return {
+          borderLeft: "0.5px solid #d9dce0",
+          borderRight: "0.5px solid #d9dce0",
+        };
+      }
+      return { borderLeft: "0.5px solid #d9dce0" };
+    };
+
+    const cellClicked = (params) => {
+      // console.log(params);
+    };
+
+    const UpdateCell = useCallback(
+      async ({ rowId, columnId, value, fileId }) => {
+        const Payload = {
+          rowId: rowId,
+          columnId: columnId,
+          cellValue: value,
+          docId: fileId,
+        };
+        Saving(300);
+        await axios({
+          method: "post", //you can set what request you want to be
+          url: `${URL}/excel/cell`,
+          headers: {
+            Authorization: "Bearer " + TOKEN,
+          },
+          data: Payload,
+        }).then(({ data }) => {
+          if (data.status != 200) {
+            return toast.warn(data.message);
+          }
+          Saving(200);
+          console.log(data);
+        });
+      },
+      [FileId]
     );
-  }
-  const getContextMenuItems = (params) => {
-    var result = [
-      {
-        name: "Alert " + params.value,
-        action: function () {
-          window.alert("Alerting about " + params.value);
-        },
-        cssClasses: ["redFont", "bold"],
-      },
-      {
-        name: "Always Disabled",
-        disabled: true,
-        tooltip:
-          "Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!",
-      },
-      {
-        name: "Country",
-        subMenu: [
-          {
-            name: "Ireland",
-            action: function () {
-              console.log("Ireland was pressed");
-            },
-            icon: createFlagImg("ie"),
-          },
-          {
-            name: "UK",
-            action: function () {
-              console.log("UK was pressed");
-            },
-            icon: createFlagImg("gb"),
-          },
-          {
-            name: "France",
-            action: function () {
-              console.log("France was pressed");
-            },
-            icon: createFlagImg("fr"),
-          },
-        ],
-      },
-      {
-        name: "Person",
-        subMenu: [
-          {
-            name: "Niall",
-            action: function () {
-              console.log("Niall was pressed");
-            },
-          },
-          {
-            name: "Sean",
-            action: function () {
-              console.log("Sean was pressed");
-            },
-          },
-          {
-            name: "John",
-            action: function () {
-              console.log("John was pressed");
-            },
-          },
-          {
-            name: "Alberto",
-            action: function () {
-              console.log("Alberto was pressed");
-            },
-          },
-          {
-            name: "Tony",
-            action: function () {
-              console.log("Tony was pressed");
-            },
-          },
-          {
-            name: "Andrew",
-            action: function () {
-              console.log("Andrew was pressed");
-            },
-          },
-          {
-            name: "Kev",
-            action: function () {
-              console.log("Kev was pressed");
-            },
-          },
-          {
-            name: "Will",
-            action: function () {
-              console.log("Will was pressed");
-            },
-          },
-          {
-            name: "Armaan",
-            action: function () {
-              console.log("Armaan was pressed");
-            },
-          },
-        ],
-      },
-      "separator",
-      {
-        name: "Windows",
-        shortcut: "Alt + W",
-        action: function () {
-          console.log("Windows Item Selected");
-        },
-        icon: '<img src="https://www.ag-grid.com/example-assets/skills/windows.png" />',
-      },
-      {
-        name: "Mac",
-        shortcut: "Alt + M",
-        action: function () {
-          console.log("Mac Item Selected");
-        },
-        icon: '<img src="https://www.ag-grid.com/example-assets/skills/mac.png"/>',
-      },
-      "separator",
-      {
-        name: "Checked",
-        checked: true,
-        action: function () {
-          console.log("Checked Selected");
-        },
-        icon: '<img src="https://www.ag-grid.com/example-assets/skills/mac.png"/>',
-      },
-      "copy",
-      "separator",
-      "chartRange",
-    ];
-    return result;
-  };
 
-  return (
-    <div
-      style={{ width: "100%", height: "calc(100% - 49px)", marginTop: "49px" }}
-    >
-      <div  className="example-wrapper">
-        {/* <div style={{ marginBottom: "5px" }}>
+    const onCellValueChanged = useCallback(
+      (param) => {
+        console.log(param);
+        UpdateCell({
+          rowId: param?.data?.id,
+          columnId: param?.column?.colId,
+          value: param?.value,
+          fileId: FileId,
+        });
+      },
+      [FileId]
+    );
+
+    
+    function myCustomSumFunction(values) {
+      alert("HI");
+      var sum = 0;
+      values.forEach(function (value) {
+        sum += Number(value);
+      });
+      return sum;
+    }
+
+
+    const DeleteColumn =()=>{
+      alert("DEL")
+    }
+
+
+
+    const CustomHeader= (props) => {
+
+
+      return (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            cursor:"pointer"
+    
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              textOverflow: "clip",
+              overflow: "hidden",
+              maxLines: 1,
+              cursor:"pointer"
+    
+            }}
+          >
+            <p
+            
+              style={{
+                textTransform: "capitalize",
+                textOverflow: "clip",
+                whiteSpace: "nowrap",
+                maxLines: 1,
+                cursor:"pointer"
+              }}
+            >
+              {props.displayName}
+            </p>
+          </div>
+    
+         
+            {props.column.colId != "sequence" &&
+             <div
+             style={{
+               width: "50px",
+               position: "absolute",
+               zIndex: 1,
+               right: 0,
+               paddingRight: 10,
+               backgroundColor: "#e7f5ef",
+               display: "flex",
+               justifyContent: "flex-end",
+               alignItems: "center",
+               textOverflow: "ellipsis",
+               overflow: "hidden",
+             }}
+           > <RadixMenu {...props} DeleteColumn={DeleteColumn}/>
+           </div>}
+    
+    
+          {/* {sort} */}
+        </div>
+      );
+    };
+
+
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "calc(100% - 49px)",
+          marginTop: "49px",
+        }}
+      >
+        <div className="example-wrapper">
+          {/* <div style={{ marginBottom: "5px" }}>
           <input
             type="text"
             onInput={() => onQuickFilterChanged()}
@@ -1206,68 +1156,69 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable }) => {
             placeholder="quick filter..."
           />
         </div> */}
-        <div
-          id="myGrid"
-          className="ag-theme-alpine"
-          style={{
-            border: "none",
-            backgroundColor: "red",
-            overflow:"scroll"
-          }}
-        >
-          <AgGridReact
-            defaultColDef={{
-              flex: 1,
-              minWidth: 100,
-              resizable: true,
+          <div
+            id="myGrid"
+            className="ag-theme-alpine"
+            style={{
+              border: "none",
+              backgroundColor: "red",
+              overflow: "scroll",
             }}
-            containerStyle={{backgroundColor:"red",height:"100%"}}
-            allowContextMenuWithControlKey={true}
-            getContextMenuItems={getContextMenuItems}
-            suppressMenuHide={true}
-            suppressRowHoverHighlight={true}
-            suppressRowClickSelection={true}
-            suppressDragLeaveHidesColumns={true}
-            onCellClicked={cellClicked}
-            onCellValueChanged={onCellValueChanged}
-            frameworkComponents={{ agColumnHeader: CustomHeader }}
-
-            // debounceVerticalScrollbar={true}
-
-            rowSelection={"multiple"}
-            onGridReady={onGridReady}
-            rowData={rowData}
           >
-            <AgGridColumn
-             headerName={"Sno"}
-              field="sequence"
-              key={"Sno"}
-              pinned={"left"}
-              minWidth={100}
-              maxWidth={100}
-              headerCheckboxSelection={true}
-              cellStyle={{ borderLeft: "0px" }}
-              headerCheckboxSelectionFilteredOnly={true}
-              checkboxSelection={true}
-            />
-            {Column.map((item, index) => (
+            <AgGridReact
+              defaultColDef={{
+                flex: 1,
+                minWidth: 100,
+                resizable: true,
+              }}
+              containerStyle={{ backgroundColor: "red", height: "100%" }}
+              allowContextMenuWithControlKey={true}
+
+              suppressMenuHide={true}
+              suppressRowHoverHighlight={true}
+              suppressRowClickSelection={true}
+              suppressDragLeaveHidesColumns={true}
+              onCellClicked={cellClicked}
+              onCellValueChanged={onCellValueChanged}
+              frameworkComponents={{ agColumnHeader: CustomHeader }}
+              // debounceVerticalScrollbar={true}
+
+              rowSelection={"multiple"}
+              onGridReady={onGridReady}
+              rowData={rowData}
+            >
               <AgGridColumn
-                key={item.id}
-                headerName={item.name}
-                field={item.key}
-                minWidth={item.width}
-                editable={item.editable}
-                cellStyle={(e) => CellStyle(e, index)}
-                suppressMenu={true}
-                sortable={true}
-                headerComponentParams={{ menuIcon: 'fa-cog' }}
+                headerName={"Sno"}
+                field="sequence"
+                key={"Sno"}
+                pinned={"left"}
+                minWidth={100}
+                maxWidth={100}
+                headerCheckboxSelection={true}
+                cellStyle={{ borderLeft: "0px" }}
+                headerCheckboxSelectionFilteredOnly={true}
+                checkboxSelection={true}
               />
-            ))}
-          </AgGridReact>
+              {Column.map((item, index) => (
+                <AgGridColumn
+                  key={item.id}
+                  headerName={item.name}
+                  field={item.key}
+                  aggFunc={myCustomSumFunction}
+                  minWidth={item.width}
+                  editable={item.editable}
+                  cellStyle={(e) => CellStyle(e, index)}
+                  suppressMenu={true}
+                  sortable={true}
+                  headerComponentParams={{ menuIcon: "fa-cog" }}
+                />
+              ))}
+            </AgGridReact>
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default ResultTable;

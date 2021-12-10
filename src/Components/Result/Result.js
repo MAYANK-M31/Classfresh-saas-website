@@ -19,6 +19,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { Form } from "react-bootstrap";
+import RadixMenu from "./TableView/RadixMenu.js";
 
 const Result = (props) => {
   const [minimize, setminimize] = useState(false);
@@ -34,6 +35,8 @@ const Result = (props) => {
   const [ColumnName, setColumnName] = useState("");
   const [ColumnType, setColumnType] = useState("MARKS");
   const [ColumnMaxMarks, setColumnMaxMarks] = useState("");
+
+  const [SaveStatus,setSaveStatus] = useState(200)
 
   const parsedQuery = useMemo(()=>{
     return qs.parse(props.location.search)
@@ -238,7 +241,7 @@ const Result = (props) => {
 
   const ToogleMinimize = useCallback(() => {
     setminimize(minimize ? false : true);
-  }, []);
+  }, [setminimize,minimize]);
 
   const RenderRowInserter = useCallback(() => {
     FetchStudentToAdd();
@@ -254,9 +257,20 @@ const Result = (props) => {
   }, [setShowColumnInserter,ShowColumnInserter]);
 
 
-  
 
   const handleColumnType = useCallback((value) => setColumnType(value), []);
+
+  const Saving = useCallback((status)=>{
+    if(status == 200){
+      setTimeout(() => {
+        setSaveStatus(200)
+
+      }, 1000);
+    }else{
+      setSaveStatus(300)
+
+    }
+  },[setSaveStatus])
 
   if (DomLoader == true) {
     return (
@@ -501,15 +515,21 @@ const Result = (props) => {
                     </svg>
                     Insert Row
                   </div>
+
                 </div>
-                <div className="RightDiv">
+                <div style={{paddingRight:minimize ? "80px" : "70px"}} className="RightDiv">
                   <div className="ShareMarksBtn">Share Marks</div>
+                  <div className="SaveDiv">{SaveStatus == 200 ? <>Saved <div className="SAVED" ></div></>:"Auto Saving..."}</div>
+
                 </div>
+                
+                
               </div>
               <ResultTable
                 FileId={FileId}
                 RerenderTable={RerenderTable}
                 parsedQuery={parsedQuery}
+                Saving={Saving}
               />
             </div>
           </Split>
