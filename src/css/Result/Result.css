@@ -55,19 +55,6 @@
 }
 
 
-.ag-theme-alpine{
-  border: none !important;
-  background-color: #06c377 !important;
-}
-.ag-theme-balham .ag-row-hover{
-
-  background-color: #ECF0F1;
-}
-
-.ag-header-cell {
-  border-right: 0.5px solid #d9dce0;
-}
-
 .Header_Top {
   color: "#505563";
 }
@@ -632,6 +619,10 @@ button {
   background-color: #00000000;
 }
 
+.ag-header-cell {
+  background-color: #19ca8214;
+}
+
 .rdg-header-row .rdg-cell {
   background-color: #19ca8319;
 }
@@ -645,6 +636,43 @@ button {
 overflow: visible !important;
 }
 
+
+/* .ag-theme-alpine [class^=ag-], .ag-theme-alpine [class^=ag-]:focus, .ag-theme-alpine [class^=ag-]:after, .ag-theme-alpine [class^=ag-]:before{
+  overflow: visible !important;
+
+} */
+
+.ag-react-container{
+  width: inherit !important;
+}
+
+.ag-theme-alpine{
+  border: none !important;
+  background-color: #06c377 !important;
+  overflow: hidden !important;
+  
+}
+.ag-theme-balham .ag-row-hover{
+
+  background-color: #ECF0F1;
+}
+
+.ag-header-cell {
+  border-right: 0.5px solid #d9dce0;
+}
+
+
+
+#myGrid {
+  flex: 1 1 0px;
+  width: 100%;
+  font-size: 16px;
+}
+.ag-center-cols-viewport{
+  overflow: hidden;
+}
+
+
 .example-wrapper {
   display: flex;
   flex-direction: column;
@@ -655,19 +683,21 @@ overflow: visible !important;
   outline: none !important;
 }
 
+.ag-cell{
+  font-size: 18px;
+}
 
+.ag-text-field-input{
+  padding-left: 18px !important;
+}
 
 .ag-cell-focus{
   border: 2px solid #2196f3 !important;
+  height: 100%;
+  font-size: 18px !important;
 }
 
-#myGrid {
-  flex: 1 1 0px;
-  width: 100%;
-}
-.ag-center-cols-viewport{
-  overflow: hidden;
-}
+
 
 /* .rdg-header-row{
   overflow: none;
