@@ -911,15 +911,15 @@ import RadixMenu from "./RadixMenu";
 import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
-
-const ResultTable = React.memo(
-  ({ FileId, parsedQuery, RerenderTable, Saving }) => {
+const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [rowData, setRowData] = useState(null);
     const [Column, setColumn] = useState([]);
     const [Row, setRow] = useState([]);
-    const [showDeleteColumn,setshowDeleteColumn] = useState(false)
+    const [showDeleteColumn, setshowDeleteColumn] = useState(false);
+
+
     
     let TOKEN = localStorage.getItem("access_token");
     const history = useHistory();
@@ -939,8 +939,6 @@ const ResultTable = React.memo(
       },
       [gridApi]
     );
-
-
 
     const FetchData = useCallback(async () => {
       const updateData = (data) => gridApi.setRowData(data);
@@ -971,7 +969,7 @@ const ResultTable = React.memo(
             var SORTED = data.payload.data.rows.sort(
               (a, b) => a.sequence - b.sequence
             );
-            // setRow(SORTED);
+            setRow(SORTED);
             updateData(SORTED);
             // toast.success(data.message, {
             //   position: "top-right",
@@ -996,6 +994,7 @@ const ResultTable = React.memo(
       if (FileId != null) {
         FetchData();
       }
+
     }, [FileId, RerenderTable]);
 
     const onQuickFilterChanged = useCallback(() => {
@@ -1044,7 +1043,7 @@ const ResultTable = React.memo(
           console.log(data);
         });
       },
-      [FileId]
+      [FileId,RerenderTable]
     );
 
     const onCellValueChanged = useCallback(
@@ -1060,9 +1059,8 @@ const ResultTable = React.memo(
       [FileId]
     );
 
-    
     function myCustomSumFunction(values) {
-      alert("HI");
+
       var sum = 0;
       values.forEach(function (value) {
         sum += Number(value);
@@ -1070,16 +1068,32 @@ const ResultTable = React.memo(
       return sum;
     }
 
+    const DeleteColumn = async ({colId,params}) => {
 
-    const DeleteColumn =()=>{
-      setshowDeleteColumn(true)    
+      let TempColumn = params.columns
+      let TempRow = params.rows;
+
+      TempColumn = TempColumn.filter((e)=>e.key != colId )
+      setColumn(TempColumn)
+
+      // console.log(TempRow);
+
+      TempRow.forEach((e)=>{
+       delete TempRow[colId]
+      })
+
+      var SORTED = TempRow.sort(
+        (a, b) => a.sequence - b.sequence
+      );
+
+      const updateData = (data) => params.gridApi.setRowData(data);
+
+      updateData(SORTED)
+
     }
-
-
-
-    const CustomHeader= (props) => {
-
-
+    
+    const CustomHeader = (props) => {
+      console.log(FileId);
       return (
         <div
           style={{
@@ -1088,8 +1102,7 @@ const ResultTable = React.memo(
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            cursor:"pointer"
-    
+            cursor: "pointer",
           }}
         >
           <div
@@ -1098,49 +1111,51 @@ const ResultTable = React.memo(
               textOverflow: "clip",
               overflow: "hidden",
               maxLines: 1,
-              cursor:"pointer"
-    
+              cursor: "pointer",
             }}
           >
             <p
-            
               style={{
                 textTransform: "capitalize",
                 textOverflow: "clip",
                 whiteSpace: "nowrap",
                 maxLines: 1,
-                cursor:"pointer"
+                cursor: "pointer",
               }}
             >
               {props.displayName}
             </p>
           </div>
-    
-         
-            {props.column.colId != "sequence" &&
-             <div
-             style={{
-               width: "50px",
-               position: "absolute",
-               zIndex: 1,
-               right: 0,
-               paddingRight: 10,
-               backgroundColor: "#e7f5ef",
-               display: "flex",
-               justifyContent: "flex-end",
-               alignItems: "center",
-               textOverflow: "ellipsis",
-               overflow: "hidden",
-             }}
-           > <RadixMenu {...props} DeleteColumn={DeleteColumn}/>
-           </div>}
-    
-    
+
+          {props.column.colId != "sequence" && (
+            <div
+              style={{
+                width: "50px",
+                position: "absolute",
+                zIndex: 1,
+                right: 0,
+                paddingRight: 10,
+                backgroundColor: "#e7f5ef",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+              }}
+            >
+              {" "}
+              <RadixMenu
+                DeleteColumn={DeleteColumn}
+                FileId={FileId}
+                column={props.column}
+              />
+            </div>
+          )}
+
           {/* {sort} */}
         </div>
       );
     };
-
 
     return (
       <div
@@ -1150,7 +1165,6 @@ const ResultTable = React.memo(
           marginTop: "49px",
         }}
       >
-        
         <div className="example-wrapper">
           {/* <div style={{ marginBottom: "5px" }}>
           <input
@@ -1177,7 +1191,6 @@ const ResultTable = React.memo(
               }}
               containerStyle={{ backgroundColor: "red", height: "100%" }}
               allowContextMenuWithControlKey={true}
-
               suppressMenuHide={true}
               suppressRowHoverHighlight={true}
               suppressRowClickSelection={true}
@@ -1185,6 +1198,7 @@ const ResultTable = React.memo(
               onCellClicked={cellClicked}
               onCellValueChanged={onCellValueChanged}
               frameworkComponents={{ agColumnHeader: CustomHeader }}
+              
               // debounceVerticalScrollbar={true}
 
               rowSelection={"multiple"}
@@ -1214,70 +1228,65 @@ const ResultTable = React.memo(
                   cellStyle={(e) => CellStyle(e, index)}
                   suppressMenu={true}
                   sortable={true}
-                  headerComponentParams={{ menuIcon: "fa-cog" }}
+                  headerComponentParams={{ menuIcon: "fa-cog" ,FileId:FileId,rows:Row,columns:Column,gridApi:gridApi}}
                 />
               ))}
             </AgGridReact>
           </div>
         </div>
-<MyVerticallyCenteredModal show={showDeleteColumn} onHide={()=>setshowDeleteColumn(false)} />
+        {/* <MyVerticallyCenteredModal
+          show={showDeleteColumn}
+          onHide={() => setshowDeleteColumn(false)}
+        /> */}
       </div>
     );
   }
 );
 
-
-
-
 function MyVerticallyCenteredModal(props) {
   return (
-    <Modal {...props}  centered onHide={props.onHide}>
-      <Modal.Header style={{border:0}} >
+    <Modal {...props} centered onHide={props.onHide}>
+      <Modal.Header style={{ border: 0 }}>
         <Modal.Title style={{ fontSize: 20 }}>Delete Column</Modal.Title>
       </Modal.Header>
 
-        <Modal.Body style={{ paddingTop: 5 }}>
-          <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
-            <Form.Label className="font-weight-light">
-              <p style={{ fontWeight: 100,fontSize:18, color: "#6c757d" }}>
-                Are you sure want to {" "}
-                <span style={{ fontWeight: "bold", color: "black" }}>
-                  delete
-                </span>{" "}
-                 column
-                <span style={{ fontWeight: "bold", color: "black" }}>
-                  {props.ConfirmValue}
-                </span>
-              </p>
-            </Form.Label>
-            <div style={{ width: "100%" }}>
-             
-            </div>
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer style={{border:0}}>
-          <Button variant="light" onClick={props.onHide}>
-            Close
-          </Button>
-          <Button
-            variant="danger"
-            disabled={props.Value == props.ConfirmValue ? props.Loader : true}
-            onClick={props.HandleSubmitForm}
-          >
-            {props.Loader ? (
-              <PulseLoader
-                color={"white"}
-                loading={true}
-                css={Loadercss}
-                size={8}
-                margin={1}
-              />
-            ) : (
-              <p>Delete</p>
-            )}
-          </Button>
-        </Modal.Footer>
-
+      <Modal.Body style={{ paddingTop: 5 }}>
+        <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
+          <Form.Label className="font-weight-light">
+            <p style={{ fontWeight: 100, fontSize: 18, color: "#6c757d" }}>
+              Are you sure want to{" "}
+              <span style={{ fontWeight: "bold", color: "black" }}>delete</span>{" "}
+              column
+              <span style={{ fontWeight: "bold", color: "black" }}>
+                {props.ConfirmValue}
+              </span>
+            </p>
+          </Form.Label>
+          <div style={{ width: "100%" }}></div>
+        </Form.Group>
+      </Modal.Body>
+      <Modal.Footer style={{ border: 0 }}>
+        <Button variant="light" onClick={props.onHide}>
+          Cancel
+        </Button>
+        <Button
+          variant="danger"
+          disabled={props.Value == props.ConfirmValue ? props.Loader : true}
+          onClick={props.HandleSubmitForm}
+        >
+          {props.Loader ? (
+            <PulseLoader
+              color={"white"}
+              loading={true}
+              css={Loadercss}
+              size={8}
+              margin={1}
+            />
+          ) : (
+            <p>Delete</p>
+          )}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
@@ -1286,8 +1295,5 @@ const Loadercss = css`
   display: block;
   border-color: red;
 `;
-
-
-
 
 export default ResultTable;

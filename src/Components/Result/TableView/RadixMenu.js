@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styled, keyframes } from "@stitches/react";
 import { violet, mauve, blackA } from "@radix-ui/colors";
 import {
@@ -9,6 +9,13 @@ import {
   ChevronDownIcon,
 } from "@radix-ui/react-icons";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { Button, Form, Modal } from "react-bootstrap";
+import { PulseLoader } from "react-spinners";
+import { css } from "@emotion/react";
+import axios from "axios";
+import { URL } from "../../../URL/URL";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
@@ -35,8 +42,7 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
   backgroundColor: "white",
   borderRadius: 6,
   padding: 5,
-  border:
-    "1px solid rgba(22, 23, 24, 0.2)",
+  border: "1px solid rgba(22, 23, 24, 0.2)",
   "@media (prefers-reduced-motion: no-preference)": {
     animationDuration: "400ms",
     animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -71,7 +77,8 @@ const itemStyles = {
 
   "&:focus": {
     backgroundColor: "#00000011",
-    color: "#4B5563",  },
+    color: "#4B5563",
+  },
 };
 
 const StyledItem = styled(DropdownMenuPrimitive.Item, { ...itemStyles });
@@ -156,23 +163,69 @@ const IconButton = styled("button", {
   // '&:focus': { boxShadow: `0 0 0 2px black` },
 });
 
-export const RadixMenu = ({DeleteColumn}) => {
+const Loadercss = css`
+  display: block;
+  border-color: red;
+`;
+
+export const RadixMenu = React.memo(({ column, FileId, DeleteColumn }) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState("pedro");
-// useEffect(()=>{
-//   console.log(props);
-// })
+  const [showDeleteColumn, setshowDeleteColumn] = React.useState(false);
+
+  const [Loader, setLoader] = React.useState(false);
+
+  let TOKEN = localStorage.getItem("access_token");
+
+
+  
+  const DeleteColumnModal = useCallback(() => {
+    setshowDeleteColumn(true);
+  }, [setshowDeleteColumn, setLoader, column, FileId]);
+
+  const PostDeleteColumm = useCallback(async () => {
+    setLoader(true);
+
+    const Payload = {
+      columnId: column.colId,
+      docId: column.userProvidedColDef.headerComponentParams.FileId,
+    };
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/excel/column/delete`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Payload,
+    }).then(({ data }) => {
+      if (data.status != 200) {
+        setLoader(false);
+        setshowDeleteColumn(false);
+        return toast.warn(data.message);
+      }
+      setshowDeleteColumn(false);
+      setLoader(false);
+
+      DeleteColumn({
+        colId: column.colId,
+        params: column.userProvidedColDef.headerComponentParams,
+      });
+      return toast.success(data.message);
+    });
+  }, [column, FileId, setLoader, setshowDeleteColumn]);
+
   return (
     <Box>
-      <DropdownMenu >
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <IconButton aria-label="Customise options">
             <ChevronDownIcon color={"grey"} width={22} height={22} />
           </IconButton>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent  sideOffset={5}>
+        <DropdownMenuContent sideOffset={5}>
           <DropdownMenuCheckboxItem
             checked={bookmarksChecked}
             color={"red"}
@@ -197,8 +250,7 @@ export const RadixMenu = ({DeleteColumn}) => {
             Edit Column
           </DropdownMenuCheckboxItem>
 
-        
-          <DropdownMenu >
+          <DropdownMenu>
             <DropdownMenuTriggerItem>
               More Tools
               <RightSlot>
@@ -215,11 +267,15 @@ export const RadixMenu = ({DeleteColumn}) => {
               <DropdownMenuItem>Developer Tools</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <DropdownMenuSeparator />
 
-          <DropdownMenuRadioGroup onClick={()=>DeleteColumn()} value={person} onValueChange={setPerson}>
-            <DropdownMenuRadioItem   value="pedro">
+          <DropdownMenuRadioGroup
+            onClick={() => DeleteColumnModal()}
+            value={person}
+            onValueChange={setPerson}
+          >
+            <DropdownMenuRadioItem value="pedro">
               <DropdownMenuItemIndicator>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -236,17 +292,70 @@ export const RadixMenu = ({DeleteColumn}) => {
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                 </svg>
               </DropdownMenuItemIndicator>
-              
-              <span style={{color:"#f65e72"}}>Delete Column</span>
+
+              <span style={{ color: "#f65e72" }}>Delete Column</span>
             </DropdownMenuRadioItem>
-           
-           
           </DropdownMenuRadioGroup>
           <DropdownMenuArrow />
         </DropdownMenuContent>
       </DropdownMenu>
+      <MyVerticallyCenteredModal
+        show={showDeleteColumn}
+        onHide={() => setshowDeleteColumn(false)}
+        Loader={Loader}
+        column={column}
+        HandleSubmitForm={PostDeleteColumm}
+      />
     </Box>
   );
-};
+});
+
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal {...props} centered onHide={props.onHide}>
+      <Modal.Header style={{ border: 0 }}>
+        <Modal.Title style={{ fontSize: 20 }}>Delete Column</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body style={{ paddingTop: 5 }}>
+        <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
+          <Form.Label className="font-weight-light">
+            <p style={{ fontWeight: 100, fontSize: 18, color: "#6c757d" }}>
+              Are you sure want to{" "}
+              <span style={{ fontWeight: "bold", color: "black" }}>delete</span>{" "}
+              column{" "}
+              <span style={{ fontWeight: "bold", color: "black" }}>
+                {props.column.colDef.headerName}
+              </span>
+            </p>
+          </Form.Label>
+          <div style={{ width: "100%" }}></div>
+        </Form.Group>
+      </Modal.Body>
+      <Modal.Footer style={{ border: 0 }}>
+        <Button variant="light" onClick={props.onHide}>
+          Cancel
+        </Button>
+        <Button
+          variant="danger"
+          disabled={props.Loader}
+          onClick={props.HandleSubmitForm}
+        >
+          {props.Loader ? (
+            <PulseLoader
+              color={"white"}
+              loading={true}
+              css={Loadercss}
+              size={8}
+              margin={1}
+            />
+          ) : (
+            <p>Delete</p>
+          )}
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 export default RadixMenu;
