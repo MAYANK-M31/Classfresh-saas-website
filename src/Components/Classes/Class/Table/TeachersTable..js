@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { URL } from "../../../../URL/URL";
 import "../../../../css/Classes/Class/Table/StudentsTable.css";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 
@@ -57,8 +57,8 @@ const TeachersTable = ({
 
     if (gender == null)
       return toast.error("Please select gender", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
 
     const Data = {
@@ -89,7 +89,7 @@ const TeachersTable = ({
 
           toast.success("New Teacher added ", {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           FetchRow();
         } else if (res.data.code == "ADD_EXISTING") {
@@ -97,8 +97,8 @@ const TeachersTable = ({
             "Please select from saved Teachers.Teacher already present in other batch",
             {
               style: { backgroundColor: "#f65e72" },
-              position: "top-right",
-              autoClose: 5000,
+              position: "top-center",
+              duration: 5000,
             }
           );
           ShowExistingTeacherModal();
@@ -108,7 +108,7 @@ const TeachersTable = ({
         } else {
           toast.error(res.data.message, {
             position: "top-center",
-            autoClose: 3000,
+            duration: 3000,
           });
           setLoader(false);
         }
@@ -116,7 +116,7 @@ const TeachersTable = ({
       .catch((err) => {
         toast.error("Something went wrong", {
           position: "top-center",
-          autoClose: 3000,
+          duration: 3000,
         });
         setLoader(false);
       });
@@ -140,7 +140,7 @@ const TeachersTable = ({
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -162,7 +162,7 @@ const TeachersTable = ({
         setModalLoader(false);
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -211,15 +211,15 @@ const TeachersTable = ({
         setsearchSavedTeacher("")
        
         toast.success("Teacher Assigned Successfully ", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         FetchRow();
      
       } else {
         toast.error(res.data.message, {
           position: "top-center",
-          autoClose: 3000,
+          duration: 3000,
         });
 
       }
@@ -425,7 +425,7 @@ const TeachersTable = ({
           </div>
 
           <div className="AddTeacherSaveBtnDiv">
-            <ToastContainer />
+            <Toaster />
             <button
               // type="submit"
               disabled={Loader}

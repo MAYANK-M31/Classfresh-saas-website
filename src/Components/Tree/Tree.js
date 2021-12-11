@@ -15,7 +15,7 @@ import { Folder } from "../Tree/Folder/TreeFolder";
 import { File } from "../Tree/File/TreeFile";
 import { Button, Form, Modal } from "react-bootstrap";
 import { PulseLoader } from "react-spinners";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 
 import { css } from "@emotion/react";
 import { URL } from "../../URL/URL";

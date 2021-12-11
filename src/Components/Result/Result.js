@@ -22,11 +22,29 @@ import ClassHeader from "../Classes/Class/Header/ClassHeader";
 import ResultHeaders from "./Header/ResultHeader";
 import { URL } from "../../URL/URL";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 import { useHistory } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import RadixAlert from "./TableView/RadixAlert.js";
 import { css } from "@emotion/react";
+
+const StudentCard = React.memo(({ item, AddRow }) => {
+  console.log("RERENDERDD");
+
+  
+  return (
+    <div key={item.uuid} className="RowDiv">
+      <div className="NameDiv">
+        <p className="Name">{item?.name}</p>
+        <p className="Contact">{item?.contact}</p>
+      </div>
+      <div className="BatchDiv"></div>
+      <div onClick={() => AddRow([item],[])} className="BtnDiv">
+        <div className="Btn">Add</div>
+      </div>
+    </div>
+  );
+});
 
 const Result = (props) => {
   const [minimize, setminimize] = useState(false);
@@ -45,6 +63,8 @@ const Result = (props) => {
   const [SaveStatus, setSaveStatus] = useState(200);
   const [SelectedRow, setSelectedRow] = useState([]);
   const [DeleteRowLoader, setDeleteRowLoader] = useState(false);
+  const [DeletedRow, setDeletedRow] = useState([]);
+
 
   const parsedQuery = useMemo(() => {
     return qs.parse(props.location.search);
@@ -61,7 +81,7 @@ const Result = (props) => {
   }, []);
 
   // useEffect(()=>{
-  //   setRerenderTable(!RerenderTable)
+  //   setRerenderTable(old=>!old)
   // },[parsedQuery])
 
   // useEffect(() => {
@@ -75,7 +95,7 @@ const Result = (props) => {
 
   const FileSelected = (item) => {
     setFileId(item?.id);
-    setRerenderTable(!RerenderTable);
+    setRerenderTable(old=>!old);
   };
 
   const FetchStudentToAdd = async () => {
@@ -93,26 +113,29 @@ const Result = (props) => {
         } else {
           toast.error(data.message, {
             position: "top-center",
-            autoClose: 3000,
+            duration: 3000,
           });
         }
       })
       .catch((e) => {
         toast.error("Something went wrong", {
           position: "top-center",
-          autoClose: 3000,
+          duration: 3000,
         });
       });
   };
 
+
+
+  
   const AddRow = useCallback(
-    async (item) => {
+    async (item,AllData) => {
       const Data = {
         subjectId: parsedQuery?.subjectId,
         payload: item,
       };
 
-      if (item.length == StudentData.length) {
+      if (item.length == AllData.length) {
         setShowRowInserter(false);
       }
 
@@ -126,30 +149,34 @@ const Result = (props) => {
       })
         .then(({ data }) => {
           if (data.status == 200) {
-            // FetchStudentToAdd()
-            var FilteredArray = StudentData;
-            item.forEach((element) => {
-              FilteredArray = FilteredArray.filter(
-                (e) => e.uuid != element.uuid
-              );
+
+            
+          
+            setRerenderTable(oldData => !oldData);
+            setStudentData((oldData)=>{
+              var Temp = [];
+              item.forEach((element) => {
+                Temp = oldData.filter(
+                  (e) => e.uuid != element.uuid
+                );
+              });
+              return Temp
             });
-            setRerenderTable(!RerenderTable);
-            setStudentData(FilteredArray);
             toast.success(data.message, {
               position: "top-center",
-              autoClose: 3000,
+              duration: 3000,
             });
           } else {
             toast.error(data.message, {
               position: "top-center",
-              autoClose: 3000,
+              duration: 3000,
             });
           }
         })
         .catch((e) => {
           toast.error("Something went wrong", {
             position: "top-center",
-            autoClose: 3000,
+            duration: 3000,
           });
         });
     },
@@ -159,7 +186,7 @@ const Result = (props) => {
       history,
       parsedQuery,
       setStudentData,
-      StudentData,
+      setRerenderTable,
     ]
   );
 
@@ -185,25 +212,25 @@ const Result = (props) => {
         if (data.status == 200) {
           setShowColumnInserter(false);
           FetchStudentToAdd();
-          setRerenderTable(!RerenderTable);
+          setRerenderTable(old=>!old);
           setColumnName("");
           setColumnMaxMarks("");
           setColumnType("MARKS");
           toast.success(data.message, {
             position: "top-center",
-            autoClose: 3000,
+            duration: 3000,
           });
         } else {
           toast.error(data.message, {
             position: "top-center",
-            autoClose: 3000,
+            duration: 3000,
           });
         }
       })
       .catch((e) => {
         toast.error("Something went wrong", {
           position: "top-center",
-          autoClose: 3000,
+          duration: 3000,
         });
       });
   }, [
@@ -293,8 +320,8 @@ const Result = (props) => {
       rowIds: Ids,
     };
 
-    console.log(Payload);
 
+    
     await axios({
       method: "post", //you can set what request you want to be
       url: `${URL}/excel/row/delete`,
@@ -311,8 +338,8 @@ const Result = (props) => {
         }
 
         setDeleteRowLoader(false);
-
-        setRerenderTable(!RerenderTable);
+        setDeletedRow(SelectedRow)
+        // setRerenderTable(old=>!old);
         setSelectedRow([]);
 
         return toast.success(data.message);
@@ -369,7 +396,7 @@ const Result = (props) => {
   } else {
     return (
       <div className="Main-Div">
-        {/* <ToastContainer /> */}
+        <Toaster />
         <ResultHeaders
           classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
           section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}
@@ -636,6 +663,7 @@ const Result = (props) => {
                 parsedQuery={parsedQuery}
                 Saving={Saving}
                 onRowSelect={onRowSelect}
+                DeletedRow={DeletedRow}
               />
             </div>
           </Split>
@@ -707,7 +735,7 @@ const Result = (props) => {
                     cursor: StudentData.length == 0 ? "not-allowed" : "pointer",
                   }}
                   onClick={() =>
-                    StudentData.length == 0 ? null : AddRow(StudentData)
+                    StudentData.length == 0 ? null : AddRow(StudentData,StudentData)
                   }
                   className="ImportAllBtn"
                 >
@@ -723,17 +751,8 @@ const Result = (props) => {
               </div>
               <div className="ListDiv">
                 {StudentData.length > 0 ? (
-                  StudentData.map((item) => (
-                    <div className="RowDiv">
-                      <div className="NameDiv">
-                        <p className="Name">{item?.name}</p>
-                        <p className="Contact">{item?.contact}</p>
-                      </div>
-                      <div className="BatchDiv"></div>
-                      <div onClick={() => AddRow([item])} className="BtnDiv">
-                        <div className="Btn">Add</div>
-                      </div>
-                    </div>
+                  StudentData.map((item, index) => (
+                    <StudentCard key={item.uuid} AddRow={AddRow} item={item} />
                   ))
                 ) : (
                   <div className="ModalNotFoundDiv">

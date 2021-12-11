@@ -2,15 +2,15 @@ import React, { Component, useCallback, useEffect, useState } from "react";
 import "../../../../css/Classes/Class/Class.css";
 import ClassHeader from "./Header/ClassHeader";
 
-import "react-toastify/dist/ReactToastify.css";
+
 
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
 
 import * as qs from "query-string";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -71,7 +71,7 @@ const Class = (props) => {
         setLoading(false);
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -81,8 +81,8 @@ const Class = (props) => {
     e.preventDefault();
     if (Subject.length == 0)
       return toast.error("Please Select Class", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
 
     setLoader(true);
@@ -109,21 +109,21 @@ const Class = (props) => {
           setDescription("");
           FetchRow();
           toast.success("New Subject Created Successfully ", {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           setLoader(false);
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(err);
         setLoader(false);
@@ -132,7 +132,7 @@ const Class = (props) => {
 
   return (
     <div className="Class">
-      <ToastContainer />
+      <Toaster />
       <ClassHeader
         classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
         section={parsedQuery.sectionlabel ? parsedQuery.sectionlabel : null}

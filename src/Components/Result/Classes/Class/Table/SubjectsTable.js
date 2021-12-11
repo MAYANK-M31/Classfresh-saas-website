@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { URL } from "../../../../../URL/URL";
 import "../../../../../css/Classes/Table/ClassesTable.css";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 import { Link, Router } from "react-router-dom";
 
 const Colors = [
@@ -97,7 +97,7 @@ const SubjectsTable = React.memo(({ Data }) => {
 
   return (
     <div className="TableDiv">
-         <ToastContainer />
+         <Toaster />
       <table class="Table">
         <thead class="TableHeader">
           <tr>

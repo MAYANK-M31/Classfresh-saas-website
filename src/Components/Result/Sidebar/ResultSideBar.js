@@ -171,7 +171,7 @@ import axios from "axios";
 import { URL } from "../../../URL/URL";
 import { useHistory } from "react-router-dom";
 
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 
 const structure = [
   {
@@ -320,14 +320,14 @@ export default function ResultSideBar({ urlData ,FileSelected}) {
           setLoading(false);
           return toast.error("Something went wrong", {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
         }
       })
       .catch((error) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(error);
       });
@@ -338,7 +338,7 @@ export default function ResultSideBar({ urlData ,FileSelected}) {
   };
   return (
     <div className="ResultSidebar">
-      <ToastContainer />
+      <Toaster />
       <div className="GroupView">
         <ActionsWrapper>
           <p>All Lists</p>

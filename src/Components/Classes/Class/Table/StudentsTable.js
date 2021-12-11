@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { URL } from "../../../../URL/URL";
 import "../../../../css/Classes/Class/Table/StudentsTable.css";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 
@@ -39,8 +39,8 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
 
     if (gender == null)
       return toast.error("Please select gender", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
 
     const Data = {
@@ -76,13 +76,13 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
 
           toast.success("New Teacher added ", {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           FetchRow();
         } else {
           toast.error(res.data.message, {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           setLoader(false);
         }
@@ -90,7 +90,7 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
       .catch((err) => {
         toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
         setLoader(false);
       });
@@ -116,7 +116,7 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -314,7 +314,7 @@ const StudentsTable = ({ openSideBar, closeSideBar, parsedQuery }) => {
           </div>
 
           <div className="AddTeacherSaveBtnDiv">
-            <ToastContainer />
+            <Toaster />
             <button
               // type="submit"
               disabled={Loader}

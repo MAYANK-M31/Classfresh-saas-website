@@ -2,15 +2,15 @@ import React, { Component, useState } from "react";
 import "../../../css/Classes/Class/Class.css";
 import ClassHeader from "./Header/ClassHeader";
 
-import "react-toastify/dist/ReactToastify.css";
+
 
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
 
 import * as qs from "query-string";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";

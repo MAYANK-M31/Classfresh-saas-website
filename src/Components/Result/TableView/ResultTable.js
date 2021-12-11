@@ -17,8 +17,8 @@
 // import { URL } from "../../../URL/URL";
 // import { useHistory } from "react-router";
 // import { debounce } from "lodash-es";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+// import { Toaster, toast } from "react-hot-toast";
+// 
 // import { Button } from "react-bootstrap";
 
 // const Styles = styled.div`
@@ -562,20 +562,20 @@
 //           setRow(SORTED);
 
 //           // toast.success(data.message, {
-//           //   position: "top-right",
-//           //   autoClose: 3000,
+//           //   position: "top-center",
+//           //   duration: 3000,
 //           // });
 //         } else {
 //           toast.error(data.message, {
-//             position: "top-right",
-//             autoClose: 3000,
+//             position: "top-center",
+//             duration: 3000,
 //           });
 //         }
 //       })
 //       .catch((e) => {
 //         toast.error("Something went wrong", {
-//           position: "top-right",
-//           autoClose: 3000,
+//           position: "top-center",
+//           duration: 3000,
 //         });
 //       });
 //   }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
@@ -664,8 +664,8 @@
 // import { URL } from "../../../URL/URL";
 // import { useHistory } from "react-router";
 // import { debounce } from "lodash-es";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+// import { Toaster, toast } from "react-hot-toast";
+// 
 // import { Button } from "react-bootstrap";
 // import DataGrid, { TextEditor } from "react-data-grid";
 
@@ -805,20 +805,20 @@
 //         setRow(SORTED);
 
 //         // toast.success(data.message, {
-//         //   position: "top-right",
-//         //   autoClose: 3000,
+//         //   position: "top-center",
+//         //   duration: 3000,
 //         // });
 //       } else {
 //         toast.error(data.message, {
-//           position: "top-right",
-//           autoClose: 3000,
+//           position: "top-center",
+//           duration: 3000,
 //         });
 //       }
 //     })
 //     .catch((e) => {
 //       toast.error("Something went wrong", {
-//         position: "top-right",
-//         autoClose: 3000,
+//         position: "top-center",
+//         duration: 3000,
 //       });
 //     });
 // }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
@@ -890,8 +890,6 @@
 //   );
 // });
 
-
-
 import React, { useState, useCallback, useEffect } from "react";
 import { render } from "react-dom";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
@@ -906,22 +904,20 @@ import axios from "axios";
 import { URL } from "../../../URL/URL";
 import { useHistory } from "react-router";
 import { debounce } from "lodash-es";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import { Button, Form, Modal } from "react-bootstrap";
 import RadixMenu from "./RadixMenu";
 import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
-const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onRowSelect }) => {
+const ResultTable = React.memo(
+  ({ FileId, parsedQuery, RerenderTable, Saving, onRowSelect, DeletedRow }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [rowData, setRowData] = useState(null);
     const [Column, setColumn] = useState([]);
     const [Row, setRow] = useState([]);
 
-
-    
     let TOKEN = localStorage.getItem("access_token");
     const history = useHistory();
     let columns = [];
@@ -954,7 +950,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
         .then(({ data }) => {
           if (data.status == 200) {
             data.payload.data.columns.forEach((e) => {
-              console.log(e.columnId);
+              // console.log(e.columnId);
               columns.push({
                 name: e.columnName,
                 key: e.columnId,
@@ -965,7 +961,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
             });
 
             columns.sort((a, b) => a.sequence - b.sequence);
-            console.log(columns);
+
             setColumn(columns);
             var SORTED = data.payload.data.rows.sort(
               (a, b) => a.sequence - b.sequence
@@ -973,20 +969,20 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
             setRow(SORTED);
             updateData(SORTED);
             // toast.success(data.message, {
-            //   position: "top-right",
-            //   autoClose: 3000,
+            //   position: "top-center",
+            //   duration: 3000,
             // });
           } else {
             toast.error(data.message, {
-              position: "top-right",
-              autoClose: 3000,
+              position: "top-center",
+              duration: 3000,
             });
           }
         })
         .catch((e) => {
           toast.error("Something went wrong", {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         });
     }, [FileId, setColumn, setRow, Row, Column, RerenderTable, parsedQuery]);
@@ -995,7 +991,6 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
       if (FileId != null) {
         FetchData();
       }
-
     }, [FileId, RerenderTable]);
 
     const onQuickFilterChanged = useCallback(() => {
@@ -1044,7 +1039,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
           console.log(data);
         });
       },
-      [FileId,RerenderTable]
+      [FileId, RerenderTable]
     );
 
     const onCellValueChanged = useCallback(
@@ -1061,7 +1056,6 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
     );
 
     function myCustomSumFunction(values) {
-
       var sum = 0;
       values.forEach(function (value) {
         sum += Number(value);
@@ -1069,34 +1063,40 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
       return sum;
     }
 
-    const DeleteColumn = async ({colId,params}) => {
-
-      let TempColumn = params.columns
+    const DeleteColumn = async ({ colId, params }) => {
+      let TempColumn = params.columns;
       let TempRow = params.rows;
 
-      TempColumn = TempColumn.filter((e)=>e.key != colId )
-      setColumn(TempColumn)
+      TempColumn = TempColumn.filter((e) => e.key != colId);
+      setColumn(TempColumn);
 
       // console.log(TempRow);
 
-      TempRow.forEach((e)=>{
-       delete TempRow[colId]
-      })
+      TempRow.forEach((e) => {
+        delete TempRow[colId];
+      });
 
-      var SORTED = TempRow.sort(
-        (a, b) => a.sequence - b.sequence
-      );
+      var SORTED = TempRow.sort((a, b) => a.sequence - b.sequence);
 
       const updateData = (data) => params.gridApi.setRowData(data);
 
-      updateData(SORTED)
+      updateData(SORTED);
+    };
 
-    }
+    useEffect(() => {
+      if (DeletedRow.length > 0) {
+        var New = Row;
+        DeletedRow.forEach((element) => {
+          New = New.filter((e) => e.id != element.id);
+        });
 
+        gridApi.setRowData(New);
+        setRow(New);
+      }
+    }, [DeletedRow]);
 
-    
     const CustomHeader = (props) => {
-      console.log(FileId);
+      // console.log(FileId);
       return (
         <div
           style={{
@@ -1160,19 +1160,12 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
       );
     };
 
-
-
-
-    const onSelectionChanged = ()=>{
+    const onSelectionChanged = () => {
       var selectedRows = gridApi.getSelectedRows();
       // setRowSelected(!RowSelected)
-      onRowSelect(selectedRows)
+      onRowSelect(selectedRows);
       // console.log(selectedRows);
-    }
-
-
-
-
+    };
 
     return (
       <div
@@ -1245,7 +1238,13 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onR
                   cellStyle={(e) => CellStyle(e, index)}
                   suppressMenu={true}
                   sortable={true}
-                  headerComponentParams={{ menuIcon: "fa-cog" ,FileId:FileId,rows:Row,columns:Column,gridApi:gridApi}}
+                  headerComponentParams={{
+                    menuIcon: "fa-cog",
+                    FileId: FileId,
+                    rows: Row,
+                    columns: Column,
+                    gridApi: gridApi,
+                  }}
                 />
               ))}
             </AgGridReact>

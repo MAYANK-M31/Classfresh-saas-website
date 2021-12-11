@@ -23,7 +23,7 @@ import { FILE, FOLDER } from "../../Tree/state/constants";
 import { useTreeContext } from "../../Tree/state/TreeContext";
 import { PlaceholderInput } from "../../Tree/TreePlaceholderInput";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 import { URL } from "../../../URL/URL";
 import { Button, Modal } from "react-bootstrap";
 const { v4: uuidv4 } = require("uuid");
@@ -90,8 +90,8 @@ const Folder = ({
       .then((res) => {
         if (res.data.status == 200) {
           toast.success("New File Created Successfully ", {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
             
           });
         } else {
@@ -101,15 +101,15 @@ const Folder = ({
             dispatch({ type: FILE.DELETE, payload: { id } });
           }
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         }
       })
       .catch((err) => {
         toast.error("Something went wrong. Failed to create", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         if (type == "folder") {
           dispatch({ type: FOLDER.DELETE, payload: { id } });
@@ -140,20 +140,20 @@ const Folder = ({
           dispatch({ type: FOLDER.EDIT, payload: { id, name } });
           setEditing(false);
           toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(err);
       });
@@ -177,22 +177,22 @@ const Folder = ({
         if (res.data.status == 200) {
           dispatch({ type: FOLDER.DELETE, payload: { id } });
           toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           ResetDelete();
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           ResetDelete();
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(err);
         ResetDelete();
@@ -309,7 +309,7 @@ const Folder = ({
 
   return (
     <StyledFolder id={id} onClick={handleNodeClick} className="tree__folder">
-      {/* <ToastContainer /> */}
+      {/* <Toaster /> */}
 
       <VerticalLine>
         <ActionsWrapper

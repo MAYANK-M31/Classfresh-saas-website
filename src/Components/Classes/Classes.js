@@ -8,15 +8,15 @@ import React, {
 import "../../css/Classes/Classes.css";
 import ClassesHeader from "./Header/ClassesHeader";
 
-import "react-toastify/dist/ReactToastify.css";
+
 import ClassesTable from "./Table/ClassesTable";
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
 
 import { URL } from "../../URL/URL";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -64,7 +64,7 @@ const Classes = () => {
         setLoading(false);
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -75,8 +75,8 @@ const Classes = () => {
 
     if (!ClassInput)
       return toast.error("Please Select Class", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
     setLoader(false);
 
@@ -105,21 +105,21 @@ const Classes = () => {
           setSection(null);
           FetchRow();
           toast.success("New Batch Created Successfully ", {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           setLoader(false);
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(err);
         setLoader(false);
@@ -147,7 +147,7 @@ const Classes = () => {
           />
         </div>
       )}
-      <ToastContainer />
+      <Toaster />
 
       <MyVerticallyCenteredModal
         show={ModalShow}

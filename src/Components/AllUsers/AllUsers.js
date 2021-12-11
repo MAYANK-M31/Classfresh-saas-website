@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import "../../css/Classes/Class/Class.css";
 import ClassHeader from "./Header/ClassHeader";
 
-import "react-toastify/dist/ReactToastify.css";
+
 
 import { Button, Modal, Form } from "react-bootstrap";
 import Creatable from "react-select/creatable";
@@ -10,8 +10,8 @@ import Creatable from "react-select/creatable";
 import Select from "react-select";
 import Chip from "@material-ui/core/Chip";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";

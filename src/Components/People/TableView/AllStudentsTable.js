@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { URL } from "../../../URL/URL";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 const Colors = ["#ceebc4", "#FAA61A", "#FF4080", "#FC00FE", "#FF8C5F", "#FF4080"]
 
@@ -29,7 +29,7 @@ const AllStudentsTable = () => {
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });

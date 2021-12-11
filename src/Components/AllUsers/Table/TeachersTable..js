@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { URL } from "../../../URL/URL";
 import "../../../css/Classes/Class/Table/StudentsTable.css";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 
@@ -40,8 +40,8 @@ const TeachersTable = ({ openSideBar,closeSideBar }) => {
 
     if (gender == null)
       return toast.error("Please select gender", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
 
     const Data = {
@@ -72,13 +72,13 @@ const TeachersTable = ({ openSideBar,closeSideBar }) => {
 
           toast.success("New Teacher added ", {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           FetchRow();
         } else {
           toast.warning(res.data.message, {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           setLoader(false);
         }
@@ -86,7 +86,7 @@ const TeachersTable = ({ openSideBar,closeSideBar }) => {
       .catch((err) => {
         toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
         setLoader(false);
       });
@@ -110,7 +110,7 @@ const TeachersTable = ({ openSideBar,closeSideBar }) => {
       } else {
         return toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
       }
     });
@@ -317,7 +317,7 @@ const TeachersTable = ({ openSideBar,closeSideBar }) => {
           </div>
 
           <div className="AddTeacherSaveBtnDiv">
-            <ToastContainer />
+            <Toaster />
             <button
               // type="submit"
               disabled={Loader}

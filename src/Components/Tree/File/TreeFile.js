@@ -10,7 +10,7 @@ import { FILE } from "../../Tree/state/constants";
 import FILE_ICONS from "../../Tree/FileIcons";
 import { ReactComponent as ExcelSheet } from "../../../Assets/Logos/xlsx.svg";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 import { URL } from "../../../URL/URL";
 const { v4: uuidv4 } = require("uuid");
 
@@ -61,20 +61,20 @@ const File = ({
           dispatch({ type: FILE.EDIT, payload: { id, name } });
           setEditing(false);
           toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         console.log(err);
       });
@@ -98,22 +98,22 @@ const File = ({
         if (res.data.status == 200) {
           dispatch({ type: FILE.DELETE, payload: { id } });
           toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           ResetDelete();
         } else {
           toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 3000,
+            position: "top-center",
+            duration: 3000,
           });
           ResetDelete();
         }
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          position: "top-right",
-          autoClose: 3000,
+          position: "top-center",
+          duration: 3000,
         });
         ResetDelete();
         console.log(err);

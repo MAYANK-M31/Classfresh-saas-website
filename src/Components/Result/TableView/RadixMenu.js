@@ -14,8 +14,8 @@ import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 import axios from "axios";
 import { URL } from "../../../URL/URL";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },

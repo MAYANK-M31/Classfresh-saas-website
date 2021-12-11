@@ -10,8 +10,8 @@ import Creatable from "react-select/creatable";
 
 import Chip from "@material-ui/core/Chip";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -93,8 +93,8 @@ const TeachersByClass = ({Minimize}) => {
 
     if (gender == null)
       return toast.error("Please select gender", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        duration: 3000,
       });
 
     const Data = {
@@ -126,13 +126,13 @@ const TeachersByClass = ({Minimize}) => {
           setRenderList(true);
           toast.success("New Teacher added ", {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           setRenderList(false);
         } else {
           toast.warning(res.data.message, {
             position: "bottom-left",
-            autoClose: 3000,
+            duration: 3000,
           });
           setLoader(false);
         }
@@ -140,7 +140,7 @@ const TeachersByClass = ({Minimize}) => {
       .catch((err) => {
         toast.error("Something went wrong", {
           position: "bottom-left",
-          autoClose: 3000,
+          duration: 3000,
         });
         setLoader(false);
       });
@@ -548,7 +548,7 @@ const TeachersByClass = ({Minimize}) => {
               ))}
             </div>
             <div className="AddTeacherSaveBtnDiv">
-              <ToastContainer />
+              <Toaster />
               <button
                 // type="submit"
                 disabled={Loader}

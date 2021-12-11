@@ -4,7 +4,7 @@ import PeopleHeader from "./Header/PeopleHeader";
 import PeopleSideBar from "./PeopleSideBar";
 import Split from "react-split";
 
-import "react-toastify/dist/ReactToastify.css";
+
 
 import AllTeachers from "./Teachers/AllTeachers";
 import TeachersByClass from "./Teachers/TeachersByClass";
