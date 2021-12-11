@@ -1,4 +1,10 @@
-import React, { Component, useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  Component,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import "../../css/Result/Result.css";
 
 import * as qs from "query-string";
@@ -19,7 +25,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
-import RadixMenu from "./TableView/RadixMenu.js";
+import RadixAlert from "./TableView/RadixAlert.js";
 import { css } from "@emotion/react";
 
 const Result = (props) => {
@@ -36,12 +42,13 @@ const Result = (props) => {
   const [ColumnName, setColumnName] = useState("");
   const [ColumnType, setColumnType] = useState("MARKS");
   const [ColumnMaxMarks, setColumnMaxMarks] = useState("");
+  const [SaveStatus, setSaveStatus] = useState(200);
+  const [SelectedRow, setSelectedRow] = useState([]);
+  const [DeleteRowLoader, setDeleteRowLoader] = useState(false);
 
-  const [SaveStatus,setSaveStatus] = useState(200)
-
-  const parsedQuery = useMemo(()=>{
-    return qs.parse(props.location.search)
-  },[FileId]);
+  const parsedQuery = useMemo(() => {
+    return qs.parse(props.location.search);
+  }, [FileId]);
 
   let TOKEN = localStorage.getItem("access_token");
   const history = useHistory();
@@ -66,15 +73,12 @@ const Result = (props) => {
   //   // setDomLoader(false);
   // }, []);
 
-  const FileSelected = useCallback(
-    (item) => {
-      setFileId(item?.id);
-      setRerenderTable(!RerenderTable);
-    },
-    [FileId, RerenderTable]
-  );
+  const FileSelected = (item) => {
+    setFileId(item?.id);
+    setRerenderTable(!RerenderTable);
+  };
 
-  const FetchStudentToAdd = useCallback(async () => {
+  const FetchStudentToAdd = async () => {
     await axios({
       method: "get", //you can set what request you want to be
       url: `${URL}/excel/row/students/tobeadd?fileId=${parsedQuery?.fileId}`,
@@ -99,14 +103,7 @@ const Result = (props) => {
           autoClose: 3000,
         });
       });
-  }, [
-    setShowRowInserter,
-    ShowRowInserter,
-    history,
-    parsedQuery,
-    setStudentData,
-    setStudentSavedData,
-  ]);
+  };
 
   const AddRow = useCallback(
     async (item) => {
@@ -174,7 +171,7 @@ const Result = (props) => {
       maxmarks: ColumnMaxMarks,
     };
 
-    console.log(Data)
+    console.log(Data);
 
     await axios({
       method: "post", //you can set what request you want to be
@@ -209,21 +206,35 @@ const Result = (props) => {
           autoClose: 3000,
         });
       });
-  }, [setShowColumnInserter, ShowColumnInserter,ColumnName,ColumnMaxMarks,ColumnType,setColumnName,setColumnMaxMarks,setColumnType, history, parsedQuery]);
+  }, [
+    setShowColumnInserter,
+    ShowColumnInserter,
+    ColumnName,
+    ColumnMaxMarks,
+    ColumnType,
+    setColumnName,
+    setColumnMaxMarks,
+    setColumnType,
+    history,
+    parsedQuery,
+  ]);
 
-  const Search = useCallback((search) => {
-    var condition = new RegExp(search.trim());
+  const Search = useCallback(
+    (search) => {
+      var condition = new RegExp(search.trim());
 
-    var result = StudentSavedData.filter(function (el) {
-      return (
-        condition.test(el?.name) ||
-        condition.test(el?.contact) ||
-        condition.test(el?.rollnumber)
-      );
-    });
+      var result = StudentSavedData.filter(function (el) {
+        return (
+          condition.test(el?.name) ||
+          condition.test(el?.contact) ||
+          condition.test(el?.rollnumber)
+        );
+      });
 
-    setStudentData(result);
-  }, [StudentData,setStudentData]);
+      setStudentData(result);
+    },
+    [StudentData, setStudentData]
+  );
 
   const defaultOptions = {
     loop: true,
@@ -234,44 +245,80 @@ const Result = (props) => {
     },
   };
 
-
-
   const onHandleColumnInserter = useCallback(() => {
     setShowColumnInserter(true);
   }, []);
 
   const ToogleMinimize = useCallback(() => {
     setminimize(minimize ? false : true);
-  }, [setminimize,minimize]);
+  }, [setminimize, minimize]);
 
-  const RenderRowInserter = useCallback(() => {
+  const RenderRowInserter = () => {
     FetchStudentToAdd();
     setShowRowInserter((ShowRowInserter) => !ShowRowInserter);
-  }, [setShowRowInserter,ShowRowInserter]);
+  };
 
   const ToogleRowInserter = useCallback(() => {
     setShowRowInserter(false);
-  }, [setShowRowInserter,ShowRowInserter]);
+  }, [setShowRowInserter, ShowRowInserter]);
 
   const ToogleColumnInserter = useCallback(() => {
     setShowColumnInserter(false);
-  }, [setShowColumnInserter,ShowColumnInserter]);
-
-
+  }, [setShowColumnInserter, ShowColumnInserter]);
 
   const handleColumnType = useCallback((value) => setColumnType(value), []);
 
-  const Saving = useCallback((status)=>{
-    if(status == 200){
-      setTimeout(() => {
-        setSaveStatus(200)
+  const Saving = useCallback(
+    (status) => {
+      if (status == 200) {
+        setTimeout(() => {
+          setSaveStatus(200);
+        }, 1000);
+      } else {
+        setSaveStatus(300);
+      }
+    },
+    [setSaveStatus]
+  );
 
-      }, 1000);
-    }else{
-      setSaveStatus(300)
+  const onRowSelect = (items) => {
+    setSelectedRow(items);
+  };
 
-    }
-  },[setSaveStatus])
+  const DeleteRow = useCallback(async () => {
+    setDeleteRowLoader(true);
+    var Ids = SelectedRow.map((e) => e.id);
+    const Payload = {
+      docId: FileId,
+      rowIds: Ids,
+    };
+
+    console.log(Payload);
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/excel/row/delete`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Payload,
+    })
+      .then(({ data }) => {
+        if (data.status != 200) {
+          setDeleteRowLoader(false);
+
+          return toast.warn(data.message);
+        }
+
+        setDeleteRowLoader(false);
+
+        setRerenderTable(!RerenderTable);
+        setSelectedRow([]);
+
+        return toast.success(data.message);
+      })
+      .catch((e) => {});
+  }, [FileId, SelectedRow, setSelectedRow, setDeleteRowLoader, setSelectedRow]);
 
   if (DomLoader == true) {
     return (
@@ -322,7 +369,6 @@ const Result = (props) => {
   } else {
     return (
       <div className="Main-Div">
-
         {/* <ToastContainer /> */}
         <ResultHeaders
           classname={parsedQuery.classlabel ? parsedQuery.classlabel : null}
@@ -338,13 +384,11 @@ const Result = (props) => {
             cursor="col-resize"
             className="split-flex" // You'll need to define this. check styles.css
           >
-            {/* <div style={{width:"100%",backgroundColor:"red"}} > */}
-
             <ResultSidebar
               urlData={JSON.stringify(parsedQuery)}
               FileSelected={FileSelected}
             />
-            {/* </div> */}
+
             <div
               style={{ borderWidth: minimize ? "0 0 0 0" : "0 0 0 0.5px" }}
               className="Middle-Div"
@@ -388,150 +432,210 @@ const Result = (props) => {
                       />
                     </svg>
                   </div>
-                  <div className="FilterRowBtn">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14.6663 2H1.33301L6.66634 8.30667V12.6667L9.33301 14V8.30667L14.6663 2Z"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    Filter
-                  </div>
-                  <div className="SortRowBtn">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5.33301 4H13.9997"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M5.33301 8H13.9997"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M5.33301 12H13.9997"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M2 4H2.00583"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M2 8H2.00583"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M2 12H2.00583"
-                        stroke="#66749F"
-                        stroke-width="0.583333"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    Sort
-                  </div>
 
-                  <div
-                    style={{
-                      width: "0.5px",
-                      height: "20px",
-                      backgroundColor: "#E2E5EA",
-                      marginInline: "10px",
-                    }}
-                  />
+                  {SelectedRow.length == 0 ? (
+                    <>
+                      <div className="FilterRowBtn">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14.6663 2H1.33301L6.66634 8.30667V12.6667L9.33301 14V8.30667L14.6663 2Z"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Filter
+                      </div>
+                      <div className="SortRowBtn">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5.33301 4H13.9997"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M5.33301 8H13.9997"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M5.33301 12H13.9997"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M2 4H2.00583"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M2 8H2.00583"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M2 12H2.00583"
+                            stroke="#66749F"
+                            stroke-width="0.583333"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Sort
+                      </div>
 
-                  <div
-                    onClick={onHandleColumnInserter}
-                    className="InsertColumnBtn"
-                  >
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <div
+                        style={{
+                          width: "1px",
+                          height: "20px",
+                          backgroundColor: "#E2E5EA",
+                          marginInline: "10px",
+                        }}
+                      />
+
+                      <div
+                        onClick={onHandleColumnInserter}
+                        className="InsertColumnBtn"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0)">
+                            <path
+                              d="M10.9954 4.82727H6.9727V0.804546C6.9727 0.360435 6.61226 0 6.16815 0H5.63182C5.18771 0 4.82727 0.360435 4.82727 0.804546V4.82727H0.804546C0.360435 4.82727 0 5.18771 0 5.63182V6.16815C0 6.61226 0.360435 6.9727 0.804546 6.9727H4.82727V10.9954C4.82727 11.4395 5.18771 11.8 5.63182 11.8H6.16815C6.61226 11.8 6.9727 11.4395 6.9727 10.9954V6.9727H10.9954C11.4395 6.9727 11.8 6.61226 11.8 6.16815V5.63182C11.8 5.18771 11.4395 4.82727 10.9954 4.82727Z"
+                              fill="#66749F"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0">
+                              <rect width="11.8" height="11.8" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        Insert Column
+                      </div>
+
+                      <div
+                        onClick={() => RenderRowInserter()}
+                        className="InsertRowBtn"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0)">
+                            <path
+                              d="M10.9954 4.82727H6.9727V0.804546C6.9727 0.360435 6.61226 0 6.16815 0H5.63182C5.18771 0 4.82727 0.360435 4.82727 0.804546V4.82727H0.804546C0.360435 4.82727 0 5.18771 0 5.63182V6.16815C0 6.61226 0.360435 6.9727 0.804546 6.9727H4.82727V10.9954C4.82727 11.4395 5.18771 11.8 5.63182 11.8H6.16815C6.61226 11.8 6.9727 11.4395 6.9727 10.9954V6.9727H10.9954C11.4395 6.9727 11.8 6.61226 11.8 6.16815V5.63182C11.8 5.18771 11.4395 4.82727 10.9954 4.82727Z"
+                              fill="white"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0">
+                              <rect width="11.8" height="11.8" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        Insert Row
+                      </div>
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginLeft: 2,
+                      }}
                     >
-                      <g clip-path="url(#clip0)">
-                        <path
-                          d="M10.9954 4.82727H6.9727V0.804546C6.9727 0.360435 6.61226 0 6.16815 0H5.63182C5.18771 0 4.82727 0.360435 4.82727 0.804546V4.82727H0.804546C0.360435 4.82727 0 5.18771 0 5.63182V6.16815C0 6.61226 0.360435 6.9727 0.804546 6.9727H4.82727V10.9954C4.82727 11.4395 5.18771 11.8 5.63182 11.8H6.16815C6.61226 11.8 6.9727 11.4395 6.9727 10.9954V6.9727H10.9954C11.4395 6.9727 11.8 6.61226 11.8 6.16815V5.63182C11.8 5.18771 11.4395 4.82727 10.9954 4.82727Z"
-                          fill="#66749F"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0">
-                          <rect width="11.8" height="11.8" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    Insert Column
-                  </div>
-
-                  <div onClick={()=>RenderRowInserter()} className="InsertRowBtn">
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clip-path="url(#clip0)">
-                        <path
-                          d="M10.9954 4.82727H6.9727V0.804546C6.9727 0.360435 6.61226 0 6.16815 0H5.63182C5.18771 0 4.82727 0.360435 4.82727 0.804546V4.82727H0.804546C0.360435 4.82727 0 5.18771 0 5.63182V6.16815C0 6.61226 0.360435 6.9727 0.804546 6.9727H4.82727V10.9954C4.82727 11.4395 5.18771 11.8 5.63182 11.8H6.16815C6.61226 11.8 6.9727 11.4395 6.9727 10.9954V6.9727H10.9954C11.4395 6.9727 11.8 6.61226 11.8 6.16815V5.63182C11.8 5.18771 11.4395 4.82727 10.9954 4.82727Z"
-                          fill="white"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0">
-                          <rect width="11.8" height="11.8" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    Insert Row
-                  </div>
-
+                      <div
+                        // onClick={() => RenderRowInserter()}
+                        className="InsertRowBtn"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#ffffff"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="sbui-icon "
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export to csv
+                      </div>
+                      <div
+                        style={{
+                          width: "1px",
+                          height: "20px",
+                          backgroundColor: "#E2E5EA",
+                          marginInline: "10px",
+                        }}
+                      />
+                      <RadixAlert
+                        Loader={DeleteRowLoader}
+                        count={SelectedRow.length}
+                        DeleteRow={DeleteRow}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div style={{paddingRight:minimize ? "80px" : "70px"}} className="RightDiv">
+                <div
+                  style={{ paddingRight: minimize ? "80px" : "70px" }}
+                  className="RightDiv"
+                >
                   <div className="ShareMarksBtn">Share Marks</div>
-                  <div className="SaveDiv">{SaveStatus == 200 ? <>Saved <div className="SAVED" ></div></>:"Auto Saving..."}</div>
-
+                  <div className="SaveDiv">
+                    {SaveStatus == 200 ? (
+                      <>
+                        Saved <div className="SAVED"></div>
+                      </>
+                    ) : (
+                      "Auto Saving..."
+                    )}
+                  </div>
                 </div>
-                
-                
               </div>
               <ResultTable
                 FileId={FileId}
                 RerenderTable={RerenderTable}
                 parsedQuery={parsedQuery}
                 Saving={Saving}
+                onRowSelect={onRowSelect}
               />
             </div>
           </Split>
@@ -695,7 +799,7 @@ const Result = (props) => {
                       className="Input"
                       placeholder="Enter Column name"
                       value={ColumnName}
-                      onChange={(e)=>  setColumnName(e.target.value)}
+                      onChange={(e) => setColumnName(e.target.value)}
                       required
                     />
                   </div>
@@ -763,7 +867,10 @@ const Result = (props) => {
                 style={{ position: "absolute", bottom: 0 }}
                 className="BottomDiv"
               >
-                <div onClick={()=>ToogleColumnInserter()} className="CancelBtn">
+                <div
+                  onClick={() => ToogleColumnInserter()}
+                  className="CancelBtn"
+                >
                   Cancel
                 </div>
 
@@ -783,13 +890,11 @@ const Result = (props) => {
             </div>
           </SwipeableDrawer>
         </React.Fragment>
-        <MyVerticallyCenteredModal/>
+        <MyVerticallyCenteredModal />
       </div>
     );
   }
 };
-
-
 
 function MyVerticallyCenteredModal(props) {
   return (
@@ -797,7 +902,13 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Header closeButton>
         <Modal.Title style={{ fontSize: 20 }}>Confirm Delete</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={(e) => props.Value == props.ConfirmValue ? props.HandleSubmitForm(e): e.preventDefault()}>
+      <Form
+        onSubmit={(e) =>
+          props.Value == props.ConfirmValue
+            ? props.HandleSubmitForm(e)
+            : e.preventDefault()
+        }
+      >
         <Modal.Body style={{ paddingTop: 5 }}>
           <Form.Group className="mb-0 mt-0 " controlId="ModalInputFormView">
             <Form.Label className="font-weight-light">
@@ -812,9 +923,7 @@ function MyVerticallyCenteredModal(props) {
                 </span>
               </p>
             </Form.Label>
-            <div style={{ width: "100%" }}>
-             
-            </div>
+            <div style={{ width: "100%" }}></div>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
@@ -848,6 +957,5 @@ const Loadercss = css`
   display: block;
   border-color: red;
 `;
-
 
 export default Result;

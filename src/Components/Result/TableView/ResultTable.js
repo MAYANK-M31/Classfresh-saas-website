@@ -890,6 +890,8 @@
 //   );
 // });
 
+
+
 import React, { useState, useCallback, useEffect } from "react";
 import { render } from "react-dom";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
@@ -911,13 +913,12 @@ import RadixMenu from "./RadixMenu";
 import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
-const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving }) => {
+const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving,onRowSelect }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [rowData, setRowData] = useState(null);
     const [Column, setColumn] = useState([]);
     const [Row, setRow] = useState([]);
-    const [showDeleteColumn, setshowDeleteColumn] = useState(false);
 
 
     
@@ -1091,6 +1092,8 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving }) 
       updateData(SORTED)
 
     }
+
+
     
     const CustomHeader = (props) => {
       console.log(FileId);
@@ -1157,6 +1160,20 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving }) 
       );
     };
 
+
+
+
+    const onSelectionChanged = ()=>{
+      var selectedRows = gridApi.getSelectedRows();
+      // setRowSelected(!RowSelected)
+      onRowSelect(selectedRows)
+      // console.log(selectedRows);
+    }
+
+
+
+
+
     return (
       <div
         style={{
@@ -1198,7 +1215,7 @@ const ResultTable = React.memo(({ FileId, parsedQuery, RerenderTable, Saving }) 
               onCellClicked={cellClicked}
               onCellValueChanged={onCellValueChanged}
               frameworkComponents={{ agColumnHeader: CustomHeader }}
-              
+              onSelectionChanged={onSelectionChanged}
               // debounceVerticalScrollbar={true}
 
               rowSelection={"multiple"}
