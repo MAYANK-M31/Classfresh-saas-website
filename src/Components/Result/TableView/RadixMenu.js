@@ -203,7 +203,7 @@ export const RadixMenu = React.memo(({ column, FileId, DeleteColumn }) => {
       if (data.status != 200) {
         setLoader(false);
         setshowDeleteColumn(false);
-        return toast.warn(data.message);
+        return toast.error(data.message);
       }
       setshowDeleteColumn(false);
       setLoader(false);

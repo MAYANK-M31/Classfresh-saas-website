@@ -109,7 +109,7 @@ const Classes = () => {
             duration: 3000,
           });
         } else {
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "top-center",
             duration: 3000,
           });

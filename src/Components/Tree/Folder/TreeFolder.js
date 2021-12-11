@@ -100,7 +100,7 @@ const Folder = ({
           } else {
             dispatch({ type: FILE.DELETE, payload: { id } });
           }
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "top-center",
             duration: 3000,
           });
@@ -144,7 +144,7 @@ const Folder = ({
             duration: 3000,
           });
         } else {
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "top-center",
             duration: 3000,
           });
@@ -182,7 +182,7 @@ const Folder = ({
           });
           ResetDelete();
         } else {
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "top-center",
             duration: 3000,
           });

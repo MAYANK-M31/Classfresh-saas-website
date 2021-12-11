@@ -18,7 +18,7 @@
 // import { useHistory } from "react-router";
 // import { debounce } from "lodash-es";
 // import { Toaster, toast } from "react-hot-toast";
-// 
+//
 // import { Button } from "react-bootstrap";
 
 // const Styles = styled.div`
@@ -138,7 +138,7 @@
 //           },
 //           data: Payload,
 //         }).then(({ data }) => {
-//           if (data.status != 200) return toast.warn(data.message);
+//           if (data.status != 200) return toast.error(data.message);
 //           console.log(data);
 //         });
 //       }, []);
@@ -665,7 +665,7 @@
 // import { useHistory } from "react-router";
 // import { debounce } from "lodash-es";
 // import { Toaster, toast } from "react-hot-toast";
-// 
+//
 // import { Button } from "react-bootstrap";
 // import DataGrid, { TextEditor } from "react-data-grid";
 
@@ -904,7 +904,7 @@ import axios from "axios";
 import { URL } from "../../../URL/URL";
 import { useHistory } from "react-router";
 import { debounce } from "lodash-es";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { Button, Form, Modal } from "react-bootstrap";
 import RadixMenu from "./RadixMenu";
 import { PulseLoader } from "react-spinners";
@@ -938,7 +938,10 @@ const ResultTable = React.memo(
     );
 
     const FetchData = useCallback(async () => {
-      const updateData = (data) => gridApi.setRowData(data);
+      const updateData = (data) => {
+        gridApi.setRowData(data)
+        ResizeFitColumns();
+      };
 
       await axios({
         method: "get", //you can set what request you want to be
@@ -968,6 +971,7 @@ const ResultTable = React.memo(
             );
             setRow(SORTED);
             updateData(SORTED);
+
             // toast.success(data.message, {
             //   position: "top-center",
             //   duration: 3000,
@@ -1033,7 +1037,7 @@ const ResultTable = React.memo(
           data: Payload,
         }).then(({ data }) => {
           if (data.status != 200) {
-            return toast.warn(data.message);
+            return toast.error(data.message);
           }
           Saving(200);
           console.log(data);
@@ -1167,6 +1171,22 @@ const ResultTable = React.memo(
       // console.log(selectedRows);
     };
 
+    function onFirstDataRendered(params) {
+      params.api.sizeColumnsToFit();
+      ResizeFitColumns();
+    }
+
+    function ResizeFitColumns() {
+      // setTimeout(() => {
+      //   const allColumnIds = [];
+      //   gridColumnApi.getAllColumns().forEach((column) => {
+      //     allColumnIds.push(column.colId);
+      //   });
+
+      //   gridColumnApi.autoSizeColumns(allColumnIds);
+      // }, 50);
+    }
+
     return (
       <div
         style={{
@@ -1209,6 +1229,7 @@ const ResultTable = React.memo(
               onCellValueChanged={onCellValueChanged}
               frameworkComponents={{ agColumnHeader: CustomHeader }}
               onSelectionChanged={onSelectionChanged}
+              onFirstDataRendered={onFirstDataRendered}
               // debounceVerticalScrollbar={true}
 
               rowSelection={"multiple"}
@@ -1220,8 +1241,9 @@ const ResultTable = React.memo(
                 field="sequence"
                 key={"Sno"}
                 pinned={"left"}
-                minWidth={100}
-                maxWidth={100}
+                width={150}
+                resizable={false}
+                suppressSizeToFit={true}
                 headerCheckboxSelection={true}
                 cellStyle={{ borderLeft: "0px" }}
                 headerCheckboxSelectionFilteredOnly={true}
@@ -1232,12 +1254,11 @@ const ResultTable = React.memo(
                   key={item.id}
                   headerName={item.name}
                   field={item.key}
-                  aggFunc={myCustomSumFunction}
+                  
                   minWidth={item.width}
+                  resizable={true}
                   editable={item.editable}
                   cellStyle={(e) => CellStyle(e, index)}
-                  suppressMenu={true}
-                  sortable={true}
                   headerComponentParams={{
                     menuIcon: "fa-cog",
                     FileId: FileId,

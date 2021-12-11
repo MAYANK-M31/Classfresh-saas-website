@@ -130,7 +130,7 @@ const TeachersByClass = ({Minimize}) => {
           });
           setRenderList(false);
         } else {
-          toast.warning(res.data.message, {
+          toast.error(res.data.message, {
             position: "bottom-left",
             duration: 3000,
           });

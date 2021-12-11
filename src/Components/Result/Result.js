@@ -334,7 +334,7 @@ const Result = (props) => {
         if (data.status != 200) {
           setDeleteRowLoader(false);
 
-          return toast.warn(data.message);
+          return toast.error(data.message);
         }
 
         setDeleteRowLoader(false);
@@ -657,6 +657,7 @@ const Result = (props) => {
                   </div>
                 </div>
               </div>
+              
               <ResultTable
                 FileId={FileId}
                 RerenderTable={RerenderTable}
