@@ -11,7 +11,8 @@ import RadixMenu from "./RadixMenu";
 
 const CustomHeader= (props) => {
 
-console.log(props);
+
+ 
   return (
     <div
       style={{
@@ -45,6 +46,8 @@ console.log(props);
           }}
         >
           {props.displayName}
+          {/* {JSON.stringify(props)} */}
+          hi
         </p>
       </div>
 
@@ -64,7 +67,8 @@ console.log(props);
            textOverflow: "ellipsis",
            overflow: "hidden",
          }}
-       > <RadixMenu />
+       > 
+       <RadixMenu />
        </div>}
 
 
