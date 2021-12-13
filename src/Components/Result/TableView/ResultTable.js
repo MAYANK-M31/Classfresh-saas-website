@@ -911,7 +911,15 @@ import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
 const ResultTable = React.memo(
-  ({ FileId, parsedQuery, RerenderTable, Saving, onRowSelect, DeletedRow }) => {
+  ({
+    FileId,
+    parsedQuery,
+    RerenderTable,
+    Saving,
+    onRowSelect,
+    DeletedRow,
+    openColumnEdit,
+  }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [rowData, setRowData] = useState(null);
@@ -959,6 +967,7 @@ const ResultTable = React.memo(
                 sequence: e.sequence,
                 editable: e.columnId == "STUDENT_NAME" ? false : true,
                 width: e.columnId == "STUDENT_NAME" ? 300 : 150,
+                sortable: e.columnId == "STUDENT_NAME" ? false : true,
                 maxmarks: e.maxmarks,
                 valueType: e.valueType,
               });
@@ -1101,7 +1110,6 @@ const ResultTable = React.memo(
     }, [DeletedRow]);
 
     const CustomHeader = (props) => {
-      console.log(props);
       return (
         <div
           style={{
@@ -1132,7 +1140,12 @@ const ResultTable = React.memo(
               }}
             >
               {props.displayName}{" "}
-              {props.column.colId != "sequence" &&
+              {props?.column?.colDef?.headerComponentParams?.columnParam
+                ?.valueType == "MARKS"
+                ? "(" + props?.column?.colDef?.headerComponentParams?.columnParam
+                    ?.maxmarks + ")"
+                : null}
+              {/* {props.column.colId != "sequence" &&
               props.column.colId != "STUDENT_NAME"
                 ? "("
                 : null}
@@ -1140,10 +1153,10 @@ const ResultTable = React.memo(
                 props.column?.colDef?.headerComponentParams?.columnParam
                   ?.maxmarks
               )}
-                {props.column.colId != "sequence" &&
+              {props.column.colId != "sequence" &&
               props.column.colId != "STUDENT_NAME"
                 ? ")"
-                : null}
+                : null} */}
             </p>
           </div>
 
@@ -1168,6 +1181,7 @@ const ResultTable = React.memo(
                 DeleteColumn={DeleteColumn}
                 FileId={FileId}
                 column={props.column}
+                openColumnEdit={props.openColumnEdit}
               />
             </div>
           )}
@@ -1255,6 +1269,8 @@ const ResultTable = React.memo(
                 pinned={"left"}
                 width={100}
                 maxWidth={100}
+                sortable={false}
+                sortIndex={0}
                 resizable={false}
                 suppressSizeToFit={true}
                 headerCheckboxSelection={true}
@@ -1268,6 +1284,7 @@ const ResultTable = React.memo(
                   headerName={item.name}
                   field={item.key}
                   minWidth={item.width}
+                  sortable={item.sortable}
                   resizable={true}
                   editable={item.editable}
                   cellStyle={(e) => CellStyle(e, index)}
@@ -1278,6 +1295,7 @@ const ResultTable = React.memo(
                     columns: Column,
                     gridApi: gridApi,
                     columnParam: item,
+                    openColumnEdit: openColumnEdit,
                   }}
                 />
               ))}

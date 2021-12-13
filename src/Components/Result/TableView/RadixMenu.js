@@ -69,6 +69,7 @@ const itemStyles = {
   position: "relative",
   paddingLeft: 25,
   userSelect: "none",
+  cursor:"pointer",
 
   "&[data-disabled]": {
     color: "#4B5563",
@@ -137,7 +138,7 @@ export const DropdownMenuSeparator = StyledSeparator;
 export const DropdownMenuArrow = StyledArrow;
 
 // Your app...
-const Box = styled("div", {});
+const Box = styled("div", {cursor:"pointer"});
 
 const RightSlot = styled("div", {
   marginLeft: "auto",
@@ -168,7 +169,7 @@ const Loadercss = css`
   border-color: red;
 `;
 
-export const RadixMenu = React.memo(({ column, FileId, DeleteColumn }) => {
+export const RadixMenu = React.memo(({ column, FileId, DeleteColumn,openColumnEdit }) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState("pedro");
@@ -179,6 +180,7 @@ export const RadixMenu = React.memo(({ column, FileId, DeleteColumn }) => {
   let TOKEN = localStorage.getItem("access_token");
 
 
+  
   
   const DeleteColumnModal = useCallback(() => {
     setshowDeleteColumn(true);
@@ -230,8 +232,9 @@ export const RadixMenu = React.memo(({ column, FileId, DeleteColumn }) => {
             checked={bookmarksChecked}
             color={"red"}
             onCheckedChange={setBookmarksChecked}
+            onClick={()=>openColumnEdit(column.userProvidedColDef.headerComponentParams)}
           >
-            <DropdownMenuItemIndicator>
+            <DropdownMenuItemIndicator  >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="14"

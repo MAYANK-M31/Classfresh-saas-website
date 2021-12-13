@@ -22,7 +22,7 @@ import ClassHeader from "../Classes/Class/Header/ClassHeader";
 import ResultHeaders from "./Header/ResultHeader";
 import { URL } from "../../URL/URL";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { useHistory } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import RadixAlert from "./TableView/RadixAlert.js";
@@ -31,7 +31,6 @@ import { css } from "@emotion/react";
 const StudentCard = React.memo(({ item, AddRow }) => {
   console.log("RERENDERDD");
 
-  
   return (
     <div key={item.uuid} className="RowDiv">
       <div className="NameDiv">
@@ -39,7 +38,7 @@ const StudentCard = React.memo(({ item, AddRow }) => {
         <p className="Contact">{item?.contact}</p>
       </div>
       <div className="BatchDiv"></div>
-      <div onClick={() => AddRow([item],[])} className="BtnDiv">
+      <div onClick={() => AddRow([item], [])} className="BtnDiv">
         <div className="Btn">Add</div>
       </div>
     </div>
@@ -50,6 +49,9 @@ const Result = (props) => {
   const [minimize, setminimize] = useState(false);
   const [ShowRowInserter, setShowRowInserter] = useState(false);
   const [ShowColumnInserter, setShowColumnInserter] = useState(false);
+  const [ShowColumnEditor, setShowColumnEditor] = useState(false);
+  const [ColumnId, setColumnId] = useState(false);
+
 
   const [DomLoader, setDomLoader] = useState(true);
   const [StudentData, setStudentData] = useState([]);
@@ -59,12 +61,11 @@ const Result = (props) => {
 
   const [ColumnName, setColumnName] = useState("");
   const [ColumnType, setColumnType] = useState("MARKS");
-  const [ColumnMaxMarks, setColumnMaxMarks] = useState("");
+  const [ColumnMaxMarks, setColumnMaxMarks] = useState(0);
   const [SaveStatus, setSaveStatus] = useState(200);
   const [SelectedRow, setSelectedRow] = useState([]);
   const [DeleteRowLoader, setDeleteRowLoader] = useState(false);
   const [DeletedRow, setDeletedRow] = useState([]);
-
 
   const parsedQuery = useMemo(() => {
     return qs.parse(props.location.search);
@@ -95,7 +96,7 @@ const Result = (props) => {
 
   const FileSelected = (item) => {
     setFileId(item?.id);
-    setRerenderTable(old=>!old);
+    setRerenderTable((old) => !old);
   };
 
   const FetchStudentToAdd = async () => {
@@ -125,11 +126,8 @@ const Result = (props) => {
       });
   };
 
-
-
-  
   const AddRow = useCallback(
-    async (item,AllData) => {
+    async (item, AllData) => {
       const Data = {
         subjectId: parsedQuery?.subjectId,
         payload: item,
@@ -149,18 +147,13 @@ const Result = (props) => {
       })
         .then(({ data }) => {
           if (data.status == 200) {
-
-            
-          
-            setRerenderTable(oldData => !oldData);
-            setStudentData((oldData)=>{
+            setRerenderTable((oldData) => !oldData);
+            setStudentData((oldData) => {
               var Temp = [];
               item.forEach((element) => {
-                Temp = oldData.filter(
-                  (e) => e.uuid != element.uuid
-                );
+                Temp = oldData.filter((e) => e.uuid != element.uuid);
               });
-              return Temp
+              return Temp;
             });
             toast.success(data.message, {
               position: "top-center",
@@ -195,7 +188,7 @@ const Result = (props) => {
       fileId: parsedQuery.fileId,
       name: ColumnName,
       valueType: ColumnType,
-      maxmarks: ColumnMaxMarks,
+      maxmarks:  ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
     };
 
     console.log(Data);
@@ -212,7 +205,7 @@ const Result = (props) => {
         if (data.status == 200) {
           setShowColumnInserter(false);
           FetchStudentToAdd();
-          setRerenderTable(old=>!old);
+          setRerenderTable((old) => !old);
           setColumnName("");
           setColumnMaxMarks("");
           setColumnType("MARKS");
@@ -245,6 +238,56 @@ const Result = (props) => {
     history,
     parsedQuery,
   ]);
+
+  const EditColumn = async () => {
+
+
+    
+    const Data = {
+      columnId:ColumnId,
+      fileId: parsedQuery.fileId,
+      name: ColumnName,
+      valueType: ColumnType,
+      maxmarks:  ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
+    };
+
+    console.log(Data);
+
+    await axios({
+      method: "post", //you can set what request you want to be
+      url: `${URL}/excel/column/edit`,
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      data: Data,
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          ToogleColumnEdit();
+          setRerenderTable((old) => !old);
+          setColumnId(null)
+          toast.success(data.message, {
+            position: "top-center",
+            duration: 3000,
+          });
+        } else {
+
+          
+          toast.error(data.message, {
+            position: "top-center",
+            duration: 3000,
+          });
+        }
+      })
+      .catch((e) => {
+
+        
+        toast.error("Something went wrong", {
+          position: "top-center",
+          duration: 3000,
+        });
+      });
+  };
 
   const Search = useCallback(
     (search) => {
@@ -286,12 +329,32 @@ const Result = (props) => {
   };
 
   const ToogleRowInserter = useCallback(() => {
-    setShowRowInserter(false);
-  }, [setShowRowInserter, ShowRowInserter]);
+    setShowRowInserter((old) => !old);
+  }, []);
 
   const ToogleColumnInserter = useCallback(() => {
-    setShowColumnInserter(false);
-  }, [setShowColumnInserter, ShowColumnInserter]);
+    setShowColumnInserter((old) => !old);
+  }, []);
+
+  const ToogleColumnEdit = useCallback((params) => {
+    // alert("HI FROM RESULT")
+    var item = params?.columnParam;
+    if (item) {
+      console.log(params.columnParam);
+      setColumnName(item.name);
+      setColumnMaxMarks(item.maxmarks);
+      setColumnType(item.valueType);
+      console.log(item);
+      setColumnId(item.key)
+    } else {
+      setColumnName("");
+      setColumnMaxMarks("");
+      setColumnId(null)
+
+    }
+
+    setShowColumnEditor((old) => !old);
+  }, []);
 
   const handleColumnType = useCallback((value) => setColumnType(value), []);
 
@@ -320,8 +383,6 @@ const Result = (props) => {
       rowIds: Ids,
     };
 
-
-    
     await axios({
       method: "post", //you can set what request you want to be
       url: `${URL}/excel/row/delete`,
@@ -338,7 +399,7 @@ const Result = (props) => {
         }
 
         setDeleteRowLoader(false);
-        setDeletedRow(SelectedRow)
+        setDeletedRow(SelectedRow);
         // setRerenderTable(old=>!old);
         setSelectedRow([]);
 
@@ -657,7 +718,7 @@ const Result = (props) => {
                   </div>
                 </div>
               </div>
-              
+
               <ResultTable
                 FileId={FileId}
                 RerenderTable={RerenderTable}
@@ -665,6 +726,7 @@ const Result = (props) => {
                 Saving={Saving}
                 onRowSelect={onRowSelect}
                 DeletedRow={DeletedRow}
+                openColumnEdit={ToogleColumnEdit}
               />
             </div>
           </Split>
@@ -736,7 +798,9 @@ const Result = (props) => {
                     cursor: StudentData.length == 0 ? "not-allowed" : "pointer",
                   }}
                   onClick={() =>
-                    StudentData.length == 0 ? null : AddRow(StudentData,StudentData)
+                    StudentData.length == 0
+                      ? null
+                      : AddRow(StudentData, StudentData)
                   }
                   className="ImportAllBtn"
                 >
@@ -910,6 +974,144 @@ const Result = (props) => {
             </div>
           </SwipeableDrawer>
         </React.Fragment>
+
+        {/* COLUMN EDIT MODAL */}
+        <React.Fragment>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={ShowColumnEditor}
+            onClose={ToogleColumnEdit}
+            onOpen={ToogleColumnEdit}
+          >
+            <div className="RowInsertDrawer">
+              <div className="SideBarTitleView">
+                <div onClick={ToogleColumnEdit} className="BackBtn">
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.207 0.29329C7.3945 0.48081 7.4998 0.73512 7.4998 1.00029C7.4998 1.26545 7.3945 1.51976 7.207 1.70729L3.414 5.5003H13C13.2652 5.5003 13.5196 5.6056 13.7071 5.7932C13.8946 5.9807 14 6.2351 14 6.5003C14 6.7655 13.8946 7.0199 13.7071 7.2074C13.5196 7.3949 13.2652 7.5003 13 7.5003H3.414L7.207 11.2933C7.2998 11.3862 7.3735 11.4965 7.4237 11.6179C7.4739 11.7392 7.4997 11.8693 7.4997 12.0006C7.4997 12.132 7.4737 12.262 7.4234 12.3834C7.3731 12.5047 7.2994 12.6149 7.2065 12.7078C7.1136 12.8006 7.0033 12.8743 6.8819 12.9245C6.7606 12.9747 6.6305 13.0005 6.4991 13.0005C6.3678 13.0004 6.2377 12.9745 6.1164 12.9242C5.9951 12.8739 5.8848 12.8002 5.792 12.7073L0.293 7.2073C0.1119 7.0269 0.00701 6.7838 0 6.5283V6.4713C0.00716 6.2161 0.11205 5.9734 0.293 5.7933L5.792 0.29329C5.8849 0.20031 5.9952 0.12655 6.1166 0.07623C6.238 0.0259 6.3681 0 6.4995 0C6.6309 0 6.761 0.0259 6.8824 0.07623C7.0038 0.12655 7.1141 0.20031 7.207 0.29329Z"
+                      fill="#2C385C"
+                    />
+                  </svg>
+                </div>
+
+                <span>Edit Column</span>
+              </div>
+
+              <Form
+                // onSubmit={(e) => props.HandleSubmitForm(e)}
+                className="FormView"
+              >
+                <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                  <Form.Label>Column name</Form.Label>
+                  <div style={{ width: "100%" }}>
+                    <Form.Control
+                      name="text"
+                      type="text"
+                      aria-required={true}
+                      autoComplete="off"
+                      className="Input"
+                      placeholder="Enter Column name"
+                      value={ColumnName}
+                      onChange={(e) => setColumnName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Group
+                  key={`inline-radio`}
+                  className="mb-3 "
+                  controlId="ModalInputFormView"
+                >
+                  <Form.Label>Column Type</Form.Label>
+
+                  <div>
+                    <Form.Check
+                      onChange={() => handleColumnType("MARKS")}
+                      checked={ColumnType == "MARKS" ? true : false}
+                      // defaultChecked={true}
+                      inline
+                      label="Marks"
+                      name="MARKS"
+                      type={"radio"}
+                      id={`inline-radio-1`}
+                    />
+                    <Form.Check
+                      onChange={() => handleColumnType("GRADE")}
+                      checked={ColumnType == "GRADE" ? true : false}
+                      inline
+                      label="Grade"
+                      name="GRADE"
+                      type={"radio"}
+                      id={`inline-radio-2`}
+                    />
+
+                    <Form.Check
+                      onChange={() => handleColumnType("PERCENTAGE")}
+                      checked={ColumnType == "PERCENTAGE" ? true : false}
+                      inline
+                      label="percentage"
+                      name="PERCENTAGE"
+                      type={"radio"}
+                      id={`inline-radio-3`}
+                    />
+                  </div>
+                </Form.Group>
+
+                {ColumnType == "MARKS" && (
+                  <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                    <Form.Label>Max marks</Form.Label>
+                    <div style={{ width: "100%" }}>
+                      <Form.Control
+                        name="text"
+                        required
+                        type="number"
+                        className="Input"
+                        autoComplete="off"
+                        placeholder="Enter Max Marks"
+                        value={ColumnMaxMarks}
+                        onChange={(e) => {
+                          setColumnMaxMarks(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+                )}
+              </Form>
+
+              <div
+                style={{ position: "absolute", bottom: 0 }}
+                className="BottomDiv"
+              >
+                <div onClick={ToogleColumnEdit} className="CancelBtn">
+                  Cancel
+                </div>
+
+                <div
+                  onClick={() => {
+                    if (
+                      !/[^\s]/.test(ColumnMaxMarks) == false ||
+                      !/[^\s]/.test(ColumnName) == false
+                    )
+                      EditColumn();
+                  }}
+                  className="DoneBtn"
+                >
+                  Edit
+                </div>
+              </div>
+            </div>
+          </SwipeableDrawer>
+        </React.Fragment>
+
         <MyVerticallyCenteredModal />
       </div>
     );
