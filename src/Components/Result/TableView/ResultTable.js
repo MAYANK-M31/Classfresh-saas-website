@@ -939,7 +939,7 @@ const ResultTable = React.memo(
 
     const FetchData = useCallback(async () => {
       const updateData = (data) => {
-        gridApi.setRowData(data)
+        gridApi.setRowData(data);
         ResizeFitColumns();
       };
 
@@ -953,13 +953,14 @@ const ResultTable = React.memo(
         .then(({ data }) => {
           if (data.status == 200) {
             data.payload.data.columns.forEach((e) => {
-              // console.log(e.columnId);
               columns.push({
                 name: e.columnName,
                 key: e.columnId,
                 sequence: e.sequence,
                 editable: e.columnId == "STUDENT_NAME" ? false : true,
                 width: e.columnId == "STUDENT_NAME" ? 300 : 150,
+                maxmarks: e.maxmarks,
+                valueType: e.valueType,
               });
             });
 
@@ -1100,7 +1101,7 @@ const ResultTable = React.memo(
     }, [DeletedRow]);
 
     const CustomHeader = (props) => {
-      // console.log(FileId);
+      console.log(props);
       return (
         <div
           style={{
@@ -1130,7 +1131,19 @@ const ResultTable = React.memo(
                 cursor: "pointer",
               }}
             >
-              {props.displayName}
+              {props.displayName}{" "}
+              {props.column.colId != "sequence" &&
+              props.column.colId != "STUDENT_NAME"
+                ? "("
+                : null}
+              {JSON.stringify(
+                props.column?.colDef?.headerComponentParams?.columnParam
+                  ?.maxmarks
+              )}
+                {props.column.colId != "sequence" &&
+              props.column.colId != "STUDENT_NAME"
+                ? ")"
+                : null}
             </p>
           </div>
 
@@ -1182,7 +1195,6 @@ const ResultTable = React.memo(
       //   gridColumnApi.getAllColumns().forEach((column) => {
       //     allColumnIds.push(column.colId);
       //   });
-
       //   gridColumnApi.autoSizeColumns(allColumnIds);
       // }, 50);
     }
@@ -1241,7 +1253,8 @@ const ResultTable = React.memo(
                 field="sequence"
                 key={"Sno"}
                 pinned={"left"}
-                width={150}
+                width={100}
+                maxWidth={100}
                 resizable={false}
                 suppressSizeToFit={true}
                 headerCheckboxSelection={true}
@@ -1254,7 +1267,6 @@ const ResultTable = React.memo(
                   key={item.id}
                   headerName={item.name}
                   field={item.key}
-                  
                   minWidth={item.width}
                   resizable={true}
                   editable={item.editable}
@@ -1265,6 +1277,7 @@ const ResultTable = React.memo(
                     rows: Row,
                     columns: Column,
                     gridApi: gridApi,
+                    columnParam: item,
                   }}
                 />
               ))}
