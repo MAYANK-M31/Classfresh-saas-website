@@ -1297,6 +1297,7 @@ const ResultTable = React.memo(
                     columnParam: item,
                     openColumnEdit: openColumnEdit,
                   }}
+                  
                 />
               ))}
             </AgGridReact>

@@ -14,8 +14,7 @@ import { PulseLoader } from "react-spinners";
 import { css } from "@emotion/react";
 import axios from "axios";
 import { URL } from "../../../URL/URL";
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from "react-hot-toast";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
@@ -69,7 +68,7 @@ const itemStyles = {
   position: "relative",
   paddingLeft: 25,
   userSelect: "none",
-  cursor:"pointer",
+  cursor: "pointer",
 
   "&[data-disabled]": {
     color: "#4B5563",
@@ -138,11 +137,20 @@ export const DropdownMenuSeparator = StyledSeparator;
 export const DropdownMenuArrow = StyledArrow;
 
 // Your app...
-const Box = styled("div", {cursor:"pointer"});
+const Box = styled("div", { cursor: "pointer" });
 
 const RightSlot = styled("div", {
   marginLeft: "auto",
   paddingLeft: 20,
+  color: mauve.mauve11,
+  ":focus > &": { color: "white" },
+  "[data-disabled] &": { color: mauve.mauve8 },
+});
+
+const LeftSlot = styled("div", {
+  marginRight: "auto",
+  position:"absolute",
+  left:0,
   color: mauve.mauve11,
   ":focus > &": { color: "white" },
   "[data-disabled] &": { color: mauve.mauve8 },
@@ -169,116 +177,71 @@ const Loadercss = css`
   border-color: red;
 `;
 
-export const RadixMenu = React.memo(({ column, FileId, DeleteColumn,openColumnEdit }) => {
-  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-  const [urlsChecked, setUrlsChecked] = React.useState(false);
-  const [person, setPerson] = React.useState("pedro");
-  const [showDeleteColumn, setshowDeleteColumn] = React.useState(false);
+export const RadixMenu = React.memo(
+  ({ column, FileId, DeleteColumn, openColumnEdit }) => {
+    const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
+    const [urlsChecked, setUrlsChecked] = React.useState(false);
+    const [person, setPerson] = React.useState("pedro");
+    const [showDeleteColumn, setshowDeleteColumn] = React.useState(false);
 
-  const [Loader, setLoader] = React.useState(false);
+    const [Loader, setLoader] = React.useState(false);
 
-  let TOKEN = localStorage.getItem("access_token");
+    let TOKEN = localStorage.getItem("access_token");
 
+    const DeleteColumnModal = useCallback(() => {
+      setshowDeleteColumn(true);
+    }, [setshowDeleteColumn, setLoader, column, FileId]);
 
-  
-  
-  const DeleteColumnModal = useCallback(() => {
-    setshowDeleteColumn(true);
-  }, [setshowDeleteColumn, setLoader, column, FileId]);
+    const PostDeleteColumm = useCallback(async () => {
+      setLoader(true);
 
-  const PostDeleteColumm = useCallback(async () => {
-    setLoader(true);
+      const Payload = {
+        columnId: column.colId,
+        docId: column.userProvidedColDef.headerComponentParams.FileId,
+      };
 
-    const Payload = {
-      columnId: column.colId,
-      docId: column.userProvidedColDef.headerComponentParams.FileId,
-    };
-
-    await axios({
-      method: "post", //you can set what request you want to be
-      url: `${URL}/excel/column/delete`,
-      headers: {
-        Authorization: "Bearer " + TOKEN,
-      },
-      data: Payload,
-    }).then(({ data }) => {
-      if (data.status != 200) {
-        setLoader(false);
+      await axios({
+        method: "post", //you can set what request you want to be
+        url: `${URL}/excel/column/delete`,
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+        data: Payload,
+      }).then(({ data }) => {
+        if (data.status != 200) {
+          setLoader(false);
+          setshowDeleteColumn(false);
+          return toast.error(data.message);
+        }
         setshowDeleteColumn(false);
-        return toast.error(data.message);
-      }
-      setshowDeleteColumn(false);
-      setLoader(false);
+        setLoader(false);
 
-      DeleteColumn({
-        colId: column.colId,
-        params: column.userProvidedColDef.headerComponentParams,
+        DeleteColumn({
+          colId: column.colId,
+          params: column.userProvidedColDef.headerComponentParams,
+        });
+        return toast.success(data.message);
       });
-      return toast.success(data.message);
-    });
-  }, [column, FileId, setLoader, setshowDeleteColumn]);
+    }, [column, FileId, setLoader, setshowDeleteColumn]);
 
-  return (
-    <Box>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <IconButton aria-label="Customise options">
-            <ChevronDownIcon color={"grey"} width={22} height={22} />
-          </IconButton>
-        </DropdownMenuTrigger>
+    return (
+      <Box>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <IconButton aria-label="Customise options">
+              <ChevronDownIcon color={"grey"} width={22} height={22} />
+            </IconButton>
+          </DropdownMenuTrigger>
 
-        <DropdownMenuContent sideOffset={5}>
-          <DropdownMenuCheckboxItem
-            checked={bookmarksChecked}
-            color={"red"}
-            onCheckedChange={setBookmarksChecked}
-            onClick={()=>openColumnEdit(column.userProvidedColDef.headerComponentParams)}
-          >
-            <DropdownMenuItemIndicator  >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="sbui-icon "
-              >
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-              </svg>
-            </DropdownMenuItemIndicator>
-            Edit Column
-          </DropdownMenuCheckboxItem>
-
-          <DropdownMenu>
-            <DropdownMenuTriggerItem>
-              More Tools
-              <RightSlot>
-                <ChevronRightIcon />
-              </RightSlot>
-            </DropdownMenuTriggerItem>
-            <DropdownMenuContent sideOffset={2} alignOffset={-5}>
-              <DropdownMenuItem>
-                Save Page As… <RightSlot>⌘+S</RightSlot>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Create Shortcut…</DropdownMenuItem>
-              <DropdownMenuItem>Name Window…</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Developer Tools</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenuSeparator />
-
-          <DropdownMenuRadioGroup
-            onClick={() => DeleteColumnModal()}
-            value={person}
-            onValueChange={setPerson}
-          >
-            <DropdownMenuRadioItem value="pedro">
+          <DropdownMenuContent sideOffset={5}>
+            <DropdownMenuCheckboxItem
+              checked={bookmarksChecked}
+              color={"red"}
+              onCheckedChange={setBookmarksChecked}
+              onClick={() =>
+                openColumnEdit(column.userProvidedColDef.headerComponentParams)
+              }
+            >
               <DropdownMenuItemIndicator>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -286,32 +249,91 @@ export const RadixMenu = React.memo(({ column, FileId, DeleteColumn,openColumnEd
                   height="14"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="red"
+                  stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   class="sbui-icon "
                 >
-                  <polyline points="3 6 5 6 21 6"></polyline>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
               </DropdownMenuItemIndicator>
+              Edit Column
+            </DropdownMenuCheckboxItem>
 
-              <span style={{ color: "#f65e72" }}>Delete Column</span>
-            </DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-          <DropdownMenuArrow />
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <MyVerticallyCenteredModal
-        show={showDeleteColumn}
-        onHide={() => setshowDeleteColumn(false)}
-        Loader={Loader}
-        column={column}
-        HandleSubmitForm={PostDeleteColumm}
-      />
-    </Box>
-  );
-});
+            <DropdownMenu>
+              <DropdownMenuTriggerItem>
+                <LeftSlot>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18px"
+                    viewBox="0 0 24 24"
+                    width="18px"
+                    style={{marginLeft:3}}
+                    fill="#66749f"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M18 4H6v2l6.5 6L6 18v2h12v-3h-7l5-5-5-5h7V4z" />
+                  </svg>
+                </LeftSlot>
+                Math Functions
+                <RightSlot>
+                  <ChevronRightIcon />
+                </RightSlot>
+              </DropdownMenuTriggerItem>
+              <DropdownMenuContent sideOffset={2} alignOffset={-5}>
+                <DropdownMenuItem>
+                  Save Page As… <RightSlot>⌘+S</RightSlot>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Create Shortcut…</DropdownMenuItem>
+                <DropdownMenuItem>Name Window…</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Developer Tools</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuRadioGroup
+              onClick={() => DeleteColumnModal()}
+              value={person}
+              onValueChange={setPerson}
+            >
+              <DropdownMenuRadioItem value="pedro">
+                <DropdownMenuItemIndicator>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="red"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="sbui-icon "
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </DropdownMenuItemIndicator>
+
+                <span style={{ color: "#f65e72" }}>Delete Column</span>
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+            <DropdownMenuArrow />
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <MyVerticallyCenteredModal
+          show={showDeleteColumn}
+          onHide={() => setshowDeleteColumn(false)}
+          Loader={Loader}
+          column={column}
+          HandleSubmitForm={PostDeleteColumm}
+        />
+      </Box>
+    );
+  }
+);
 
 function MyVerticallyCenteredModal(props) {
   return (
