@@ -16,8 +16,6 @@ import Lottie from "react-lottie";
 
 import { Modal } from "react-bootstrap";
 
-
-
 const Loadercss = css`
   display: block;
   margin: 0 auto;
@@ -190,9 +188,9 @@ const TeachersTable = ({
 
   const AssignBatch = useCallback(async (data) => {
     const Payload = {
-      teacherId:data.uuid,
-      batchId:parsedQuery.batchId
-    }
+      teacherId: data.uuid,
+      batchId: parsedQuery.batchId,
+    };
     await axios({
       method: "post", //you can set what request you want to be
       url: `${URL}/teacher/batch/assign/existing`,
@@ -200,30 +198,28 @@ const TeachersTable = ({
         Authorization: "Bearer " + TOKEN,
       },
       data: Payload,
-    }).then((res)=>{
+    }).then((res) => {
       if (res.data.status == 200) {
         setname("");
         setcontact("");
         setgender(null);
         setClass(null);
         setsection(null);
-        SearchExistingTeacher("")
-        setsearchSavedTeacher("")
-       
+        SearchExistingTeacher("");
+        setsearchSavedTeacher("");
+
         toast.success("Teacher Assigned Successfully ", {
           position: "top-center",
           duration: 3000,
         });
         FetchRow();
-     
       } else {
         toast.error(res.data.message, {
           position: "top-center",
           duration: 3000,
         });
-
       }
-    })
+    });
   }, []);
 
   const Row = () => {
@@ -235,7 +231,9 @@ const TeachersTable = ({
             paddingTop: "8px",
             textAlign: "center",
           }}
-        >          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
+        >
+          {" "}
+          <input style={{ width: "16px", height: "16px" }} type="checkbox" />
         </td>
         <td>
           <div className="RowNameDiv">
@@ -244,17 +242,17 @@ const TeachersTable = ({
           </div>
         </td>
         <td> {item.contact}</td>
-        <td style={{ paddingRight: "30px" }}>
-          {item.batches.length > 0
-            ? item.batches.map((element) =>
-                element.batchId == parsedQuery.batchId.trim()
-                  ? element.batch.class.label +
+        {/* <td style={{ paddingRight: "30px" }}>
+          {item?.batches?.length > 0
+            ? item?.batches.map((element) =>
+                element?.batchId == parsedQuery?.batchId?.trim()
+                  ? element?.batch?.class?.label +
                     "-" +
-                    element.batch.section.label
+                    element?.batch?.section?.label
                   : null
               )
             : "--"}
-        </td>
+        </td> */}
         <td> {item.gender}</td>
         <td
           style={{
@@ -541,7 +539,7 @@ function TeacherModal(props) {
               </div>
               <div className="BatchDiv"></div>
               <div className="BtnDiv">
-                <div onClick={()=>props.AssignBatch(item)} className="Btn">
+                <div onClick={() => props.AssignBatch(item)} className="Btn">
                   Add
                 </div>
               </div>
