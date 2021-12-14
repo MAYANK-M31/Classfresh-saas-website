@@ -52,7 +52,6 @@ const Result = (props) => {
   const [ShowColumnEditor, setShowColumnEditor] = useState(false);
   const [ColumnId, setColumnId] = useState(false);
 
-
   const [DomLoader, setDomLoader] = useState(true);
   const [StudentData, setStudentData] = useState([]);
   const [StudentSavedData, setStudentSavedData] = useState([]);
@@ -188,7 +187,7 @@ const Result = (props) => {
       fileId: parsedQuery.fileId,
       name: ColumnName,
       valueType: ColumnType,
-      maxmarks:  ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
+      maxmarks: ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
     };
 
     console.log(Data);
@@ -240,15 +239,12 @@ const Result = (props) => {
   ]);
 
   const EditColumn = async () => {
-
-
-    
     const Data = {
-      columnId:ColumnId,
+      columnId: ColumnId,
       fileId: parsedQuery.fileId,
       name: ColumnName,
       valueType: ColumnType,
-      maxmarks:  ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
+      maxmarks: ColumnMaxMarks ? JSON.parse(ColumnMaxMarks) : null,
     };
 
     console.log(Data);
@@ -265,14 +261,12 @@ const Result = (props) => {
         if (data.status == 200) {
           ToogleColumnEdit();
           setRerenderTable((old) => !old);
-          setColumnId(null)
+          setColumnId(null);
           toast.success(data.message, {
             position: "top-center",
             duration: 3000,
           });
         } else {
-
-          
           toast.error(data.message, {
             position: "top-center",
             duration: 3000,
@@ -280,8 +274,6 @@ const Result = (props) => {
         }
       })
       .catch((e) => {
-
-        
         toast.error("Something went wrong", {
           position: "top-center",
           duration: 3000,
@@ -345,12 +337,11 @@ const Result = (props) => {
       setColumnMaxMarks(item.maxmarks);
       setColumnType(item.valueType);
       console.log(item);
-      setColumnId(item.key)
+      setColumnId(item.key);
     } else {
       setColumnName("");
       setColumnMaxMarks("");
-      setColumnId(null)
-
+      setColumnId(null);
     }
 
     setShowColumnEditor((old) => !old);
@@ -654,6 +645,42 @@ const Result = (props) => {
                           </defs>
                         </svg>
                         Insert Row
+                      </div>
+
+                      <div
+                        style={{
+                          width: "1px",
+                          height: "20px",
+                          backgroundColor: "#E2E5EA",
+                          marginLeft: "10px",
+                        }}
+                      />
+
+                      <div
+                        className="FilterRowBtn"
+                        style={{ width: "auto", paddingRight: 5 }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24px"
+                          viewBox="0 0 24 24"
+                          width="24px"
+                          fill="#66749f"
+                        >
+                          <path d="M0 0h24v24H0V0z" fill="none" />
+                          <path d="M18 4H6v2l6.5 6L6 18v2h12v-3h-7l5-5-5-5h7V4z" />
+                        </svg>
+                        Functions
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24px"
+                          viewBox="0 0 24 24"
+                          width="24px"
+                          fill="#66749f"
+                        >
+                          <path d="M0 0h24v24H0V0z" fill="none" />
+                          <path d="M7 10l5 5 5-5H7z" />
+                        </svg>
                       </div>
                     </>
                   ) : (
