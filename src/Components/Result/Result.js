@@ -27,6 +27,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import RadixAlert from "./TableView/RadixAlert.js";
 import { css } from "@emotion/react";
+import Select from "react-select";
 
 const StudentCard = React.memo(({ item, AddRow }) => {
   console.log("RERENDERDD");
@@ -44,6 +45,13 @@ const StudentCard = React.memo(({ item, AddRow }) => {
     </div>
   );
 });
+
+const Operations = [
+  { value: "REDUCE", label: "Reduce Marks" },
+  { value: "SUM", label: "Sum" },
+  { value: "AVERAGE", label: "Average" },
+  { value: "CUSTOM", label: "Custom" },
+];
 
 const Result = (props) => {
   const [minimize, setminimize] = useState(false);
@@ -65,6 +73,19 @@ const Result = (props) => {
   const [SelectedRow, setSelectedRow] = useState([]);
   const [DeleteRowLoader, setDeleteRowLoader] = useState(false);
   const [DeletedRow, setDeletedRow] = useState([]);
+
+  const [showFunctionsModal, setshowFunctionsModal] = useState(false);
+  const [MultiSelectColumn, setMultiSelectColumn] = useState([]);
+  const [MultiSelectColumnOptions, setMultiSelectColumnOptions] = useState([]);
+
+  const [OperationSelect, setOperationSelect] = useState([]);
+  const [OperationSelectOptions, setOperationSelectOptions] =
+    useState(Operations);
+
+  const [CustomFunction, setCustomFunction] = useState(null);
+  const [OperationText, setOperationText] = useState("");
+
+  const [Column, setColumn] = useState([]);
 
   const parsedQuery = useMemo(() => {
     return qs.parse(props.location.search);
@@ -385,7 +406,6 @@ const Result = (props) => {
       .then(({ data }) => {
         if (data.status != 200) {
           setDeleteRowLoader(false);
-
           return toast.error(data.message);
         }
 
@@ -393,11 +413,88 @@ const Result = (props) => {
         setDeletedRow(SelectedRow);
         // setRerenderTable(old=>!old);
         setSelectedRow([]);
-
         return toast.success(data.message);
       })
       .catch((e) => {});
   }, [FileId, SelectedRow, setSelectedRow, setDeleteRowLoader, setSelectedRow]);
+
+  const ToogleFunctionApplier = () => {
+    var Temp = Column.filter(
+      (e) => e.valueType == "MARKS" && e?.key != "STUDENT_NAME"
+    );
+    const alphabet = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ];
+
+    Temp = Temp.slice(0, 24).map((e, index) => {
+      return {
+        label:
+          alphabet[index] +
+          " - " +
+          e.name +
+          " (" +
+          e.maxmarks +
+          ")",
+        value: e.key,
+        refId: alphabet[index],
+      };
+    });
+
+    console.log(Temp)
+
+    setMultiSelectColumnOptions(Temp);
+
+    setshowFunctionsModal((old) => !old);
+  };
+
+  const handleMultiSelectColumn = (value) => {
+    setMultiSelectColumn(value);
+  };
+
+  const handleTableData = useCallback(
+    ({ row, column }) => {
+      setColumn(column);
+    },
+    [setColumn]
+  );
+
+  const handleSelectColumn = (value) => {
+    setMultiSelectColumn(value);
+
+    console.log(value.length);
+    if (value.length > 1) {
+      setOperationSelectOptions(Operations.filter((e) => e.value != "REDUCE"));
+    } else if (value.length == 1) {
+      setOperationSelectOptions(Operations);
+    } else {
+      setOperationSelectOptions([]);
+    }
+  };
 
   if (DomLoader == true) {
     return (
@@ -659,6 +756,7 @@ const Result = (props) => {
                       <div
                         className="FilterRowBtn"
                         style={{ width: "auto", paddingRight: 5 }}
+                        onClick={ToogleFunctionApplier}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -754,6 +852,7 @@ const Result = (props) => {
                 onRowSelect={onRowSelect}
                 DeletedRow={DeletedRow}
                 openColumnEdit={ToogleColumnEdit}
+                handleTableData={handleTableData}
               />
             </div>
           </Split>
@@ -1133,6 +1232,188 @@ const Result = (props) => {
                   className="DoneBtn"
                 >
                   Edit
+                </div>
+              </div>
+            </div>
+          </SwipeableDrawer>
+        </React.Fragment>
+
+        {/* MATH FUNCTIONS APPLIER MODAL */}
+        <React.Fragment>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={showFunctionsModal}
+            onClose={ToogleFunctionApplier}
+            onOpen={ToogleFunctionApplier}
+          >
+            <div className="RowInsertDrawer">
+              <div className="SideBarTitleView">
+                <div onClick={ToogleFunctionApplier} className="BackBtn">
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.207 0.29329C7.3945 0.48081 7.4998 0.73512 7.4998 1.00029C7.4998 1.26545 7.3945 1.51976 7.207 1.70729L3.414 5.5003H13C13.2652 5.5003 13.5196 5.6056 13.7071 5.7932C13.8946 5.9807 14 6.2351 14 6.5003C14 6.7655 13.8946 7.0199 13.7071 7.2074C13.5196 7.3949 13.2652 7.5003 13 7.5003H3.414L7.207 11.2933C7.2998 11.3862 7.3735 11.4965 7.4237 11.6179C7.4739 11.7392 7.4997 11.8693 7.4997 12.0006C7.4997 12.132 7.4737 12.262 7.4234 12.3834C7.3731 12.5047 7.2994 12.6149 7.2065 12.7078C7.1136 12.8006 7.0033 12.8743 6.8819 12.9245C6.7606 12.9747 6.6305 13.0005 6.4991 13.0005C6.3678 13.0004 6.2377 12.9745 6.1164 12.9242C5.9951 12.8739 5.8848 12.8002 5.792 12.7073L0.293 7.2073C0.1119 7.0269 0.00701 6.7838 0 6.5283V6.4713C0.00716 6.2161 0.11205 5.9734 0.293 5.7933L5.792 0.29329C5.8849 0.20031 5.9952 0.12655 6.1166 0.07623C6.238 0.0259 6.3681 0 6.4995 0C6.6309 0 6.761 0.0259 6.8824 0.07623C7.0038 0.12655 7.1141 0.20031 7.207 0.29329Z"
+                      fill="#2C385C"
+                    />
+                  </svg>
+                </div>
+
+                <span>Math Functions</span>
+              </div>
+
+              <Form
+                // onSubmit={(e) => props.HandleSubmitForm(e)}
+                className="FormView"
+              >
+                <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                  <Form.Label>Column name</Form.Label>
+                  <div style={{ width: "100%" }}>
+                    <Select
+                      isMulti={true}
+                      value={MultiSelectColumn}
+                      onChange={handleSelectColumn}
+                      options={MultiSelectColumnOptions}
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Group
+                  key={`inline-radio`}
+                  className="mb-3 "
+                  controlId="ModalInputFormView"
+                >
+                  <Form.Label>Operations</Form.Label>
+
+                  <div>
+                    <Select
+                      isDisabled={MultiSelectColumn.length > 0 ? false : true}
+                      value={OperationSelect}
+                      onChange={(value) => setOperationSelect(value)}
+                      options={OperationSelectOptions}
+                    />
+                  </div>
+                </Form.Group>
+
+                {OperationSelect.value == "CUSTOM" && (
+                  <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                    <Form.Label>Custom Function</Form.Label>
+                    <div style={{ width: "100%" }}>
+                      <Form.Control
+                        name="text"
+                        required
+                        type="text"
+                        className="Input"
+                        autoComplete="off"
+                        placeholder="Eg. (A+B)/2"
+                        value={ColumnMaxMarks}
+                        onChange={(e) => {
+                          setColumnMaxMarks(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+                )}
+
+                {OperationSelect.value == "REDUCE" && (
+                  <Form.Group className="mb-3 " controlId="ModalInputFormView">
+                    {/* <Form.Label>Reduce Function</Form.Label> */}
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div style={{ width: "35%" }}>
+                        <Form.Label>Max Marks</Form.Label>
+
+                        <Form.Control
+                          name="text"
+                          required
+                          disabled
+                          type="text"
+                          className="Input"
+                          autoComplete="off"
+                          placeholder="Eg. (A+B)/2"
+                          value={ColumnMaxMarks}
+                          onChange={(e) => {
+                            setColumnMaxMarks(e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div style={{ height: "100%", marginTop: 26 }}>
+                        <svg
+                          width="27"
+                          height="13"
+                          viewBox="0 0 27 13"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.5 5.24829C0.947715 5.24829 0.5 5.69601 0.5 6.24829C0.5 6.80058 0.947715 7.24829 1.5 7.24829V5.24829ZM26.0191 6.24829L16.0191 0.474788V12.0218L26.0191 6.24829ZM1.5 7.24829H17.0191V5.24829H1.5V7.24829Z"
+                            fill="#8C97AC"
+                          />
+                        </svg>
+                      </div>
+                      <div style={{ width: "35%" }}>
+                        <Form.Label>Reduce Marks</Form.Label>
+                        <Form.Control
+                          name="text"
+                          required
+                          type="text"
+                          className="Input"
+                          autoComplete="off"
+                          placeholder="Eg. (A+B)/2"
+                          value={ColumnMaxMarks}
+                          onChange={(e) => {
+                            setColumnMaxMarks(e.target.value);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div style={{ width: "100%", marginTop: 20 }}>
+                      <Form.Check
+                        defaultChecked
+                        type={"checkbox"}
+                        id={"default-checkbox"}
+                        label={"Want new column with changes?"}
+                      />
+                    </div>
+                  </Form.Group>
+                )}
+              </Form>
+
+              <div
+                style={{ position: "absolute", bottom: 0 }}
+                className="BottomDiv"
+              >
+                <div
+                  onClick={() => ToogleFunctionApplier()}
+                  className="CancelBtn"
+                >
+                  Cancel
+                </div>
+
+                <div
+                  onClick={() => {
+                    if (
+                      !/[^\s]/.test(ColumnMaxMarks) == false ||
+                      !/[^\s]/.test(ColumnName) == false
+                    )
+                      AddColumn();
+                  }}
+                  className="DoneBtn"
+                >
+                  Apply
                 </div>
               </div>
             </div>

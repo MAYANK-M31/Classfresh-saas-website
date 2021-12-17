@@ -919,6 +919,7 @@ const ResultTable = React.memo(
     onRowSelect,
     DeletedRow,
     openColumnEdit,
+    handleTableData
   }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -981,6 +982,8 @@ const ResultTable = React.memo(
             );
             setRow(SORTED);
             updateData(SORTED);
+
+            handleTableData({row:SORTED,column:columns})
 
             // toast.success(data.message, {
             //   position: "top-center",
