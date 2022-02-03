@@ -30,6 +30,9 @@ const CreatePassword = () => {
       window.location = `${window.location.origin}/signup`;
     }
 
+    // alert()
+
+
     const VerifyEmail = async () => {
       await axios({
         method: "post", //you can set what request you want to be
@@ -38,6 +41,7 @@ const CreatePassword = () => {
           Authorization: "Bearer " + query.get("token"),
         },
       }).then(({ data }) => {
+        console.log(query.get("token"))
         console.log(data);
         if (data.status == 200) {
           setLoading(false);

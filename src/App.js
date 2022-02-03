@@ -42,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />}
+      {/* {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />} */}
       <Route to={"/"} render={() => (access ? <Console /> : <Verify />)} />
     </BrowserRouter>
   );

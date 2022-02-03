@@ -253,7 +253,7 @@ const SideBar = () => {
               onMouseEnter={() => {
                 setshowUsers(true);
               }}
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none",marginTop:"4px" }}
               to="/users/classes"
             >
               <div className="dropdown-content">
@@ -262,7 +262,7 @@ const SideBar = () => {
               </div>
             </Link>
 
-            <Link
+            {/* <Link
               onMouseEnter={() => {
                 setshowUsers(true);
               }}
@@ -273,7 +273,7 @@ const SideBar = () => {
                 <img alt="teacher" src={ConnectLogo} />
                 <span>All Users</span>
               </div>
-            </Link>
+            </Link> */}
           </div>
         )}
 
