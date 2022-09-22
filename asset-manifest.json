@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/Classfresh-saas-website/static/css/main.a620fae8.chunk.css",
+    "main.js": "/Classfresh-saas-website/static/js/main.31f43e95.chunk.js",
+    "main.js.map": "/Classfresh-saas-website/static/js/main.31f43e95.chunk.js.map",
+    "runtime-main.js": "/Classfresh-saas-website/static/js/runtime-main.1be55ed4.js",
+    "runtime-main.js.map": "/Classfresh-saas-website/static/js/runtime-main.1be55ed4.js.map",
+    "static/css/2.39333057.chunk.css": "/Classfresh-saas-website/static/css/2.39333057.chunk.css",
+    "static/js/2.a2bb4306.chunk.js": "/Classfresh-saas-website/static/js/2.a2bb4306.chunk.js",
+    "static/js/2.a2bb4306.chunk.js.map": "/Classfresh-saas-website/static/js/2.a2bb4306.chunk.js.map",
+    "static/js/3.b5c344a4.chunk.js": "/Classfresh-saas-website/static/js/3.b5c344a4.chunk.js",
+    "static/js/3.b5c344a4.chunk.js.map": "/Classfresh-saas-website/static/js/3.b5c344a4.chunk.js.map",
+    "index.html": "/Classfresh-saas-website/index.html",
+    "static/css/2.39333057.chunk.css.map": "/Classfresh-saas-website/static/css/2.39333057.chunk.css.map",
+    "static/css/main.a620fae8.chunk.css.map": "/Classfresh-saas-website/static/css/main.a620fae8.chunk.css.map",
+    "static/js/2.a2bb4306.chunk.js.LICENSE.txt": "/Classfresh-saas-website/static/js/2.a2bb4306.chunk.js.LICENSE.txt",
+    "static/media/Classfresh(logo).64a4d253.png": "/Classfresh-saas-website/static/media/Classfresh(logo).64a4d253.png",
+    "static/media/Folder.d5cd4f75.svg": "/Classfresh-saas-website/static/media/Folder.d5cd4f75.svg",
+    "static/media/FolderOpen.1e2241b1.svg": "/Classfresh-saas-website/static/media/FolderOpen.1e2241b1.svg",
+    "static/media/xlsx.736be83b.svg": "/Classfresh-saas-website/static/media/xlsx.736be83b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1be55ed4.js",
+    "static/css/2.39333057.chunk.css",
+    "static/js/2.a2bb4306.chunk.js",
+    "static/css/main.a620fae8.chunk.css",
+    "static/js/main.31f43e95.chunk.js"
+  ]
+}
