@@ -35,8 +35,10 @@ const VerifyEmail = () => {
                 <h2 className="Email-Heading">Please verify your email</h2>
                 <p className="Email-SubHeading">
                   We have sent verification mail to{" "}
-                  <span className="EmailId">{email}</span> {"\n"}
+                  <span onClick={()=>window.open("https://mail.google.com/")} className="EmailId">{email}</span> {"\n"}
                   click the link in the mail inorder to verify your Email Id.
+                  <p>{"Note:- Please check Spam folder if not recieved."}</p>
+                  
                 </p>
               </div>
             </div>

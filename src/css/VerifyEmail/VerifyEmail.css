@@ -151,6 +151,7 @@
 .EmailId{
     color: #0076FE;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .VerifyEmail-Main .form-group input {

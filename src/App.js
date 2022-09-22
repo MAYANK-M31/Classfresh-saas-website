@@ -41,7 +41,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       {/* {access ? <Redirect to={"/"} /> : <Redirect to={"/login"} />} */}
       <Route to={"/"} render={() => (access ? <Console /> : <Verify />)} />
     </BrowserRouter>
