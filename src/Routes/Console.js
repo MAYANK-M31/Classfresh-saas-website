@@ -49,11 +49,14 @@ function Console() {
         <Route path="/result/classes/:class" component={ResultClass} />
         
         <Route exact path="/result/sheet" component={Result} />
+        
 
 
 
         
         <Route path="/settings" component={Setting} />
+        <Redirect from="*" to="/" />
+
       </div>
     </div>
   );

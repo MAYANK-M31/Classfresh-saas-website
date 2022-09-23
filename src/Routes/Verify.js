@@ -12,10 +12,13 @@ function Verify() {
 
   return (
     <div>
+      <Route exact path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/createpassword" component={CreatePassword} />
       <Route path="/verifyemail" component={VerifyEmail} />
+      <Redirect from="*" to="/" />
+
     </div>
   );
 }
