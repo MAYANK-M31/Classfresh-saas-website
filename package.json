@@ -2,7 +2,7 @@
   "name": "classfresh",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://MAYANK-M31.github.io/Classfresh-saas-website", 
+  "homepage": "http://MAYANK-M31.github.io/Classfresh-saas-website",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/data-grid": "^4.0.0-alpha.31",
@@ -17,7 +17,8 @@
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "ag-grid-react": "^26.2.0",
+    "ag-grid-community": "^28.0.2",
+    "ag-grid-react": "^28.0.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "framer-motion": "^4.1.17",
@@ -54,7 +55,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp build/index.html build/404.html", 
+    "build": "react-scripts build && cp build/index.html build/404.html",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",

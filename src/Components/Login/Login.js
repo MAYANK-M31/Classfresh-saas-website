@@ -54,8 +54,9 @@ const Login = () => {
         if (res.data.status == 200) {
 
           localStorage.setItem("access_token",res.data.payload.access_token)
-
-          window.location = "http://localhost:3000/";
+          console.log(JSON.stringify(window.location));
+          window.location.href = window.location.origin + "/Classfresh-saas-website"
+          // window.location.reload()
         } else {
           
           setalert(true);
